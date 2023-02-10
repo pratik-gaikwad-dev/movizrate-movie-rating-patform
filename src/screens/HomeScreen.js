@@ -1,16 +1,73 @@
-import {ScrollView, StyleSheet} from 'react-native';
-import React from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import CarouselCard from '../components/CarouselCard';
+import {ScrollView, StyleSheet, SafeAreaView, View} from 'react-native';
+import React, {useContext, useEffect} from 'react';
 import Carousel from '../components/Carousel';
-import MovieCard from '../components/MovieCard';
+import MovieCarousel from '../components/MovieCarousel';
+import MoviesContext from '../context/contexts/MoviesContext';
 
 const HomeScreen = () => {
+  const {setMoviesItems, movies} = useContext(MoviesContext);
+  useEffect(() => {
+    setMoviesItems();
+  }, []);
+
   return (
     <SafeAreaView>
       <ScrollView>
         <Carousel />
-        <MovieCard />
+        <View
+          style={{
+            width: '100%',
+            backgroundColor: 'white',
+            padding: 10,
+            marginTop: 20,
+          }}>
+          <MovieCarousel title="Today's Most Rated" data={movies} />
+        </View>
+        <View
+          style={{
+            width: '100%',
+            backgroundColor: 'white',
+            padding: 10,
+            marginTop: 20,
+          }}>
+          <MovieCarousel title="Recommended for you" data={movies} />
+        </View>
+        <View
+          style={{
+            width: '100%',
+            backgroundColor: 'white',
+            padding: 10,
+            marginTop: 20,
+          }}>
+          <MovieCarousel title="Popular Movies" data={movies} />
+        </View>
+        <View
+          style={{
+            width: '100%',
+            backgroundColor: 'white',
+            padding: 10,
+            marginTop: 20,
+          }}>
+          <MovieCarousel title="Popular TV-Series" data={movies} />
+        </View>
+        <View
+          style={{
+            width: '100%',
+            backgroundColor: 'white',
+            padding: 10,
+            marginTop: 20,
+          }}>
+          <MovieCarousel title="Most Rated Movies" data={movies} />
+        </View>
+        <View
+          style={{
+            width: '100%',
+            backgroundColor: 'white',
+            padding: 10,
+            marginTop: 20,
+          }}>
+          <MovieCarousel title="Most Rated TV-Series" data={movies} />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

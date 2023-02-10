@@ -4,35 +4,55 @@ import {
   Text,
   Image,
   View,
-  ImageBackground,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import {Card} from 'react-native-paper';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const MovieCard = () => {
+const MovieCard = props => {
   const windowWidth = Dimensions.get('window').width;
   return (
-    <Card
-      style={{
-        width: windowWidth / 2.5,
-        height: windowWidth/1.5,
-        borderColor: 'black',
-        borderWidth: 1,
-        borderRadius: 0,
-      }}
-      elevation={0}>
-      <View>
-        <Card.Cover 
-          source={{
-            uri: 'https://images.unsplash.com/photo-1674690017732-63c3c5f8088c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80',
-          }}
-        />
+    <TouchableOpacity onPress={() => console.log('card pressed')}>
+      <View style={{height: windowWidth / 1.5, width: windowWidth / 2.2}}>
+        <View
+          style={{
+            width: windowWidth / 2.5,
+            height: windowWidth / 1.6,
+            backgroundColor: 'white',
+            shadowColor: 'black',
+            elevation: 4,
+            shadowOpacity: 0.3,
+            borderRadius: 10,
+            shadowOffset: {
+              height: 2,
+              width: 2,
+            },
+          }}>
+          <Image
+            style={{
+              width: '100%',
+              height: '75%',
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
+            source={{
+              uri: props.image,
+            }}
+          />
+          <View>
+            <Text style={{padding: 5, fontSize: 12}} variant="titleLarge">
+              <MaterialCommunityIcons name="star" color="#a8870f" />{' '}
+              {props.rating}
+            </Text>
+            <Text style={{padding: 5, color: 'black'}} variant="bodyMedium">
+              {props.name.length > 18
+                ? props.name.slice(0, 18) + '...'
+                : props.name}
+            </Text>
+          </View>
+        </View>
       </View>
-      <View>
-        <Text variant="titleLarge">Card title</Text>
-        <Text variant="bodyMedium">Card content</Text>
-      </View>
-    </Card>
+    </TouchableOpacity>
   );
 };
 

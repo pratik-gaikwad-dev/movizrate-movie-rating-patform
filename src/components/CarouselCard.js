@@ -43,7 +43,7 @@ const CarouselCard = props => {
             </Text>
             <View style={{backgroundColor: bgColor}}>
               <Button
-                title="Press me"
+                title="See Full Details"
                 color={btnColor}
                 onPress={() => console.log('pressed')}
               />

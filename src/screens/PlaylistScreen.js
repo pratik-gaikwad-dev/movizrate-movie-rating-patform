@@ -1,15 +1,43 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import {
+  ScrollView,
+  StyleSheet,
+  SafeAreaView,
+  FlatList,
+  View,
+} from 'react-native';
+import React, {useContext, useEffect} from 'react';
+import PlaylistCard from '../components/PlaylistCard';
+import PlaylistContext from '../context/contexts/PlaylistContext';
 
 const PlaylistScreen = () => {
+  const {playlist, setPlaylistItems} = useContext(PlaylistContext);
+  useEffect(() => {
+    setPlaylistItems();
+  }, []);
+
   return (
     <SafeAreaView>
-      <Text>PlaylistScreen</Text>
+      <View style={{height: '100%'}}>
+        <FlatList
+          data={playlist}
+          showsHorizontalScrollIndicator={false}
+          renderItem={element => {
+            return (
+              <PlaylistCard
+                rating={element.item.rating}
+                name={element.item.name}
+                image={element.item.posterImage}
+                genre={element.item.genre}
+                usrRatings={element.item.usrRatings}
+              />
+            );
+          }}
+        />
+      </View>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default PlaylistScreen
+export default PlaylistScreen;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
