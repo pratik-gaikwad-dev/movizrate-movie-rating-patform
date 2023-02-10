@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   FlatList,
   View,
+  Dimensions,
 } from 'react-native';
 import React, {useContext, useEffect} from 'react';
 import PlaylistCard from '../components/PlaylistCard';
@@ -11,13 +12,14 @@ import PlaylistContext from '../context/contexts/PlaylistContext';
 
 const PlaylistScreen = () => {
   const {playlist, setPlaylistItems} = useContext(PlaylistContext);
+  const windowHeight = Dimensions.get('window').height;
   useEffect(() => {
     setPlaylistItems();
   }, []);
 
   return (
     <SafeAreaView>
-      <View style={{height: '100%'}}>
+      <View style={{height: windowHeight}}>
         <FlatList
           data={playlist}
           showsHorizontalScrollIndicator={false}
