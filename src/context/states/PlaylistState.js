@@ -39,8 +39,18 @@ const PlaylistState = props => {
       },
     ]);
   };
+
+  const deleteFromPlaylist = _id => {
+    const itemIndex = playlist.findIndex(ele => ele._id === _id);
+    console.log(itemIndex);
+    playlist.splice(itemIndex, 1);
+    const newPlaylist = playlist.filter(item => item._id !== _id);
+    setPlaylist(newPlaylist);
+  };
+
   return (
-    <PlaylistContext.Provider value={{playlist, setPlaylistItems}}>
+    <PlaylistContext.Provider
+      value={{playlist, setPlaylistItems, deleteFromPlaylist}}>
       {props.children}
     </PlaylistContext.Provider>
   );

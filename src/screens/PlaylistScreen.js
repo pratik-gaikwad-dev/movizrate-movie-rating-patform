@@ -31,6 +31,8 @@ const PlaylistScreen = () => {
                 image={element.item.posterImage}
                 genre={element.item.genre}
                 usrRatings={element.item.usrRatings}
+                id={element.item._id}
+                showMenu={true}
               />
             );
           }}

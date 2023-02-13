@@ -6,9 +6,10 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Button, Menu, Divider, Provider} from 'react-native-paper';
+import PlaylistContext from '../context/contexts/PlaylistContext';
 
 const PlaylistCard = props => {
   const [visible, setVisible] = React.useState(false);
@@ -22,13 +23,16 @@ const PlaylistCard = props => {
 
   const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 
+  const {deleteFromPlaylist} = useContext(PlaylistContext);
+
   return (
-    <View
+    <TouchableOpacity
       style={{
         width: windowWidth,
         flex: 0,
         alignItems: 'center',
         marginTop: 10,
+        marginBottom: 10,
       }}>
       <View
         style={{
@@ -65,9 +69,12 @@ const PlaylistCard = props => {
             <Text style={{fontSize: 15, color: 'gray'}}>{props.genre}</Text>
             <Text style={{fontSize: 15, color: 'black'}}>
               <MaterialCommunityIcons name="star" size={20} color="#a8870f" />{' '}
-              {props.rating}{'   '}
-              <MaterialCommunityIcons name="star" size={20} color="#24baef" />{' '}
-              {props.usrRatings}
+              {props.rating}
+              {'   '}
+              {props.usrRatings === false ? null : (
+                <MaterialCommunityIcons name="star" size={20} color="#24baef" />
+              )}{' '}
+              {props.usrRatings === false ? null : props.usrRatings}
             </Text>
             <TouchableOpacity>
               <Text style={{fontSize: 15, color: 'blue'}}>
@@ -77,24 +84,31 @@ const PlaylistCard = props => {
           </View>
         </View>
         <View>
-          <Menu
-            visible={visible}
-            onDismiss={closeMenu}
-            anchor={
-              <TouchableOpacity onPress={openMenu}>
-                <MaterialCommunityIcons
-                  name={MORE_ICON}
-                  size={25}
-                  color="gray"
-                />
-              </TouchableOpacity>
-            }>
-            <Menu.Item onPress={() => {}} title="Rate This" />
-            <Menu.Item onPress={() => {}} title="Delete" />
-          </Menu>
+          {!props.showMenu ? null : (
+            <Menu
+              visible={visible}
+              onDismiss={closeMenu}
+              anchor={
+                <TouchableOpacity onPress={openMenu}>
+                  <MaterialCommunityIcons
+                    name={MORE_ICON}
+                    size={25}
+                    color="gray"
+                  />
+                </TouchableOpacity>
+              }>
+              <Menu.Item onPress={() => {}} title="Rate This" />
+              <Menu.Item
+                onPress={() => {
+                  deleteFromPlaylist(props.id);
+                }}
+                title="Delete"
+              />
+            </Menu>
+          )}
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

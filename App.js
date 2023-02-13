@@ -13,6 +13,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CarouselState from './src/context/states/CarouselState';
 import MoviesState from './src/context/states/MoviesState';
 import PlaylistState from './src/context/states/PlaylistState';
+import InFutureScreen from './src/screens/InFutureScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -73,7 +74,7 @@ const App = () => {
                       />
                     ),
                   }}
-                  component={UserAccount}
+                  component={InFutureScreen}
                 />
                 <Tab.Screen
                   name="Playlist"
