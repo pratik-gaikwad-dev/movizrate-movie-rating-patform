@@ -1,9 +1,8 @@
 import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import UserAccount from '../screens/UserAccount';
-import Fontisto from 'react-native-vector-icons/Fontisto';
 import {Image} from 'react-native';
 import PlaylistScreen from '../screens/PlaylistScreen';
+
 const TopTab = createMaterialTopTabNavigator();
 
 const TopBar = () => {

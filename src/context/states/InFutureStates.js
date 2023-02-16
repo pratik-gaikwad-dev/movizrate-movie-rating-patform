@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
-import MoviesContext from '../contexts/MoviesContext';
+import React from 'react';
+import InFutureContext from '../contexts/InFutureContext';
 
-const CarouselState = props => {
-  const [movies, setMovies] = useState([]);
-  const setMoviesItems = () => {
-    setMovies([]);
-    setMovies([
+const InFutureStates = props => {
+  const [futureMovies, setFutureMovies] = React.useState([]);
+
+  const setFutureItems = () => {
+    setFutureMovies([]);
+    setFutureMovies([
       {
         _id: '1',
         image: 'https://wallpapers.com/images/featured/tzhfez1w8ud2z8aw.jpg',
@@ -46,10 +47,10 @@ const CarouselState = props => {
     ]);
   };
   return (
-    <MoviesContext.Provider value={{setMoviesItems, movies}}>
+    <InFutureContext.Provider value={{setFutureItems, futureMovies}}>
       {props.children}
-    </MoviesContext.Provider>
+    </InFutureContext.Provider>
   );
 };
 
-export default CarouselState;
+export default InFutureStates;

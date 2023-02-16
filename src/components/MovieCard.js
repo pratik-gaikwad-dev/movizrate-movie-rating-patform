@@ -8,11 +8,14 @@ import {
 } from 'react-native';
 import React from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useNavigation} from '@react-navigation/native';
 
 const MovieCard = props => {
   const windowWidth = Dimensions.get('window').width;
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity onPress={() => console.log('card pressed')}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('MovieScreen', {movieID: props._id})}>
       <View style={{height: windowWidth / 1.5, width: windowWidth / 2.2}}>
         <View
           style={{
