@@ -3,7 +3,6 @@ import PlaylistContext from '../contexts/PlaylistContext';
 
 const PlaylistState = props => {
   const [playlist, setPlaylist] = useState([]);
-
   const setPlaylistItems = props => {
     setPlaylist([
       {

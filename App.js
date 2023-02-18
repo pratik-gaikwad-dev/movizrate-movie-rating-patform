@@ -1,7 +1,5 @@
 import {StyleSheet} from 'react-native';
 import React from 'react';
-import AppBar from './src/components/AppBar';
-import HomeScreen from './src/screens/HomeScreen';
 import SearchScreen from './src/screens/SearchScreen';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
@@ -17,6 +15,7 @@ import InFutureScreen from './src/screens/InFutureScreen';
 import StackNavigator from './src/components/StackNavigator';
 import WatchMovieState from './src/context/states/WatchMovieState';
 import InFutureStates from './src/context/states/InFutureStates';
+import OttState from './src/context/states/OttState';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,88 +28,90 @@ const App = () => {
             <PlaylistState>
               <WatchMovieState>
                 <InFutureStates>
-                  <Tab.Navigator
-                    screenOptions={{
-                      tabBarActiveTintColor: '#24baef',
-                      tabBarInactiveTintColor: 'black',
-                    }}
-                    initialRouteName="Home">
-                    <Tab.Screen
-                      name="Home"
-                      options={{
-                        headerShown: false,
-                        tabBarLabel: 'Home',
-                        tabBarIcon: ({color}) => (
-                          <MaterialCommunityIcons
-                            name="home"
-                            color={color}
-                            size={25}
-                          />
-                        ),
+                  <OttState>
+                    <Tab.Navigator
+                      screenOptions={{
+                        tabBarActiveTintColor: '#24baef',
+                        tabBarInactiveTintColor: 'black',
                       }}
-                      component={StackNavigator}
-                    />
-                    <Tab.Screen
-                      name="Search"
-                      options={{
-                        headerShown: false,
-                        tabBarLabel: 'Search',
-                        tabBarIcon: ({color}) => (
-                          <MaterialCommunityIcons
-                            name="magnify"
-                            color={color}
-                            size={25}
-                          />
-                        ),
-                      }}
-                      component={SearchScreen}
-                    />
-                    <Tab.Screen
-                      name="Upcomming"
-                      options={{
-                        headerShown: false,
-                        tabBarLabel: 'In Future',
-                        tabBarIcon: ({color}) => (
-                          <MaterialIcons
-                            name="watch-later"
-                            color={color}
-                            size={25}
-                          />
-                        ),
-                      }}
-                      component={InFutureScreen}
-                    />
-                    <Tab.Screen
-                      name="Playlist"
-                      options={{
-                        headerShown: false,
-                        tabBarLabel: 'Playlist',
-                        tabBarIcon: ({color}) => (
-                          <MaterialCommunityIcons
-                            name="playlist-play"
-                            color={color}
-                            size={25}
-                          />
-                        ),
-                      }}
-                      component={PlaylistScreen}
-                    />
-                    <Tab.Screen
-                      name="You"
-                      options={{
-                        headerShown: false,
-                        tabBarLabel: 'You',
-                        tabBarIcon: ({color}) => (
-                          <MaterialCommunityIcons
-                            name="account-circle"
-                            color={color}
-                            size={25}
-                          />
-                        ),
-                      }}
-                      component={UserAccount}
-                    />
-                  </Tab.Navigator>
+                      initialRouteName="Home">
+                      <Tab.Screen
+                        name="Home"
+                        options={{
+                          headerShown: false,
+                          tabBarLabel: 'Home',
+                          tabBarIcon: ({color}) => (
+                            <MaterialCommunityIcons
+                              name="home"
+                              color={color}
+                              size={25}
+                            />
+                          ),
+                        }}
+                        component={StackNavigator}
+                      />
+                      <Tab.Screen
+                        name="Search"
+                        options={{
+                          headerShown: false,
+                          tabBarLabel: 'Search',
+                          tabBarIcon: ({color}) => (
+                            <MaterialCommunityIcons
+                              name="magnify"
+                              color={color}
+                              size={25}
+                            />
+                          ),
+                        }}
+                        component={SearchScreen}
+                      />
+                      <Tab.Screen
+                        name="Upcomming"
+                        options={{
+                          headerShown: false,
+                          tabBarLabel: 'In Future',
+                          tabBarIcon: ({color}) => (
+                            <MaterialIcons
+                              name="watch-later"
+                              color={color}
+                              size={25}
+                            />
+                          ),
+                        }}
+                        component={InFutureScreen}
+                      />
+                      <Tab.Screen
+                        name="Playlist"
+                        options={{
+                          headerShown: false,
+                          tabBarLabel: 'Playlist',
+                          tabBarIcon: ({color}) => (
+                            <MaterialCommunityIcons
+                              name="playlist-play"
+                              color={color}
+                              size={25}
+                            />
+                          ),
+                        }}
+                        component={PlaylistScreen}
+                      />
+                      <Tab.Screen
+                        name="You"
+                        options={{
+                          headerShown: false,
+                          tabBarLabel: 'You',
+                          tabBarIcon: ({color}) => (
+                            <MaterialCommunityIcons
+                              name="account-circle"
+                              color={color}
+                              size={25}
+                            />
+                          ),
+                        }}
+                        component={UserAccount}
+                      />
+                    </Tab.Navigator>
+                  </OttState>
                 </InFutureStates>
               </WatchMovieState>
             </PlaylistState>

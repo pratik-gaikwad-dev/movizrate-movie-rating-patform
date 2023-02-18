@@ -3,11 +3,14 @@ import React, {useContext, useEffect} from 'react';
 import Carousel from '../components/Carousel';
 import MovieCarousel from '../components/MovieCarousel';
 import MoviesContext from '../context/contexts/MoviesContext';
+import OttContext from '../context/contexts/OttContext';
 
 const HomeScreen = () => {
   const {setMoviesItems, movies} = useContext(MoviesContext);
+  const {setOttMovies} = useContext(OttContext);
   useEffect(() => {
     setMoviesItems();
+    setOttMovies();
   }, []);
 
   return (

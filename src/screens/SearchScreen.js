@@ -1,12 +1,12 @@
 import {FlatList, Platform, StyleSheet, View} from 'react-native';
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Searchbar} from 'react-native-paper';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import TopBar from '../components/TopBar';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import MoviesContext from '../context/contexts/MoviesContext';
-import MovieCard from '../components/MovieCard';
 import PlaylistCard from '../components/PlaylistCard';
+import OttContext from '../context/contexts/OttContext';
 
 const TopTab = createMaterialTopTabNavigator();
 
@@ -16,6 +16,7 @@ const SearchScreen = () => {
   const {movies} = useContext(MoviesContext);
   const [loading, setLoading] = React.useState(false);
   const [searchedItems, setSearchedItems] = React.useState([]);
+  
   const onChangeSearch = query => {
     setSearchQuery(query);
     searchInArray();

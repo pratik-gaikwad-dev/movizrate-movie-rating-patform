@@ -1,7 +1,9 @@
 import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {Image} from 'react-native';
-import PlaylistScreen from '../screens/PlaylistScreen';
+import PrimeVideoScreen from '../screens/PrimeVideoScreen';
+import NetflixScreen from '../screens/NetflixScreen';
+import DisneyScreen from '../screens/DisneyScreen';
 
 const TopTab = createMaterialTopTabNavigator();
 
@@ -25,7 +27,7 @@ const TopBar = () => {
             />
           ),
         }}
-        component={PlaylistScreen}
+        component={PrimeVideoScreen}
       />
       <TopTab.Screen
         name="Netflix"
@@ -37,7 +39,7 @@ const TopBar = () => {
             />
           ),
         }}
-        component={PlaylistScreen}
+        component={NetflixScreen}
       />
       <TopTab.Screen
         name="Hotstar"
@@ -49,7 +51,7 @@ const TopBar = () => {
             />
           ),
         }}
-        component={PlaylistScreen}
+        component={DisneyScreen}
       />
     </TopTab.Navigator>
   );
