@@ -10,9 +10,12 @@ import React, {useContext, useState} from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Button, Menu, Divider, Provider} from 'react-native-paper';
 import PlaylistContext from '../context/contexts/PlaylistContext';
+import {useNavigation} from '@react-navigation/native';
 
 const PlaylistCard = props => {
   const [visible, setVisible] = React.useState(false);
+
+  const navigation = useNavigation();
 
   const openMenu = () => setVisible(true);
 
@@ -24,7 +27,6 @@ const PlaylistCard = props => {
   const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 
   const {deleteFromPlaylist} = useContext(PlaylistContext);
-
   return (
     <TouchableOpacity
       style={{
@@ -33,7 +35,8 @@ const PlaylistCard = props => {
         alignItems: 'center',
         marginTop: 10,
         marginBottom: 10,
-      }}>
+      }}
+      onPress={() => navigation.navigate('MovieScreen', {movieID: props.id})}>
       <View
         style={{
           width: windowWidth / 1.1,

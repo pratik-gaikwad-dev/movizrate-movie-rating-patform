@@ -1,19 +1,32 @@
-import { View, Text, Image } from 'react-native'
-import React from 'react'
+import {View, Text, Image} from 'react-native';
+import React from 'react';
 
-const CastCard = () => {
+const CastCard = props => {
   return (
-    <View style={{marginLeft: 10, paddingTop: 10, paddingBottom: 20}}>
+    <View
+      style={{
+        marginLeft: 10,
+        paddingTop: 10,
+        paddingBottom: 20,
+        marginRight: 10,
+      }}>
       <View>
         <View>
-            <Image style={{height: 150, width: 120}} source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/1/14/Deadpool_2_Japan_Premiere_Red_Carpet_Ryan_Reynolds_%28cropped%29.jpg'}}/>
+          <Image
+            style={{height: 150, width: 120}}
+            source={{uri: props.image}}
+          />
         </View>
         <View style={{marginTop: 5}}>
-            <Text>Ryan Reynolds</Text>
+          <Text style={{color: 'black'}}>
+            {props.name.length > 15
+              ? props.name.slice(0, 15) + '...'
+              : props.name}
+          </Text>
         </View>
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default CastCard
+export default CastCard;

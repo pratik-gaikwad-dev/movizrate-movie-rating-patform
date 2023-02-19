@@ -14,11 +14,16 @@ const AppBar = () => {
     <Appbar.Header>
       <Appbar.BackAction
         onPress={() => {
-          navigation.goBack();
+          navigation.navigate('HomeScreen');
         }}
       />
       <Appbar.Content title={watchMovie.name} subtitle={'Subtitle'} />
-      <Appbar.Action icon={'magnify'} onPress={() => {navigation.navigate("Search")}} />
+      <Appbar.Action
+        icon={'magnify'}
+        onPress={() => {
+          navigation.navigate('Search');
+        }}
+      />
       <Appbar.Action icon={MORE_ICON} onPress={() => {}} />
     </Appbar.Header>
   );

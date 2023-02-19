@@ -8,7 +8,8 @@ const CarouselState = props => {
     setMovies([
       {
         _id: '1',
-        image: 'https://wallpapers.com/images/featured/tzhfez1w8ud2z8aw.jpg',
+        image:
+          'https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/103031/deadpool-2.jpg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format',
         posterImage:
           'https://www.gamespot.com/a/uploads/original/1557/15576725/3348720-deadpool-1080750.jpeg',
         name: 'Deadpool',

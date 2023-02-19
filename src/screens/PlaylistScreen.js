@@ -1,5 +1,4 @@
 import {
-  ScrollView,
   StyleSheet,
   SafeAreaView,
   FlatList,

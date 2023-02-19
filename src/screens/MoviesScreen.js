@@ -18,6 +18,9 @@ import {Divider} from 'react-native-paper';
 import Icons from 'react-native-vector-icons/FontAwesome';
 import CastCard from '../components/CastCard';
 import YoutubePlayer from 'react-native-youtube-iframe';
+import CastAndDirectorContext from '../context/contexts/CastAndDirectorContext';
+import CastCarousel from '../components/CastCarousel';
+import MovieCarousel from '../components/MovieCarousel';
 
 const MoviesScreen = () => {
   const route = useRoute();
@@ -26,8 +29,13 @@ const MoviesScreen = () => {
   const [trailerVisible, setTrailerVisible] = React.useState(false);
   const [watchVisible, setWatchVisible] = React.useState(false);
   const {setWatchMovie, watchMovie} = useContext(WatchMovieContext);
+  const {sortCast, finalCast, finalDirectors} = useContext(
+    CastAndDirectorContext,
+  );
+
   useEffect(() => {
     setMoviesItems();
+    sortCast(route.params.movieID);
     movies.filter(ele => {
       if (ele._id === route.params.movieID) {
         setWatchMovie(ele);
@@ -46,12 +54,13 @@ const MoviesScreen = () => {
   const hideTrailerModal = () => setTrailerVisible(false);
   const showWatchModal = () => setWatchVisible(true);
   const hideWatchModal = () => setWatchVisible(false);
+
   return (
     <SafeAreaView>
       <ScrollView>
-        <View style={{height: '100%', paddingBottom: 100}}>
+        <View style={{height: '100%', paddingBottom: 30}}>
           <View style={{height: '100%'}}>
-            <View style={{width: '100%'}}>
+            <View style={{width: '100%', height: '40%'}}>
               {watchMovie.image === undefined ? null : (
                 <ImageBackground
                   style={{width: '100%', height: '70%'}}
@@ -62,8 +71,6 @@ const MoviesScreen = () => {
                         marginTop: 150,
                         backgroundColor: 'white',
                         paddingTop: 10,
-                        // borderTopLeftRadius: 20,
-                        // borderTopRightRadius: 20,
                         borderRadius: 20,
                         paddingBottom: 10,
                         shadowColor: 'black',
@@ -248,7 +255,25 @@ const MoviesScreen = () => {
                 </ImageBackground>
               )}
             </View>
-            <View style={{height: 280}}></View>
+            <View>
+              <View style={{backgroundColor: 'white'}}>
+                <CastCarousel data={finalCast} title="Top Actors" />
+              </View>
+              <View style={{backgroundColor: 'white', marginTop: 10}}>
+                <CastCarousel
+                  data={finalDirectors}
+                  title="Directors and Writers"
+                />
+              </View>
+              <View
+                style={{
+                  backgroundColor: 'white',
+                  marginTop: 10,
+                  marginLeft: 10,
+                }}>
+                <MovieCarousel title="More Like This" data={movies} />
+              </View>
+            </View>
           </View>
         </View>
         <Modal

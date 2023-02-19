@@ -4,13 +4,17 @@ import Carousel from '../components/Carousel';
 import MovieCarousel from '../components/MovieCarousel';
 import MoviesContext from '../context/contexts/MoviesContext';
 import OttContext from '../context/contexts/OttContext';
+import CastAndDirectorContext from '../context/contexts/CastAndDirectorContext';
 
 const HomeScreen = () => {
   const {setMoviesItems, movies} = useContext(MoviesContext);
   const {setOttMovies} = useContext(OttContext);
+  const {getAllCast, getAllMovieCast} = useContext(CastAndDirectorContext);
   useEffect(() => {
     setMoviesItems();
     setOttMovies();
+    getAllCast();
+    getAllMovieCast();
   }, []);
 
   return (

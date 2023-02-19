@@ -15,7 +15,7 @@ const MovieCard = props => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('MovieScreen', {movieID: props._id})}>
+      onPress={() => navigation.push('MovieScreen', {movieID: props._id})}>
       <View style={{height: windowWidth / 1.5, width: windowWidth / 2.2}}>
         <View
           style={{
