@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   ScrollView,
   Modal,
-  Pressable,
 } from 'react-native';
 import React, {useContext, useEffect} from 'react';
 import {useRoute} from '@react-navigation/native';
@@ -16,11 +15,11 @@ import MoviesContext from '../context/contexts/MoviesContext';
 import WatchMovieContext from '../context/contexts/WatchMovieContext';
 import {Divider} from 'react-native-paper';
 import Icons from 'react-native-vector-icons/FontAwesome';
-import CastCard from '../components/CastCard';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import CastAndDirectorContext from '../context/contexts/CastAndDirectorContext';
 import CastCarousel from '../components/CastCarousel';
 import MovieCarousel from '../components/MovieCarousel';
+import Rating from '../components/Rating';
 
 const MoviesScreen = () => {
   const route = useRoute();
@@ -28,10 +27,16 @@ const MoviesScreen = () => {
   const [descVisible, setDescVisible] = React.useState(false);
   const [trailerVisible, setTrailerVisible] = React.useState(false);
   const [watchVisible, setWatchVisible] = React.useState(false);
+  const [rateNowVisible, setRateNowVisible] = React.useState(false);
   const {setWatchMovie, watchMovie} = useContext(WatchMovieContext);
   const {sortCast, finalCast, finalDirectors} = useContext(
     CastAndDirectorContext,
   );
+
+  const [defaultRating, setDefaultRating] = React.useState(0);
+  const [maxRating, setMaxRating] = React.useState([
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+  ]);
 
   useEffect(() => {
     setMoviesItems();
@@ -54,6 +59,8 @@ const MoviesScreen = () => {
   const hideTrailerModal = () => setTrailerVisible(false);
   const showWatchModal = () => setWatchVisible(true);
   const hideWatchModal = () => setWatchVisible(false);
+  const showRateNowModal = () => setRateNowVisible(true);
+  const hideRateNowModal = () => setRateNowVisible(false);
 
   return (
     <SafeAreaView>
@@ -179,20 +186,33 @@ const MoviesScreen = () => {
                               {watchMovie.rating}
                             </Text>
                           </View>
-                          <View
-                            style={{
-                              flex: 0,
-                              flexDirection: 'row',
-                              alignItems: 'center',
-                            }}>
-                            <Text>
+                          <TouchableOpacity onPress={showRateNowModal}>
+                            <View
+                              style={{
+                                flex: 0,
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                              }}>
+                              {/* <Text>
                               <Icons name="star" size={25} color={'#24baef'} />{' '}
                             </Text>
                             <Text style={{fontSize: 15, color: 'black'}}>
                               {' '}
                               10
-                            </Text>
-                          </View>
+                            </Text> */}
+                              <Text>
+                                <Icons
+                                  name="star-o"
+                                  size={25}
+                                  color={'#24baef'}
+                                />{' '}
+                              </Text>
+                              <Text style={{fontSize: 15, color: 'black'}}>
+                                {' '}
+                                Rate Now
+                              </Text>
+                            </View>
+                          </TouchableOpacity>
                           <View>
                             <TouchableOpacity
                               style={{
@@ -276,6 +296,8 @@ const MoviesScreen = () => {
             </View>
           </View>
         </View>
+
+        {/* Desc Modal */}
         <Modal
           visible={descVisible}
           onDismiss={hideDescModal}
@@ -304,6 +326,65 @@ const MoviesScreen = () => {
             </View>
           </SafeAreaView>
         </Modal>
+
+        {/* Rate Now Modal*/}
+        <Modal
+          visible={rateNowVisible}
+          onDismiss={hideRateNowModal}
+          animationType="slide"
+          style={{
+            backgroundColor: 'white',
+            flex: 0,
+            justifyContent: 'flex-start',
+            height: '50%',
+            width: '50%',
+          }}>
+          <SafeAreaView>
+            <View>
+              <View>
+                <View style={{paddingRight: 10}}>
+                  <Text style={{alignSelf: 'flex-end'}}>
+                    <TouchableOpacity onPress={() => setRateNowVisible(false)}>
+                      <Icons name="close" color={'gray'} size={25} />
+                    </TouchableOpacity>
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flex: 0,
+                    justifyContent: 'center',
+                  }}>
+                  <View>
+                    <Image
+                      style={{
+                        width: '90%',
+                        height: '90%',
+                        alignSelf: 'center',
+                        borderRadius: 5,
+                      }}
+                      source={{uri: watchMovie.posterImage}}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      flex: 0,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    <Rating
+                      maxRating={maxRating}
+                      defaultRating={defaultRating}
+                      setDefaultRating={setDefaultRating}
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+          </SafeAreaView>
+        </Modal>
+
+        {/* Trailer Modal */}
         <View
           style={{
             flex: 1,
@@ -345,6 +426,8 @@ const MoviesScreen = () => {
               </View>
             </View>
           </Modal>
+
+          {/* Watch Now Modal */}
           <Modal
             animationType="fade"
             visible={watchVisible}
