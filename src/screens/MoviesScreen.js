@@ -20,6 +20,7 @@ import CastAndDirectorContext from '../context/contexts/CastAndDirectorContext';
 import CastCarousel from '../components/CastCarousel';
 import MovieCarousel from '../components/MovieCarousel';
 import Rating from '../components/Rating';
+import AgeCard from '../components/AgeCard';
 
 const MoviesScreen = () => {
   const route = useRoute();
@@ -28,6 +29,7 @@ const MoviesScreen = () => {
   const [trailerVisible, setTrailerVisible] = React.useState(false);
   const [watchVisible, setWatchVisible] = React.useState(false);
   const [rateNowVisible, setRateNowVisible] = React.useState(false);
+  const [ageRatingsVisible, setAgeRatingsVisible] = React.useState(false);
   const {setWatchMovie, watchMovie} = useContext(WatchMovieContext);
   const {sortCast, finalCast, finalDirectors} = useContext(
     CastAndDirectorContext,
@@ -53,15 +55,20 @@ const MoviesScreen = () => {
   if (Object.keys(watchMovie).length !== 0) {
     movieGenre = watchMovie.genre.split(' ');
   }
+  const showAgeRatingModal = () => setAgeRatingsVisible(true);
+  const hideAgeRatingModal = () => setAgeRatingsVisible(false);
+
   const showDescModal = () => setDescVisible(true);
   const hideDescModal = () => setDescVisible(false);
+
   const showTrailerModal = () => setTrailerVisible(true);
   const hideTrailerModal = () => setTrailerVisible(false);
+
   const showWatchModal = () => setWatchVisible(true);
   const hideWatchModal = () => setWatchVisible(false);
+
   const showRateNowModal = () => setRateNowVisible(true);
   const hideRateNowModal = () => setRateNowVisible(false);
-
   return (
     <SafeAreaView>
       <ScrollView>
@@ -172,20 +179,26 @@ const MoviesScreen = () => {
                             flexDirection: 'row',
                             justifyContent: 'space-around',
                           }}>
-                          <View
-                            style={{
-                              flex: 0,
-                              flexDirection: 'row',
-                              alignItems: 'center',
-                            }}>
-                            <Text>
-                              <Icons name="star" size={25} color={'#a8870f'} />{' '}
-                            </Text>
-                            <Text style={{fontSize: 15, color: 'black'}}>
-                              {' '}
-                              {watchMovie.rating}
-                            </Text>
-                          </View>
+                          <TouchableOpacity onPress={showAgeRatingModal}>
+                            <View
+                              style={{
+                                flex: 0,
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                              }}>
+                              <Text>
+                                <Icons
+                                  name="star"
+                                  size={25}
+                                  color={'#a8870f'}
+                                />{' '}
+                              </Text>
+                              <Text style={{fontSize: 15, color: 'black'}}>
+                                {' '}
+                                {watchMovie.rating}
+                              </Text>
+                            </View>
+                          </TouchableOpacity>
                           <TouchableOpacity onPress={showRateNowModal}>
                             <View
                               style={{
@@ -296,6 +309,36 @@ const MoviesScreen = () => {
             </View>
           </View>
         </View>
+
+        {/* Age Ratings Modal */}
+        <Modal
+          visible={ageRatingsVisible}
+          onDismiss={hideAgeRatingModal}
+          animationType="slide"
+          style={{
+            backgroundColor: 'white',
+            flex: 0,
+            justifyContent: 'flex-start',
+            height: '50%',
+            width: '50%',
+          }}>
+          <SafeAreaView>
+            <View style={{padding: 20}}>
+              <Text style={{alignSelf: 'flex-end'}}>
+                <TouchableOpacity onPress={() => setAgeRatingsVisible(false)}>
+                  <Icons name="close" color={'gray'} size={25} />
+                </TouchableOpacity>
+              </Text>
+              <View>
+                <AgeCard title="Age 15 to 20" />
+                <AgeCard title="Age 21 to 25" />
+                <AgeCard title="Age 25 to 30" />
+                <AgeCard title="Age 30 to 35" />
+                <AgeCard title="Age 35 to 40" />
+              </View>
+            </View>
+          </SafeAreaView>
+        </Modal>
 
         {/* Desc Modal */}
         <Modal

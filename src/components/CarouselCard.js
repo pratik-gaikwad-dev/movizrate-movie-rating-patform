@@ -8,12 +8,15 @@ import {
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Card, Text} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
 
 const CarouselCard = props => {
   const windowHeight = Dimensions.get('window').height;
   const windowWidth = Dimensions.get('window').width;
   const btnColor = Platform.OS === 'ios' ? 'white' : '#24baef';
   const bgColor = Platform.OS === 'ios' ? '#24baef' : '';
+
+  const navigation = useNavigation();
   return (
     <Card
       elevation={0}
@@ -39,13 +42,15 @@ const CarouselCard = props => {
             <Text
               style={{color: 'white', paddingBottom: 10}}
               variant="bodyMedium">
-              {props.title}
+              {props.genre}
             </Text>
             <View style={{backgroundColor: bgColor}}>
               <Button
                 title="See Full Details"
                 color={btnColor}
-                onPress={() => console.log('pressed')}
+                onPress={() =>
+                  navigation.navigate('MovieScreen', {movieID: props.id})
+                }
               />
             </View>
           </View>

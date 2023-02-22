@@ -22,10 +22,10 @@ const CarouselState = props => {
       {
         _id: '2',
         image:
-          'https://images.squarespace-cdn.com/content/v1/51b3dc8ee4b051b96ceb10de/45285862-7bdf-44e8-bb22-1ea074003ca6/new-poster-art-for-ant-man-and-the-wasp-quantumania.jpg',
+          'https://static1.colliderimages.com/wordpress/wp-content/uploads/2023/01/ant-man-and-the-wasp-reald-3d-poster.jpg',
         name: 'Ant-Man and the Wasp: Quantumania',
         posterImage:
-          'https://static.wikia.nocookie.net/marvelcinematicuniverse/images/b/b9/Ant-Man_and_the_Wasp_Quantumania_Poster_Tall.jpg/revision/latest?cb=20230110033912',
+          'https://www.comingsoon.net/wp-content/uploads/sites/3/2022/07/ant-man-and-the-wasp-quantumania-poster.jpeg',
         rating: 4.3,
         genre: 'Action Comedy',
         desc: 'Scott Lang and Hope Van Dyne, along with Hank Pym and Janet Van Dyne, explore the Quantum Realm, where they interact with strange creatures and embark on an adventure that goes beyond the limits of what they thought was possible.',

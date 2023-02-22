@@ -61,7 +61,7 @@ const Carousel = () => {
       pagingEnabled
       renderItem={element => {
         return (
-          <CarouselCard image={element.item.image} title={element.item.name} />
+          <CarouselCard image={element.item.image} title={element.item.name} genre={element.item.genre} id={element.item._id}/>
         );
       }}
     />
