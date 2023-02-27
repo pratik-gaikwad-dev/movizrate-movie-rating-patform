@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Modal,
+  TextInput,
 } from 'react-native';
 import React, {useContext, useEffect} from 'react';
 import {useRoute} from '@react-navigation/native';
@@ -21,6 +22,7 @@ import CastCarousel from '../components/CastCarousel';
 import MovieCarousel from '../components/MovieCarousel';
 import Rating from '../components/Rating';
 import AgeCard from '../components/AgeCard';
+import CommentCard from '../components/CommentCard';
 
 const MoviesScreen = () => {
   const route = useRoute();
@@ -30,6 +32,8 @@ const MoviesScreen = () => {
   const [watchVisible, setWatchVisible] = React.useState(false);
   const [rateNowVisible, setRateNowVisible] = React.useState(false);
   const [ageRatingsVisible, setAgeRatingsVisible] = React.useState(false);
+  const [reviewVisible, setReviewVisible] = React.useState(false);
+  const [comment, setComment] = React.useState('');
   const {setWatchMovie, watchMovie} = useContext(WatchMovieContext);
   const {sortCast, finalCast, finalDirectors} = useContext(
     CastAndDirectorContext,
@@ -69,6 +73,9 @@ const MoviesScreen = () => {
 
   const showRateNowModal = () => setRateNowVisible(true);
   const hideRateNowModal = () => setRateNowVisible(false);
+
+  const showReviewModal = () => setReviewVisible(true);
+  const hideReviewModal = () => setReviewVisible(false);
   return (
     <SafeAreaView>
       <ScrollView>
@@ -233,10 +240,11 @@ const MoviesScreen = () => {
                                 padding: 10,
                                 width: 100,
                                 borderRadius: 10,
-                              }}>
+                              }}
+                              onPress={showReviewModal}>
                               <Text
                                 style={{textAlign: 'center', color: 'black'}}>
-                                Reviews
+                                Add Review
                               </Text>
                             </TouchableOpacity>
                           </View>
@@ -309,6 +317,104 @@ const MoviesScreen = () => {
             </View>
           </View>
         </View>
+
+        {/* Reviews Modal */}
+        <Modal
+          visible={reviewVisible}
+          onDismiss={hideReviewModal}
+          animationType="slide"
+          style={{
+            backgroundColor: 'white',
+            justifyContent: 'center',
+          }}>
+          <SafeAreaView>
+            <ScrollView>
+              <View style={{padding: 20}}>
+                <Text style={{alignSelf: 'flex-end'}}>
+                  <TouchableOpacity onPress={() => setReviewVisible(false)}>
+                    <Icons name="close" color={'gray'} size={25} />
+                  </TouchableOpacity>
+                </Text>
+                <View style={{marginTop: 10}}>
+                  <View>
+                    <View
+                      style={{
+                        borderColor: 'black',
+                        borderWidth: 1,
+                        padding: 5,
+                        borderRadius: 5,
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}>
+                      <Rating
+                        maxRating={maxRating}
+                        defaultRating={defaultRating}
+                        setDefaultRating={setDefaultRating}
+                      />
+                      <Text style={{fontSize: 20, fontWeight: '500'}}>
+                        {' '}
+                        {defaultRating}
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        borderWidth: 1,
+                        borderColor: 'black',
+                        height: 100,
+                        borderRadius: 5,
+                        backgroundColor: '#edf0f0',
+                        marginTop: 10,
+                      }}>
+                      <TextInput
+                        editable
+                        multiline
+                        numberOfLines={4}
+                        maxLength={100}
+                        onChangeText={text => setComment(text)}
+                        value={comment}
+                        style={{padding: 10}}
+                        placeholder="Add Review"
+                      />
+                    </View>
+                    <View style={{marginTop: 10}}>
+                      <TouchableOpacity
+                        style={{
+                          borderWidth: 1,
+                          borderColor: '#24baef',
+                          alignItems: 'center',
+                          padding: 10,
+                          borderRadius: 5,
+                          backgroundColor: '#24baef',
+                        }}>
+                        <Text style={{fontWeight: '500', fontSize: 15}}>
+                          Submit
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={{marginTop: 20}}>
+                      <Text
+                        style={{
+                          color: 'black',
+                          fontWeight: '500',
+                          fontSize: 20,
+                        }}>
+                        Top Reviews
+                      </Text>
+                      <View style={{marginTop: 10}}>
+                        <CommentCard />
+                        <CommentCard />
+                        <CommentCard />
+                        <CommentCard />
+                        <CommentCard />
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </ScrollView>
+          </SafeAreaView>
+        </Modal>
 
         {/* Age Ratings Modal */}
         <Modal
