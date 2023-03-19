@@ -5,6 +5,7 @@ import MoviesScreen from '../screens/MoviesScreen';
 import AppBar from './AppBar';
 import { useRoute } from '@react-navigation/native';
 import OTPScreen from '../screens/OTPScreen';
+import ForgetPasswordScreen from '../screens/ForgetPasswordScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,11 @@ const StackNavigator = () => {
         name="OTPScreen"
         options={{ headerShown: false }}
         component={OTPScreen}
+      />
+      <Stack.Screen
+        name="ForgetPassword"
+        options={{ headerShown: false }}
+        component={ForgetPasswordScreen}
       />
     </Stack.Navigator>
   );

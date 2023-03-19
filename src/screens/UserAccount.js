@@ -12,9 +12,10 @@ import DatePicker from 'react-native-date-picker';
 import React, { useContext } from 'react';
 import Icons from 'react-native-vector-icons/FontAwesome';
 import UserContext from '../context/contexts/UserContext';
+import { useNavigation } from '@react-navigation/native';
 
 const UserAccount = () => {
-
+  const navigation = useNavigation();
   const [loginVisible, setLoginVisible] = React.useState(false);
   const [signupVisible, setSignupVisible] = React.useState(false);
   const [email, onChangeEmail] = React.useState('');
@@ -363,7 +364,7 @@ const UserAccount = () => {
                 />
               </View>
               <View style={{ width: 300, alignItems: 'flex-start' }}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => { navigation.navigate('ForgetPassword'); setLoginVisible(false) }}>
                   <Text style={{ color: 'gray' }}>Forgot Password?</Text>
                 </TouchableOpacity>
               </View>
