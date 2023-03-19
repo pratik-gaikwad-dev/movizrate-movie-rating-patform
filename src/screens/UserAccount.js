@@ -9,10 +9,12 @@ import {
   TextInput,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import React from 'react';
+import React, { useContext } from 'react';
 import Icons from 'react-native-vector-icons/FontAwesome';
+import UserContext from '../context/contexts/UserContext';
 
 const UserAccount = () => {
+
   const [loginVisible, setLoginVisible] = React.useState(false);
   const [signupVisible, setSignupVisible] = React.useState(false);
   const [email, onChangeEmail] = React.useState('');
@@ -44,29 +46,33 @@ const UserAccount = () => {
 
   const onCloseSignup = () => {
     setSignupVisible(false);
-    setAge('Selete Date of Birth')
-  }
+    setAge('Selete Date of Birth');
+  };
+
+  const { onSignup, onLogin } = useContext(UserContext);
+
+
   return (
     <SafeAreaView>
-      <View style={{height: '100%', width: '100%'}}>
-        <View style={{height: '100%', width: '100%', justifyContent: 'center'}}>
+      <View style={{ height: '100%', width: '100%' }}>
+        <View style={{ height: '100%', width: '100%', justifyContent: 'center' }}>
           <View>
             <Image
               source={require('../../assets/icons/Movizrate.png')}
-              style={{height: 150, width: 150, alignSelf: 'center'}}
+              style={{ height: 150, width: 150, alignSelf: 'center' }}
             />
           </View>
-          <View style={{alignItems: 'center'}}>
-            <Text style={{fontSize: 25, fontWeight: 'bold', color: '#24baef'}}>
+          <View style={{ alignItems: 'center' }}>
+            <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#24baef' }}>
               Login/Signup
             </Text>
           </View>
-          <View style={{alignItems: 'center', marginTop: 15}}>
-            <Text style={{color: 'gray', width: 200, textAlign: 'center'}}>
+          <View style={{ alignItems: 'center', marginTop: 15 }}>
+            <Text style={{ color: 'gray', width: 200, textAlign: 'center' }}>
               Start to rate new movies and webseries on your thougt.
             </Text>
           </View>
-          <View style={{alignItems: 'center', marginTop: 20}}>
+          <View style={{ alignItems: 'center', marginTop: 20 }}>
             <TouchableOpacity
               style={{
                 borderWidth: 1,
@@ -88,7 +94,7 @@ const UserAccount = () => {
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={{alignItems: 'center', marginTop: 20}}>
+          <View style={{ alignItems: 'center', marginTop: 20 }}>
             <TouchableOpacity
               style={{
                 borderWidth: 0.5,
@@ -109,7 +115,7 @@ const UserAccount = () => {
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={{alignItems: 'center', marginTop: 20}}>
+          <View style={{ alignItems: 'center', marginTop: 20 }}>
             <TouchableOpacity
               style={{
                 borderWidth: 0.5,
@@ -140,7 +146,7 @@ const UserAccount = () => {
         onDismiss={hideSignupModal}>
         <SafeAreaView>
           <Text
-            style={{alignSelf: 'flex-end', paddingRight: 20, marginTop: 10}}>
+            style={{ alignSelf: 'flex-end', paddingRight: 20, marginTop: 10 }}>
             <TouchableOpacity onPress={onCloseSignup}>
               <Icons name="close" color={'gray'} size={25} />
             </TouchableOpacity>
@@ -149,20 +155,20 @@ const UserAccount = () => {
         <View style={{}}>
           <View>
             <View
-              style={{flex: 0, justifyContent: 'center', alignItems: 'center'}}>
+              style={{ flex: 0, justifyContent: 'center', alignItems: 'center' }}>
               <View>
                 <Image
-                  style={{height: 100, width: 70}}
+                  style={{ height: 100, width: 70 }}
                   source={require('../../assets/icons/Movizrate.png')}
                 />
               </View>
-              <View style={{marginTop: 5}}>
+              <View style={{ marginTop: 5 }}>
                 <Text
-                  style={{color: '#24baef', fontSize: 20, fontWeight: '500'}}>
+                  style={{ color: '#24baef', fontSize: 20, fontWeight: '500' }}>
                   Signup Now.
                 </Text>
               </View>
-              <View style={{marginTop: 5}}>
+              <View style={{ marginTop: 5 }}>
                 <TextInput
                   style={{
                     height: 40,
@@ -178,7 +184,7 @@ const UserAccount = () => {
                   placeholderTextColor={'gray'}
                 />
               </View>
-              <View style={{marginTop: 5}}>
+              <View style={{ marginTop: 5 }}>
                 <TextInput
                   style={{
                     height: 40,
@@ -194,9 +200,10 @@ const UserAccount = () => {
                   placeholderTextColor={'gray'}
                 />
               </View>
-              <View style={{marginTop: 5}}>
+              <View style={{ marginTop: 5 }}>
                 <DatePicker
                   modal
+                  mode="date"
                   open={open}
                   date={date}
                   onConfirm={date => {
@@ -218,10 +225,10 @@ const UserAccount = () => {
                     borderRadius: 5,
                   }}
                   onPress={() => setOpen(true)}>
-                  <Text style={{color: "gray"}}>{age}</Text>
+                  <Text style={{ color: 'gray' }}>{age}</Text>
                 </TouchableOpacity>
               </View>
-              <View style={{marginTop: 5}}>
+              <View style={{ marginTop: 5 }}>
                 <TextInput
                   style={{
                     height: 40,
@@ -238,7 +245,7 @@ const UserAccount = () => {
                   secureTextEntry={true}
                 />
               </View>
-              <View style={{marginTop: 5}}>
+              <View style={{ marginTop: 5 }}>
                 <TextInput
                   style={{
                     height: 40,
@@ -255,7 +262,7 @@ const UserAccount = () => {
                   secureTextEntry={true}
                 />
               </View>
-              <View style={{marginTop: 20}}>
+              <View style={{ marginTop: 20 }}>
                 <TouchableOpacity
                   style={{
                     width: 300,
@@ -264,7 +271,8 @@ const UserAccount = () => {
                     padding: 10,
                     borderRadius: 5,
                     backgroundColor: '#24baef',
-                  }}>
+                  }}
+                  onPress={() => onSignup(setSignupVisible, signupEmail, name, signupPassword, signupPasswordConf, age)}>
                   <Text
                     style={{
                       alignSelf: 'center',
@@ -282,9 +290,9 @@ const UserAccount = () => {
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-                <Text style={{color: 'gray'}}>Already have account? </Text>
+                <Text style={{ color: 'gray' }}>Already have account? </Text>
                 <TouchableOpacity onPress={onClickLogin}>
-                  <Text style={{color: '#24baef', fontSize: 15}}>Login</Text>
+                  <Text style={{ color: '#24baef', fontSize: 15 }}>Login</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -299,7 +307,7 @@ const UserAccount = () => {
         onDismiss={hideLoginModal}>
         <SafeAreaView>
           <Text
-            style={{alignSelf: 'flex-end', paddingRight: 20, marginTop: 10}}>
+            style={{ alignSelf: 'flex-end', paddingRight: 20, marginTop: 10 }}>
             <TouchableOpacity onPress={() => setLoginVisible(false)}>
               <Icons name="close" color={'gray'} size={25} />
             </TouchableOpacity>
@@ -308,20 +316,20 @@ const UserAccount = () => {
         <View style={styles.centeredView}>
           <View>
             <View
-              style={{flex: 0, justifyContent: 'center', alignItems: 'center'}}>
+              style={{ flex: 0, justifyContent: 'center', alignItems: 'center' }}>
               <View>
                 <Image
-                  style={{height: 100, width: 70}}
+                  style={{ height: 100, width: 70 }}
                   source={require('../../assets/icons/Movizrate.png')}
                 />
               </View>
-              <View style={{marginTop: 10}}>
+              <View style={{ marginTop: 10 }}>
                 <Text
-                  style={{color: '#24baef', fontSize: 20, fontWeight: '500'}}>
+                  style={{ color: '#24baef', fontSize: 20, fontWeight: '500' }}>
                   Welcome Back.
                 </Text>
               </View>
-              <View style={{marginTop: 20}}>
+              <View style={{ marginTop: 20 }}>
                 <TextInput
                   style={{
                     height: 40,
@@ -337,7 +345,7 @@ const UserAccount = () => {
                   placeholderTextColor={'gray'}
                 />
               </View>
-              <View style={{marginTop: 5}}>
+              <View style={{ marginTop: 5 }}>
                 <TextInput
                   style={{
                     height: 40,
@@ -354,12 +362,12 @@ const UserAccount = () => {
                   secureTextEntry={true}
                 />
               </View>
-              <View style={{width: 300, alignItems: 'flex-start'}}>
+              <View style={{ width: 300, alignItems: 'flex-start' }}>
                 <TouchableOpacity>
-                  <Text style={{color: 'gray'}}>Forgot Password?</Text>
+                  <Text style={{ color: 'gray' }}>Forgot Password?</Text>
                 </TouchableOpacity>
               </View>
-              <View style={{marginTop: 20}}>
+              <View style={{ marginTop: 20 }}>
                 <TouchableOpacity
                   style={{
                     width: 300,
@@ -368,7 +376,8 @@ const UserAccount = () => {
                     padding: 10,
                     borderRadius: 5,
                     backgroundColor: '#24baef',
-                  }}>
+                  }}
+                  onPress={() => onLogin(email, password, setLoginVisible)}>
                   <Text
                     style={{
                       alignSelf: 'center',
@@ -386,9 +395,9 @@ const UserAccount = () => {
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-                <Text style={{color: 'gray'}}>Don't have account? </Text>
+                <Text style={{ color: 'gray' }}>Don't have account? </Text>
                 <TouchableOpacity onPress={onClickSignup}>
-                  <Text style={{color: '#24baef', fontSize: 15}}>Signup</Text>
+                  <Text style={{ color: '#24baef', fontSize: 15 }}>Signup</Text>
                 </TouchableOpacity>
               </View>
             </View>
