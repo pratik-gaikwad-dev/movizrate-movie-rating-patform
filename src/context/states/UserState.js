@@ -166,6 +166,7 @@ const UserState = props => {
         try {
             await AsyncStorage.removeItem('@token');
             setLoggedin(false);
+            navigation.navigate("You");
             return true;
         } catch (exception) {
             return false;
