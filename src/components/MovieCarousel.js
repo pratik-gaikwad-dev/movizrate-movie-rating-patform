@@ -26,6 +26,7 @@ const MovieCarousel = props => {
                 name={element.item.name}
                 image={element.item.posterImage}
                 _id={element.item._id}
+                type={props.type}
               />
             );
           }}

@@ -44,8 +44,15 @@ const OTPScreen = () => {
             .then(response => response.json())
             .then(result => {
               if (result.msg) {
-                navigation.navigate('You')
                 Alert.alert(result.msg);
+                navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [
+                      { name: 'You' },
+                    ],
+                  })
+                );
               }
             })
             .catch(error => console.log('error', error));
@@ -57,8 +64,15 @@ const OTPScreen = () => {
             .then(response => response.json())
             .then(result => {
               if (result.msg) {
-                navigation.navigate('You')
                 Alert.alert(result.msg);
+                navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [
+                      { name: 'You' },
+                    ],
+                  })
+                );
               }
             })
             .catch(error => console.log('error', error));

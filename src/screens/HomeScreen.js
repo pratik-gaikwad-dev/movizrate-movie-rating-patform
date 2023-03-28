@@ -1,5 +1,5 @@
-import {ScrollView, StyleSheet, SafeAreaView, View} from 'react-native';
-import React, {useContext, useEffect} from 'react';
+import { ScrollView, StyleSheet, SafeAreaView, View } from 'react-native';
+import React, { useContext, useEffect } from 'react';
 import Carousel from '../components/Carousel';
 import MovieCarousel from '../components/MovieCarousel';
 import MoviesContext from '../context/contexts/MoviesContext';
@@ -8,23 +8,30 @@ import CastAndDirectorContext from '../context/contexts/CastAndDirectorContext';
 import UserContext from '../context/contexts/UserContext';
 
 const HomeScreen = () => {
-  const {setMoviesItems, movies} = useContext(MoviesContext);
-  const {setOttMovies} = useContext(OttContext);
-  const {getAllCast, getAllMovieCast} = useContext(CastAndDirectorContext);
-  const {isLoggedin, getUser} = useContext(UserContext);
+  const { getLatestMovies, latestMovies, getLatestSeries, latestSeries } = useContext(MoviesContext);
+  const { setOttMovies } = useContext(OttContext);
+  const { isLoggedin, getUser } = useContext(UserContext);
   useEffect(() => {
-    setMoviesItems();
     setOttMovies();
-    getAllCast();
-    getAllMovieCast();
     isLoggedin();
     getUser();
+    getLatestMovies();
+    getLatestSeries();
   }, []);
 
   return (
     <SafeAreaView>
       <ScrollView>
         <Carousel />
+        {/* <View
+          style={{
+            width: '100%',
+            backgroundColor: 'white',
+            padding: 10,
+            marginTop: 20,
+          }}>
+          <MovieCarousel key={0} title="Recommended for you" type="latestmovie" data={latestMovies} />
+        </View> */}
         <View
           style={{
             width: '100%',
@@ -32,7 +39,7 @@ const HomeScreen = () => {
             padding: 10,
             marginTop: 20,
           }}>
-          <MovieCarousel title="Today's Most Rated" data={movies} />
+          <MovieCarousel key={1} title="Latest Movies" type="latestmovie" data={latestMovies} />
         </View>
         <View
           style={{
@@ -41,7 +48,7 @@ const HomeScreen = () => {
             padding: 10,
             marginTop: 20,
           }}>
-          <MovieCarousel title="Recommended for you" data={movies} />
+          <MovieCarousel key={2} title="Latest TV-Series" type="latestseries" data={latestSeries} />
         </View>
         <View
           style={{
@@ -50,7 +57,7 @@ const HomeScreen = () => {
             padding: 10,
             marginTop: 20,
           }}>
-          <MovieCarousel title="Popular Movies" data={movies} />
+          <MovieCarousel key={3} title="Most Rated Movies" type="latestmovie" data={latestMovies} />
         </View>
         <View
           style={{
@@ -59,25 +66,7 @@ const HomeScreen = () => {
             padding: 10,
             marginTop: 20,
           }}>
-          <MovieCarousel title="Popular TV-Series" data={movies} />
-        </View>
-        <View
-          style={{
-            width: '100%',
-            backgroundColor: 'white',
-            padding: 10,
-            marginTop: 20,
-          }}>
-          <MovieCarousel title="Most Rated Movies" data={movies} />
-        </View>
-        <View
-          style={{
-            width: '100%',
-            backgroundColor: 'white',
-            padding: 10,
-            marginTop: 20,
-          }}>
-          <MovieCarousel title="Most Rated TV-Series" data={movies} />
+          <MovieCarousel key={4} title="Most Rated TV-Series" type="latestseries" data={latestSeries} />
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -10,11 +10,11 @@ import {
   Modal,
   TextInput,
 } from 'react-native';
-import React, {useContext, useEffect} from 'react';
-import {useRoute} from '@react-navigation/native';
+import React, { useContext, useEffect } from 'react';
+import { useRoute } from '@react-navigation/native';
 import MoviesContext from '../context/contexts/MoviesContext';
 import WatchMovieContext from '../context/contexts/WatchMovieContext';
-import {Divider} from 'react-native-paper';
+import { Divider } from 'react-native-paper';
 import Icons from 'react-native-vector-icons/FontAwesome';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import CastAndDirectorContext from '../context/contexts/CastAndDirectorContext';
@@ -26,7 +26,7 @@ import CommentCard from '../components/CommentCard';
 
 const MoviesScreen = () => {
   const route = useRoute();
-  const {movies, setMoviesItems} = useContext(MoviesContext);
+  const { latestMovies, getLatestMovies, getLatestSeries, latestSeries, getMovie } = useContext(MoviesContext);
   const [descVisible, setDescVisible] = React.useState(false);
   const [trailerVisible, setTrailerVisible] = React.useState(false);
   const [watchVisible, setWatchVisible] = React.useState(false);
@@ -34,8 +34,8 @@ const MoviesScreen = () => {
   const [ageRatingsVisible, setAgeRatingsVisible] = React.useState(false);
   const [reviewVisible, setReviewVisible] = React.useState(false);
   const [comment, setComment] = React.useState('');
-  const {setWatchMovie, watchMovie} = useContext(WatchMovieContext);
-  const {sortCast, finalCast, finalDirectors} = useContext(
+  const { setWatchMovie, watchMovie } = useContext(WatchMovieContext);
+  const { finalCast, finalDirectors, getMovieCast } = useContext(
     CastAndDirectorContext,
   );
 
@@ -45,19 +45,31 @@ const MoviesScreen = () => {
   ]);
 
   useEffect(() => {
-    setMoviesItems();
-    sortCast(route.params.movieID);
-    movies.filter(ele => {
-      if (ele._id === route.params.movieID) {
-        setWatchMovie(ele);
-        return true;
-      }
-      return false;
-    });
+    getMovieCast(route.params.movieID);
+    getMovie(route.params.movieID, setWatchMovie)
+    // if (route.params.type === "latestmovie") {
+    //   getLatestMovies();
+    //   latestMovies.filter(ele => {
+    //     if (ele._id === route.params.movieID) {
+    //       setWatchMovie(ele);
+    //       return true;
+    //     }
+    //     return false;
+    //   });
+    // } else if(route.params.type === "latestseries") {
+    //   getLatestSeries();
+    //   latestSeries.filter(ele => {
+    //     if (ele._id === route.params.movieID) {
+    //       setWatchMovie(ele);
+    //       return true;
+    //     }
+    //     return false;
+    //   });
+    // }
   }, []);
   let movieGenre;
   if (Object.keys(watchMovie).length !== 0) {
-    movieGenre = watchMovie.genre.split(' ');
+    movieGenre = watchMovie.genre.split(', ');
   }
   const showAgeRatingModal = () => setAgeRatingsVisible(true);
   const hideAgeRatingModal = () => setAgeRatingsVisible(false);
@@ -79,14 +91,14 @@ const MoviesScreen = () => {
   return (
     <SafeAreaView>
       <ScrollView>
-        <View style={{height: '100%', paddingBottom: 30}}>
-          <View style={{height: '100%'}}>
-            <View style={{width: '100%', height: '40%'}}>
+        <View style={{ height: '100%', paddingBottom: 30 }}>
+          <View style={{ height: '100%' }}>
+            <View style={{ width: '100%', height: '40%' }}>
               {watchMovie.image === undefined ? null : (
                 <ImageBackground
-                  style={{width: '100%', height: '70%'}}
-                  source={{uri: watchMovie.image}}>
-                  <View style={{padding: 10}}>
+                  style={{ width: '100%', height: '70%' }}
+                  source={{ uri: watchMovie.image }}>
+                  <View style={{ padding: 10 }}>
                     <View
                       style={{
                         marginTop: 150,
@@ -108,7 +120,7 @@ const MoviesScreen = () => {
                           flexDirection: 'row',
                           width: '100%',
                         }}>
-                        <View style={{flexBasis: '35%'}}>
+                        <View style={{ flexBasis: '35%' }}>
                           {watchMovie.posterImage === undefined ? null : (
                             <Image
                               style={{
@@ -116,7 +128,7 @@ const MoviesScreen = () => {
                                 height: 200,
                                 marginLeft: 10,
                               }}
-                              source={{uri: watchMovie.posterImage}}
+                              source={{ uri: watchMovie.posterImage }}
                             />
                           )}
                         </View>
@@ -127,20 +139,20 @@ const MoviesScreen = () => {
                             flexDirection: 'column',
                             paddingLeft: 10,
                           }}>
-                          <View style={{flexDirection: 'row'}}>
+                          <View style={{ flexDirection: 'row' }}>
                             {movieGenre === undefined
                               ? null
                               : movieGenre.map((ele, i) => {
-                                  return (
-                                    <View key={i} style={[styles.textStyle]}>
-                                      <Text style={{color: 'black'}}>
-                                        {ele}
-                                      </Text>
-                                    </View>
-                                  );
-                                })}
+                                return (
+                                  <View key={i} style={[styles.textStyle]}>
+                                    <Text style={{ color: 'black' }}>
+                                      {ele}
+                                    </Text>
+                                  </View>
+                                );
+                              })}
                           </View>
-                          <View style={{marginLeft: 10, paddingRight: 10}}>
+                          <View style={{ marginLeft: 10, paddingRight: 10 }}>
                             <Text
                               style={{
                                 fontSize: 20,
@@ -151,7 +163,7 @@ const MoviesScreen = () => {
                               {watchMovie.name}
                             </Text>
                           </View>
-                          <View style={{marginLeft: 10, paddingRight: 10}}>
+                          <View style={{ marginLeft: 10, paddingRight: 10 }}>
                             <TouchableOpacity onPress={showDescModal}>
                               <Text
                                 style={{
@@ -162,14 +174,14 @@ const MoviesScreen = () => {
                                 {watchMovie.desc === undefined
                                   ? null
                                   : watchMovie.desc.length > 180
-                                  ? watchMovie.desc.slice(0, 180) + '...'
-                                  : watchMovie.desc}
+                                    ? watchMovie.desc.slice(0, 180) + '...'
+                                    : watchMovie.desc}
                               </Text>
                             </TouchableOpacity>
                           </View>
                         </View>
                       </View>
-                      <View style={{marginTop: 10}}>
+                      <View style={{ marginTop: 10 }}>
                         <Divider bold />
                       </View>
                       <View
@@ -200,7 +212,7 @@ const MoviesScreen = () => {
                                   color={'#a8870f'}
                                 />{' '}
                               </Text>
-                              <Text style={{fontSize: 15, color: 'black'}}>
+                              <Text style={{ fontSize: 15, color: 'black' }}>
                                 {' '}
                                 {watchMovie.rating}
                               </Text>
@@ -227,7 +239,7 @@ const MoviesScreen = () => {
                                   color={'#24baef'}
                                 />{' '}
                               </Text>
-                              <Text style={{fontSize: 15, color: 'black'}}>
+                              <Text style={{ fontSize: 15, color: 'black' }}>
                                 {' '}
                                 Rate Now
                               </Text>
@@ -243,17 +255,17 @@ const MoviesScreen = () => {
                               }}
                               onPress={showReviewModal}>
                               <Text
-                                style={{textAlign: 'center', color: 'black'}}>
+                                style={{ textAlign: 'center', color: 'black' }}>
                                 Add Review
                               </Text>
                             </TouchableOpacity>
                           </View>
                         </View>
                       </View>
-                      <View style={{marginTop: 10}}>
+                      <View style={{ marginTop: 10 }}>
                         <Divider bold />
                       </View>
-                      <View style={{marginTop: 10}}>
+                      <View style={{ marginTop: 10 }}>
                         <View
                           style={{
                             flexDirection: 'row',
@@ -272,7 +284,7 @@ const MoviesScreen = () => {
                               marginTop: 10,
                               width: 150,
                             }}>
-                            <Text style={{color: 'black'}}>Watch Now</Text>
+                            <Text style={{ color: 'black' }}>Watch Now</Text>
                           </TouchableOpacity>
                           <TouchableOpacity
                             onPress={showTrailerModal}
@@ -287,7 +299,7 @@ const MoviesScreen = () => {
                               marginTop: 10,
                               width: 150,
                             }}>
-                            <Text style={{color: 'white'}}>Trailer</Text>
+                            <Text style={{ color: 'white' }}>Trailer</Text>
                           </TouchableOpacity>
                         </View>
                       </View>
@@ -297,10 +309,10 @@ const MoviesScreen = () => {
               )}
             </View>
             <View>
-              <View style={{backgroundColor: 'white'}}>
+              <View style={{ backgroundColor: 'white' }}>
                 <CastCarousel data={finalCast} title="Top Actors" />
               </View>
-              <View style={{backgroundColor: 'white', marginTop: 10}}>
+              <View style={{ backgroundColor: 'white', marginTop: 10 }}>
                 <CastCarousel
                   data={finalDirectors}
                   title="Directors and Writers"
@@ -312,7 +324,7 @@ const MoviesScreen = () => {
                   marginTop: 10,
                   marginLeft: 10,
                 }}>
-                <MovieCarousel title="More Like This" data={movies} />
+                <MovieCarousel title="More Like This" data={latestMovies} />
               </View>
             </View>
           </View>
@@ -329,13 +341,13 @@ const MoviesScreen = () => {
           }}>
           <SafeAreaView>
             <ScrollView>
-              <View style={{padding: 20}}>
-                <Text style={{alignSelf: 'flex-end'}}>
+              <View style={{ padding: 20 }}>
+                <Text style={{ alignSelf: 'flex-end' }}>
                   <TouchableOpacity onPress={() => setReviewVisible(false)}>
                     <Icons name="close" color={'gray'} size={25} />
                   </TouchableOpacity>
                 </Text>
-                <View style={{marginTop: 10}}>
+                <View style={{ marginTop: 10 }}>
                   <View>
                     <View
                       style={{
@@ -352,7 +364,7 @@ const MoviesScreen = () => {
                         defaultRating={defaultRating}
                         setDefaultRating={setDefaultRating}
                       />
-                      <Text style={{fontSize: 20, fontWeight: '500'}}>
+                      <Text style={{ fontSize: 20, fontWeight: '500' }}>
                         {' '}
                         {defaultRating}
                       </Text>
@@ -373,11 +385,11 @@ const MoviesScreen = () => {
                         maxLength={100}
                         onChangeText={text => setComment(text)}
                         value={comment}
-                        style={{padding: 10}}
+                        style={{ padding: 10 }}
                         placeholder="Add Review"
                       />
                     </View>
-                    <View style={{marginTop: 10}}>
+                    <View style={{ marginTop: 10 }}>
                       <TouchableOpacity
                         style={{
                           borderWidth: 1,
@@ -387,12 +399,12 @@ const MoviesScreen = () => {
                           borderRadius: 5,
                           backgroundColor: '#24baef',
                         }}>
-                        <Text style={{fontWeight: '500', fontSize: 15}}>
+                        <Text style={{ fontWeight: '500', fontSize: 15 }}>
                           Submit
                         </Text>
                       </TouchableOpacity>
                     </View>
-                    <View style={{marginTop: 20}}>
+                    <View style={{ marginTop: 20 }}>
                       <Text
                         style={{
                           color: 'black',
@@ -401,7 +413,7 @@ const MoviesScreen = () => {
                         }}>
                         Top Reviews
                       </Text>
-                      <View style={{marginTop: 10}}>
+                      <View style={{ marginTop: 10 }}>
                         <CommentCard />
                         <CommentCard />
                         <CommentCard />
@@ -429,8 +441,8 @@ const MoviesScreen = () => {
             width: '50%',
           }}>
           <SafeAreaView>
-            <View style={{padding: 20}}>
-              <Text style={{alignSelf: 'flex-end'}}>
+            <View style={{ padding: 20 }}>
+              <Text style={{ alignSelf: 'flex-end' }}>
                 <TouchableOpacity onPress={() => setAgeRatingsVisible(false)}>
                   <Icons name="close" color={'gray'} size={25} />
                 </TouchableOpacity>
@@ -459,17 +471,17 @@ const MoviesScreen = () => {
             width: '50%',
           }}>
           <SafeAreaView>
-            <View style={{padding: 20}}>
-              <Text style={{alignSelf: 'flex-end'}}>
+            <View style={{ padding: 20 }}>
+              <Text style={{ alignSelf: 'flex-end' }}>
                 <TouchableOpacity onPress={() => setDescVisible(false)}>
                   <Icons name="close" color={'gray'} size={25} />
                 </TouchableOpacity>
               </Text>
-              <Text style={{color: 'black', fontSize: 20, fontWeight: 'bold'}}>
+              <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold' }}>
                 {watchMovie.name} Storyline
               </Text>
               <Text
-                style={{marginTop: 20, color: 'black', textAlign: 'justify'}}>
+                style={{ marginTop: 20, color: 'black', textAlign: 'justify' }}>
                 {watchMovie.desc === undefined ? null : watchMovie.desc}
               </Text>
             </View>
@@ -491,8 +503,8 @@ const MoviesScreen = () => {
           <SafeAreaView>
             <View>
               <View>
-                <View style={{paddingRight: 10}}>
-                  <Text style={{alignSelf: 'flex-end'}}>
+                <View style={{ paddingRight: 10 }}>
+                  <Text style={{ alignSelf: 'flex-end' }}>
                     <TouchableOpacity onPress={() => setRateNowVisible(false)}>
                       <Icons name="close" color={'gray'} size={25} />
                     </TouchableOpacity>
@@ -511,7 +523,7 @@ const MoviesScreen = () => {
                         alignSelf: 'center',
                         borderRadius: 5,
                       }}
-                      source={{uri: watchMovie.posterImage}}
+                      source={{ uri: watchMovie.posterImage }}
                     />
                   </View>
                   <View
@@ -553,8 +565,8 @@ const MoviesScreen = () => {
                 alignItems: 'center',
                 marginTop: 22,
               }}>
-              <View style={{width: '100%', padding: 20}}>
-                <Text style={{alignSelf: 'flex-end'}}>
+              <View style={{ width: '100%', padding: 20 }}>
+                <Text style={{ alignSelf: 'flex-end' }}>
                   <TouchableOpacity onPress={() => setTrailerVisible(false)}>
                     <Icons name="close" color={'gray'} size={25} />
                   </TouchableOpacity>
@@ -588,8 +600,8 @@ const MoviesScreen = () => {
                 alignItems: 'center',
                 marginTop: 22,
               }}>
-              <View style={{width: '100%', padding: 20}}>
-                <Text style={{alignSelf: 'flex-end'}}>
+              <View style={{ width: '100%', padding: 20 }}>
+                <Text style={{ alignSelf: 'flex-end' }}>
                   <TouchableOpacity onPress={() => setWatchVisible(false)}>
                     <Icons name="close" color={'gray'} size={25} />
                   </TouchableOpacity>
@@ -605,11 +617,11 @@ const MoviesScreen = () => {
                       padding: 10,
                       borderRadius: 10,
                     }}>
-                    <Text style={{color: 'black', fontSize: 20}}>
+                    <Text style={{ color: 'black', fontSize: 20 }}>
                       Watch on{' '}
                     </Text>
                     <Image
-                      style={{height: 25, width: 80}}
+                      style={{ height: 25, width: 80 }}
                       source={require('../../assets/icons/Disney_Plus.png')}
                     />
                   </TouchableOpacity>
@@ -624,11 +636,11 @@ const MoviesScreen = () => {
                       borderRadius: 10,
                       marginTop: 10,
                     }}>
-                    <Text style={{color: 'black', fontSize: 20}}>
+                    <Text style={{ color: 'black', fontSize: 20 }}>
                       Watch on{' '}
                     </Text>
                     <Image
-                      style={{height: 25, width: 80}}
+                      style={{ height: 25, width: 80 }}
                       source={require('../../assets/icons/Netflix.png')}
                     />
                   </TouchableOpacity>
@@ -643,11 +655,11 @@ const MoviesScreen = () => {
                       borderRadius: 10,
                       marginTop: 10,
                     }}>
-                    <Text style={{color: 'black', fontSize: 20}}>
+                    <Text style={{ color: 'black', fontSize: 20 }}>
                       Watch on{' '}
                     </Text>
                     <Image
-                      style={{height: 25, width: 80}}
+                      style={{ height: 25, width: 80 }}
                       source={require('../../assets/icons/Prime_Video.png')}
                     />
                   </TouchableOpacity>

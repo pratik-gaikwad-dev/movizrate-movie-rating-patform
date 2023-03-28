@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import MoviesContext from '../contexts/MoviesContext';
 import OttContext from '../contexts/OttContext';
 
@@ -7,85 +7,27 @@ const OTTState = props => {
   const [primeVideo, setPrimeVideo] = useState([]);
   const [disney, setDisney] = useState([]);
   const [ottItems, setOttItems] = useState([]);
-  const {movies} = useContext(MoviesContext);
+  const { movies } = useContext(MoviesContext);
   const setOttMovies = async () => {
     setOttItems([]);
-    setOttItems([
-      {
-        movieID: '1',
-        ott: 'disney',
-      },
-      {
-        movieID: '2',
-        ott: 'netflix',
-      },
-      {
-        movieID: '3',
-        ott: 'primevideo',
-      },
-      {
-        movieID: '1',
-        ott: 'netflix',
-      },
-      {
-        movieID: '2',
-        ott: 'primevideo',
-      },
-      {
-        movieID: '3',
-        ott: 'disney',
-      },
-    ]);
-    setOttData();
+    var requestOptions = {
+      method: 'POST',
+      redirect: 'follow'
+    };
+
+    fetch("http://127.0.0.1:3000/api/v1/movies/getottmovies", requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        setDisney(result.hotstar);
+        setNetflix(result.netflix);
+        setPrimeVideo(result.primevideo)
+      })
+      .catch(error => console.log('error', error));
   };
 
-  const setOttData = () => {
-    let netflixData = [];
-    let primevideoData = [];
-    let disneyData = [];
-
-    for (let i = 0; i < ottItems.length; i++) {
-      const element = ottItems[i];
-      if (element.ott === 'netflix') {
-        for (let j = 0; j < movies.length; j++) {
-          const items = movies[j];
-          if (items._id === element.movieID) {
-            netflixData.push(items);
-          }
-        }
-      }
-    }
-
-    for (let i = 0; i < ottItems.length; i++) {
-      const element = ottItems[i];
-      if (element.ott === 'primevideo') {
-        for (let j = 0; j < movies.length; j++) {
-          const items = movies[j];
-          if (items._id === element.movieID) {
-            primevideoData.push(items);
-          }
-        }
-      }
-    }
-
-    for (let i = 0; i < ottItems.length; i++) {
-      const element = ottItems[i];
-      if (element.ott === 'disney') {
-        for (let j = 0; j < movies.length; j++) {
-          const items = movies[j];
-          if (items._id === element.movieID) {
-            disneyData.push(items);
-          }
-        }
-      }
-    }
-    setNetflix(netflixData);
-    setPrimeVideo(primevideoData);
-    setDisney(disneyData);
-  };
   return (
     <OttContext.Provider
-      value={{setOttMovies, setOttData, primeVideo, netflix, disney}}>
+      value={{ setOttMovies, primeVideo, netflix, disney }}>
       {props.children}
     </OttContext.Provider>
   );

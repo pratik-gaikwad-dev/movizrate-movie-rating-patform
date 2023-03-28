@@ -65,9 +65,9 @@ const PlaylistCard = props => {
           <View
             style={{flex: 0, justifyContent: 'space-between', paddingLeft: 20}}>
             <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
-              {props.name.length < 15
+              {props.name ? props.name.length < 15
                 ? props.name
-                : props.name.slice(0, 15) + '...'}
+                : props.name.slice(0, 15) + '...' : null}
             </Text>
             <Text style={{fontSize: 15, color: 'gray'}}>{props.genre}</Text>
             <Text style={{fontSize: 15, color: 'black'}}>
