@@ -1,6 +1,6 @@
 import React from 'react';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {Image} from 'react-native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { Image } from 'react-native';
 import PrimeVideoScreen from '../screens/PrimeVideoScreen';
 import NetflixScreen from '../screens/NetflixScreen';
 import DisneyScreen from '../screens/DisneyScreen';
@@ -18,11 +18,11 @@ const TopBar = () => {
       }}>
       <TopTab.Screen
         name="Prime Video"
-        style={{borderWidth: 1, borderColor: 'red'}}
+        style={{ borderWidth: 1, borderColor: 'red' }}
         options={{
           tabBarIcon: () => (
             <Image
-              style={{height: 30, width: 100}}
+              style={{ height: 30, width: 100 }}
               source={require('../../assets/icons/Prime_Video.png')}
             />
           ),
@@ -34,7 +34,7 @@ const TopBar = () => {
         options={{
           tabBarIcon: () => (
             <Image
-              style={{height: 25, width: 80}}
+              style={{ height: 25, width: 80 }}
               source={require('../../assets/icons/Netflix.png')}
             />
           ),
@@ -46,7 +46,7 @@ const TopBar = () => {
         options={{
           tabBarIcon: () => (
             <Image
-              style={{height: 25, width: 80}}
+              style={{ height: 25, width: 80 }}
               source={require('../../assets/icons/Disney_Plus.png')}
             />
           ),

@@ -8,15 +8,15 @@ import {
 } from 'react-native';
 import React from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const MovieCard = props => {
   const windowWidth = Dimensions.get('window').width;
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      onPress={() => navigation.push('MovieScreen', {movieID: props._id, type: props.type})}>
-      <View style={{height: windowWidth / 1.5, width: windowWidth / 2.2}}>
+      onPress={() => navigation.push('MovieScreen', { movieID: props._id, type: props.type })}>
+      <View style={{ height: windowWidth / 1.5, width: windowWidth / 2.2 }}>
         <View
           style={{
             width: windowWidth / 2.5,
@@ -43,11 +43,11 @@ const MovieCard = props => {
             }}
           />
           <View>
-            <Text style={{padding: 5, fontSize: 12}} variant="titleLarge">
+            <Text style={{ padding: 5, fontSize: 12 }} variant="titleLarge">
               <MaterialCommunityIcons name="star" color="#a8870f" />{' '}
-              {props.rating}
+              {props.rating ? props.rating.toFixed(1) : 0}
             </Text>
-            <Text style={{padding: 5, color: 'black'}} variant="bodyMedium">
+            <Text style={{ padding: 5, color: 'black' }} variant="bodyMedium">
               {props.name.length > 18
                 ? props.name.slice(0, 18) + '...'
                 : props.name}

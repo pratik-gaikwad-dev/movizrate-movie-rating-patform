@@ -6,11 +6,11 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Button, Menu, Divider, Provider} from 'react-native-paper';
+import { Button, Menu, Divider, Provider } from 'react-native-paper';
 import PlaylistContext from '../context/contexts/PlaylistContext';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const PlaylistCard = props => {
   const [visible, setVisible] = React.useState(false);
@@ -26,7 +26,7 @@ const PlaylistCard = props => {
 
   const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 
-  const {deleteFromPlaylist} = useContext(PlaylistContext);
+  const { deleteFromPlaylist } = useContext(PlaylistContext);
   return (
     <TouchableOpacity
       style={{
@@ -36,7 +36,7 @@ const PlaylistCard = props => {
         marginTop: 10,
         marginBottom: 10,
       }}
-      onPress={() => navigation.navigate('MovieScreen', {movieID: props.id})}>
+      onPress={() => navigation.navigate('MovieScreen', { movieID: props.id })}>
       <View
         style={{
           width: windowWidth / 1.1,
@@ -55,22 +55,22 @@ const PlaylistCard = props => {
             width: 2,
           },
         }}>
-        <View style={{flex: 0, flexDirection: 'row'}}>
+        <View style={{ flex: 0, flexDirection: 'row' }}>
           <Image
             source={{
               uri: props.image,
             }}
-            style={{width: windowWidth / 4, height: windowHeight / 7}}
+            style={{ width: windowWidth / 4, height: windowHeight / 7 }}
           />
           <View
-            style={{flex: 0, justifyContent: 'space-between', paddingLeft: 20}}>
-            <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
+            style={{ flex: 0, justifyContent: 'space-between', paddingLeft: 20 }}>
+            <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }}>
               {props.name ? props.name.length < 15
                 ? props.name
                 : props.name.slice(0, 15) + '...' : null}
             </Text>
-            <Text style={{fontSize: 15, color: 'gray'}}>{props.genre}</Text>
-            <Text style={{fontSize: 15, color: 'black'}}>
+            <Text style={{ fontSize: 15, color: 'gray' }}>{props.genre}</Text>
+            <Text style={{ fontSize: 15, color: 'black' }}>
               <MaterialCommunityIcons name="star" size={20} color="#a8870f" />{' '}
               {props.rating}
               {'   '}
@@ -80,8 +80,8 @@ const PlaylistCard = props => {
               {props.usrRatings === false ? null : props.usrRatings}
             </Text>
             <TouchableOpacity>
-              <Text style={{fontSize: 15, color: 'blue'}}>
-                Watch on Netflix
+              <Text style={{ fontSize: 15, color: 'blue' }}>
+                Watch Now
               </Text>
             </TouchableOpacity>
           </View>
@@ -100,7 +100,7 @@ const PlaylistCard = props => {
                   />
                 </TouchableOpacity>
               }>
-              <Menu.Item onPress={() => {}} title="Rate This" />
+              <Menu.Item onPress={() => { }} title="Rate This" />
               <Menu.Item
                 onPress={() => {
                   deleteFromPlaylist(props.id);

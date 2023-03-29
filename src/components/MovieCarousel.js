@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import MovieCard from './MovieCard';
 
@@ -14,7 +14,7 @@ const MovieCarousel = props => {
         }}>
         {props.title}
       </Text>
-      <View style={{paddingTop: 5}}>
+      <View style={{ paddingTop: 5 }}>
         <FlatList
           data={props.data}
           horizontal
@@ -22,7 +22,7 @@ const MovieCarousel = props => {
           renderItem={element => {
             return (
               <MovieCard
-                rating={element.item.rating}
+                rating={element.item.rating / element.item.totalratings}
                 name={element.item.name}
                 image={element.item.posterImage}
                 _id={element.item._id}

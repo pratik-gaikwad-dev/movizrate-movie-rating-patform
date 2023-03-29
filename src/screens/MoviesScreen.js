@@ -11,7 +11,7 @@ import {
   TextInput,
 } from 'react-native';
 import React, { useContext, useEffect } from 'react';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import MoviesContext from '../context/contexts/MoviesContext';
 import WatchMovieContext from '../context/contexts/WatchMovieContext';
 import { Divider } from 'react-native-paper';
@@ -23,10 +23,13 @@ import MovieCarousel from '../components/MovieCarousel';
 import Rating from '../components/Rating';
 import AgeCard from '../components/AgeCard';
 import CommentCard from '../components/CommentCard';
+import UserContext from '../context/contexts/UserContext';
 
 const MoviesScreen = () => {
   const route = useRoute();
-  const { latestMovies, getLatestMovies, getLatestSeries, latestSeries, getMovie } = useContext(MoviesContext);
+  const navigation = useNavigation();
+  const { latestMovies, getMovie, onRatingSubmit, getRating } =
+    useContext(MoviesContext);
   const [descVisible, setDescVisible] = React.useState(false);
   const [trailerVisible, setTrailerVisible] = React.useState(false);
   const [watchVisible, setWatchVisible] = React.useState(false);
@@ -38,34 +41,18 @@ const MoviesScreen = () => {
   const { finalCast, finalDirectors, getMovieCast } = useContext(
     CastAndDirectorContext,
   );
+  const { loggedin } = useContext(UserContext);
 
   const [defaultRating, setDefaultRating] = React.useState(0);
   const [maxRating, setMaxRating] = React.useState([
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
   ]);
 
+  const [rated, setRated] = React.useState(false);
   useEffect(() => {
     getMovieCast(route.params.movieID);
-    getMovie(route.params.movieID, setWatchMovie)
-    // if (route.params.type === "latestmovie") {
-    //   getLatestMovies();
-    //   latestMovies.filter(ele => {
-    //     if (ele._id === route.params.movieID) {
-    //       setWatchMovie(ele);
-    //       return true;
-    //     }
-    //     return false;
-    //   });
-    // } else if(route.params.type === "latestseries") {
-    //   getLatestSeries();
-    //   latestSeries.filter(ele => {
-    //     if (ele._id === route.params.movieID) {
-    //       setWatchMovie(ele);
-    //       return true;
-    //     }
-    //     return false;
-    //   });
-    // }
+    getMovie(route.params.movieID, setWatchMovie);
+    getRating(route.params.movieID, setRated, setDefaultRating);
   }, []);
   let movieGenre;
   if (Object.keys(watchMovie).length !== 0) {
@@ -83,11 +70,17 @@ const MoviesScreen = () => {
   const showWatchModal = () => setWatchVisible(true);
   const hideWatchModal = () => setWatchVisible(false);
 
-  const showRateNowModal = () => setRateNowVisible(true);
+  const showRateNowModal = () => {
+    if (!loggedin) {
+      return navigation.navigate('You');
+    }
+    setRateNowVisible(true);
+  };
   const hideRateNowModal = () => setRateNowVisible(false);
 
   const showReviewModal = () => setReviewVisible(true);
   const hideReviewModal = () => setReviewVisible(false);
+
   return (
     <SafeAreaView>
       <ScrollView>
@@ -214,37 +207,50 @@ const MoviesScreen = () => {
                               </Text>
                               <Text style={{ fontSize: 15, color: 'black' }}>
                                 {' '}
-                                {watchMovie.rating}
+                                {watchMovie.rating ? (watchMovie.rating / watchMovie.totalratings).toFixed(1) : 0}
                               </Text>
                             </View>
                           </TouchableOpacity>
-                          <TouchableOpacity onPress={showRateNowModal}>
-                            <View
-                              style={{
-                                flex: 0,
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                              }}>
-                              {/* <Text>
-                              <Icons name="star" size={25} color={'#24baef'} />{' '}
-                            </Text>
-                            <Text style={{fontSize: 15, color: 'black'}}>
-                              {' '}
-                              10
-                            </Text> */}
-                              <Text>
-                                <Icons
-                                  name="star-o"
-                                  size={25}
-                                  color={'#24baef'}
-                                />{' '}
-                              </Text>
-                              <Text style={{ fontSize: 15, color: 'black' }}>
-                                {' '}
-                                Rate Now
-                              </Text>
-                            </View>
-                          </TouchableOpacity>
+
+                          <View
+                            style={{
+                              flex: 0,
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                            }}>
+                            {rated ? (
+                              <>
+                                <Text>
+                                  <Icons
+                                    name="star"
+                                    size={25}
+                                    color={'#24baef'}
+                                  />{' '}
+                                </Text>
+                                <Text style={{ fontSize: 15, color: 'black' }}>
+                                  {' '}
+                                  {defaultRating}
+                                </Text>
+                              </>
+                            ) : (
+                              <>
+                                <TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }} onPress={showRateNowModal}>
+                                  <Text>
+                                    <Icons
+                                      name="star-o"
+                                      size={25}
+                                      color={'#24baef'}
+                                    />{' '}
+                                  </Text>
+                                  <Text style={{ fontSize: 15, color: 'black' }}>
+                                    {' '}
+                                    Rate Now
+                                  </Text>
+                                </TouchableOpacity>
+                              </>
+                            )}
+                          </View>
+
                           <View>
                             <TouchableOpacity
                               style={{
@@ -349,26 +355,7 @@ const MoviesScreen = () => {
                 </Text>
                 <View style={{ marginTop: 10 }}>
                   <View>
-                    <View
-                      style={{
-                        borderColor: 'black',
-                        borderWidth: 1,
-                        padding: 5,
-                        borderRadius: 5,
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                      }}>
-                      <Rating
-                        maxRating={maxRating}
-                        defaultRating={defaultRating}
-                        setDefaultRating={setDefaultRating}
-                      />
-                      <Text style={{ fontSize: 20, fontWeight: '500' }}>
-                        {' '}
-                        {defaultRating}
-                      </Text>
-                    </View>
+                    <Text style={{ fontSize: 20, marginTop: 10 }}>Add a Review</Text>
                     <View
                       style={{
                         borderWidth: 1,
@@ -515,11 +502,12 @@ const MoviesScreen = () => {
                     flex: 0,
                     justifyContent: 'center',
                   }}>
-                  <View>
+                  <View
+                    style={{ paddingBottom: 0, width: '100%', height: '80%' }}>
                     <Image
                       style={{
                         width: '90%',
-                        height: '90%',
+                        height: '100%',
                         alignSelf: 'center',
                         borderRadius: 5,
                       }}
@@ -532,12 +520,50 @@ const MoviesScreen = () => {
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'center',
+                      marginTop: 20,
                     }}>
                     <Rating
                       maxRating={maxRating}
                       defaultRating={defaultRating}
                       setDefaultRating={setDefaultRating}
                     />
+                  </View>
+                  <View
+                    style={{
+                      flex: 0,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    <TouchableOpacity
+                      style={{
+                        borderWidth: 1,
+                        borderColor: '#24baef',
+                        width: 200,
+                        padding: 10,
+                        backgroundColor: '#24baef',
+                        borderRadius: 5,
+                        marginTop: 20,
+                      }}
+                      onPress={() =>
+                        onRatingSubmit(
+                          watchMovie._id,
+                          defaultRating,
+                          setRateNowVisible,
+                          setRated,
+                          watchMovie
+                        )
+                      }>
+                      <Text
+                        style={{
+                          textAlign: 'center',
+                          color: 'black',
+                          fontWeight: '500',
+                          fontSize: 15,
+                        }}>
+                        Submit
+                      </Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
               </View>

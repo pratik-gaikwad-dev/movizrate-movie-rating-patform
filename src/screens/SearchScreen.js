@@ -1,9 +1,9 @@
-import {FlatList, Platform, StyleSheet, View} from 'react-native';
-import React, {useContext, useEffect} from 'react';
-import {Searchbar} from 'react-native-paper';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import { FlatList, Platform, StyleSheet, View } from 'react-native';
+import React, { useContext, useEffect } from 'react';
+import { Searchbar } from 'react-native-paper';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import TopBar from '../components/TopBar';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MoviesContext from '../context/contexts/MoviesContext';
 import PlaylistCard from '../components/PlaylistCard';
 import OttContext from '../context/contexts/OttContext';
@@ -13,10 +13,10 @@ const TopTab = createMaterialTopTabNavigator();
 const SearchScreen = () => {
   const [searchQuery, setSearchQuery] = React.useState('');
   const insets = useSafeAreaInsets();
-  const {movies} = useContext(MoviesContext);
+  const { movies } = useContext(MoviesContext);
   const [loading, setLoading] = React.useState(false);
   const [searchedItems, setSearchedItems] = React.useState([]);
-  
+
   const onChangeSearch = query => {
     setSearchQuery(query);
     searchInArray();
@@ -37,13 +37,13 @@ const SearchScreen = () => {
   const Eva = Platform.OS === 'ios' ? 0 : 1;
   return (
     <>
-      <View style={{padding: 10, paddingTop: insets.top, marginTop: 10}}>
+      <View style={{ padding: 10, paddingTop: insets.top, marginTop: 10 }}>
         <Searchbar
           elevation={Eva}
           style={{
             backgroundColor: 'white',
             shadowColor: 'gray',
-            shadowOffset: {width: 3, height: 3},
+            shadowOffset: { width: 3, height: 3 },
             shadowOpacity: 0.3,
           }}
           loading={loading}
