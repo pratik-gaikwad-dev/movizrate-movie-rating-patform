@@ -28,7 +28,7 @@ import UserContext from '../context/contexts/UserContext';
 const MoviesScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const { latestMovies, getMovie, onRatingSubmit, getRating } =
+  const { latestMovies, getMovie, onRatingSubmit, getRating, addReview } =
     useContext(MoviesContext);
   const [descVisible, setDescVisible] = React.useState(false);
   const [trailerVisible, setTrailerVisible] = React.useState(false);
@@ -78,7 +78,12 @@ const MoviesScreen = () => {
   };
   const hideRateNowModal = () => setRateNowVisible(false);
 
-  const showReviewModal = () => setReviewVisible(true);
+  const showReviewModal = () => {
+    if (!loggedin) {
+      return navigation.navigate('You');
+    }
+    setReviewVisible(true)
+  };
   const hideReviewModal = () => setReviewVisible(false);
 
   return (
@@ -385,7 +390,8 @@ const MoviesScreen = () => {
                           padding: 10,
                           borderRadius: 5,
                           backgroundColor: '#24baef',
-                        }}>
+                        }}
+                        onPress={() => addReview(comment, watchMovie._id, setComment, showReviewModal)}>
                         <Text style={{ fontWeight: '500', fontSize: 15 }}>
                           Submit
                         </Text>
