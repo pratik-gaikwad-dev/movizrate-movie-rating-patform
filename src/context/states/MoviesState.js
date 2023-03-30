@@ -165,7 +165,7 @@ const CarouselState = props => {
     }
   };
 
-  const addReview = async (review, movieId, setComment, showReviewModal) => {
+  const addReview = async (review, movieId, setComment, setReviewVisible) => {
     try {
       const token = await AsyncStorage.getItem('@token');
 
@@ -194,13 +194,29 @@ const CarouselState = props => {
           if (result === true) {
             Alert.alert("Review added.");
             setComment("");
-            showReviewModal(false);
+            setReviewVisible(false);
           }
 
           if (result.error) {
             Alert.alert(result.error);
           }
         })
+        .catch(error => console.log('error', error));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getMovieReviews = async (movieId, setReviews) => {
+    try {
+      const requestOptions = {
+        method: 'POST',
+        redirect: 'follow'
+      };
+
+      fetch(`http://127.0.0.1:3000/api/v1/movies/getmoviereviews/${movieId}`, requestOptions)
+        .then(response => response.json())
+        .then(result => setReviews(result.reviews))
         .catch(error => console.log('error', error));
     } catch (error) {
       console.log(error);
@@ -217,7 +233,8 @@ const CarouselState = props => {
         onRatingSubmit,
         getRating,
         searchMovie,
-        addReview
+        addReview,
+        getMovieReviews
       }}>
       {props.children}
     </MoviesContext.Provider>

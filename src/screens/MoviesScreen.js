@@ -28,7 +28,7 @@ import UserContext from '../context/contexts/UserContext';
 const MoviesScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const { latestMovies, getMovie, onRatingSubmit, getRating, addReview } =
+  const { latestMovies, getMovie, onRatingSubmit, getRating, addReview, getMovieReviews } =
     useContext(MoviesContext);
   const [descVisible, setDescVisible] = React.useState(false);
   const [trailerVisible, setTrailerVisible] = React.useState(false);
@@ -48,11 +48,14 @@ const MoviesScreen = () => {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
   ]);
 
+  const [reviews, setReviews] = React.useState([]);
+
   const [rated, setRated] = React.useState(false);
   useEffect(() => {
     getMovieCast(route.params.movieID);
     getMovie(route.params.movieID, setWatchMovie);
     getRating(route.params.movieID, setRated, setDefaultRating);
+    getMovieReviews(route.params.movieID, setReviews);
   }, []);
   let movieGenre;
   if (Object.keys(watchMovie).length !== 0) {
@@ -391,29 +394,31 @@ const MoviesScreen = () => {
                           borderRadius: 5,
                           backgroundColor: '#24baef',
                         }}
-                        onPress={() => addReview(comment, watchMovie._id, setComment, showReviewModal)}>
+                        onPress={() => addReview(comment, watchMovie._id, setComment, setReviewVisible)}>
                         <Text style={{ fontWeight: '500', fontSize: 15 }}>
                           Submit
                         </Text>
                       </TouchableOpacity>
                     </View>
-                    <View style={{ marginTop: 20 }}>
-                      <Text
-                        style={{
-                          color: 'black',
-                          fontWeight: '500',
-                          fontSize: 20,
-                        }}>
-                        Top Reviews
-                      </Text>
-                      <View style={{ marginTop: 10 }}>
-                        <CommentCard />
-                        <CommentCard />
-                        <CommentCard />
-                        <CommentCard />
-                        <CommentCard />
-                      </View>
+                    {reviews.length === 0 ? <View style={{ width: "100%", marginTop: 50 }}>
+                      <Text style={{ alignSelf: "center", fontSize: 18, fontWeight: "500" }}>No reviews available</Text>
                     </View>
+                      :
+                      <View style={{ marginTop: 20 }}>
+                        <Text
+                          style={{
+                            color: 'black',
+                            fontWeight: '500',
+                            fontSize: 20,
+                          }}>
+                          Top Reviews
+                        </Text>
+                        <View style={{ marginTop: 10 }}>
+                          {reviews.map((ele) => (
+                            <CommentCard name={ele.name} review={ele.review} rating={defaultRating} />
+                          ))}
+                        </View>
+                      </View>}
                   </View>
                 </View>
               </View>
