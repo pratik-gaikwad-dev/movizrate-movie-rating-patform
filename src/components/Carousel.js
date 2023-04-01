@@ -1,5 +1,5 @@
-import {Dimensions, FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import CarouselCard from './CarouselCard';
 import CarouselContext from '../context/contexts/CarouselContext';
 
@@ -8,7 +8,7 @@ const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [autoScroll, setAutoScroll] = useState(true);
 
-  const {items, setCarouselItems} = useContext(CarouselContext);
+  const { items, setCarouselItems } = useContext(CarouselContext);
 
   const flatListRef = useRef(null);
   const handleMomentumScrollEnd = () => {
@@ -61,7 +61,7 @@ const Carousel = () => {
       pagingEnabled
       renderItem={element => {
         return (
-          <CarouselCard image={element.item.image} title={element.item.name} genre={element.item.genre} id={element.item._id}/>
+          <CarouselCard image={element.item.image} title={element.item.name} genre={element.item.genre} id={element.item._id} />
         );
       }}
     />

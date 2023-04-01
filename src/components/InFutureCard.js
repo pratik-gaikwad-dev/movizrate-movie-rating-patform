@@ -1,11 +1,11 @@
-import {Text, View} from 'react-native';
+import { Text, View } from 'react-native';
 import React from 'react';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const InFutureCard = (props) => {
   return (
-    <View style={{padding: 10}}>
+    <View style={{ padding: 10 }}>
       <View
         style={{
           backgroundColor: 'white',
@@ -14,9 +14,9 @@ const InFutureCard = (props) => {
           shadowOpacity: 0.4,
           elevation: 4,
           borderRadius: 10,
-          shadowOffset: {height: 2, width: 2},
+          shadowOffset: { height: 2, width: 2 },
         }}>
-        <View style={{height: 210}}>
+        <View style={{ height: 210 }}>
           <YoutubePlayer
             height={'100%'}
             width={'100%'}
@@ -39,7 +39,7 @@ const InFutureCard = (props) => {
             }}>
             {props.name}
           </Text>
-          <Text
+          {/* <Text
             style={{
               fontWeight: 'bold',
               fontSize: 25,
@@ -51,15 +51,15 @@ const InFutureCard = (props) => {
               size={25}
               color="black"
             />
-          </Text>
+          </Text> */}
         </View>
         <View>
-          <Text style={{fontSize: 15, color: 'gray', paddingTop: 5}}>
+          <Text style={{ fontSize: 15, color: 'gray', paddingTop: 5 }}>
             {props.type}
           </Text>
         </View>
         <View>
-          <Text style={{fontSize: 15, color: 'black', paddingTop: 5}}>
+          <Text style={{ fontSize: 15, color: 'black', paddingTop: 5 }}>
             {props.desc}
           </Text>
         </View>

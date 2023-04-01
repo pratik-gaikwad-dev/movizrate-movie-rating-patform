@@ -6,9 +6,9 @@ import {
   Button,
 } from 'react-native';
 import React from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Card, Text} from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Card, Text } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
 const CarouselCard = props => {
   const windowHeight = Dimensions.get('window').height;
@@ -20,10 +20,10 @@ const CarouselCard = props => {
   return (
     <Card
       elevation={0}
-      style={{borderRadius: 0, width: windowWidth, padding: 10}}>
+      style={{ borderRadius: 0, width: windowWidth, padding: 10 }}>
       <ImageBackground
-        style={{borderBottomEndRadius: 0, height: windowHeight / 3.5}}
-        source={{uri: props.image}}>
+        style={{ borderBottomEndRadius: 0, height: windowHeight / 3.5 }}
+        source={{ uri: props.image }}>
         <View
           style={{
             height: '100%',
@@ -35,21 +35,21 @@ const CarouselCard = props => {
               padding: 20,
             }}>
             <Text
-              style={{color: 'white', paddingBottom: 10, fontWeight: 'bold'}}
+              style={{ color: 'white', paddingBottom: 10, fontWeight: 'bold' }}
               variant="titleLarge">
               {props.title}
             </Text>
             <Text
-              style={{color: 'white', paddingBottom: 10}}
+              style={{ color: 'white', paddingBottom: 10 }}
               variant="bodyMedium">
               {props.genre}
             </Text>
-            <View style={{backgroundColor: bgColor}}>
+            <View style={{ backgroundColor: bgColor }}>
               <Button
                 title="See Full Details"
                 color={btnColor}
                 onPress={() =>
-                  navigation.navigate('MovieScreen', {movieID: props.id})
+                  navigation.navigate('MovieScreen', { movieID: props.id })
                 }
               />
             </View>

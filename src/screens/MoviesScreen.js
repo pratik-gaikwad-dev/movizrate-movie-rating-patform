@@ -9,6 +9,7 @@ import {
   ScrollView,
   Modal,
   TextInput,
+  Alert,
 } from 'react-native';
 import React, { useContext, useEffect } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -76,16 +77,13 @@ const MoviesScreen = () => {
 
   const showRateNowModal = () => {
     if (!loggedin) {
-      return navigation.navigate('You');
+      return Alert.alert("Please login first")
     }
     setRateNowVisible(true);
   };
   const hideRateNowModal = () => setRateNowVisible(false);
 
   const showReviewModal = () => {
-    if (!loggedin) {
-      return navigation.navigate('You');
-    }
     setReviewVisible(true)
   };
   const hideReviewModal = () => setReviewVisible(false);
