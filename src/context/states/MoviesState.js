@@ -2,10 +2,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
 import { Alert } from 'react-native';
 import MoviesContext from '../contexts/MoviesContext';
+// import { CommonActions, useNavigation } from '@react-navigation/native';
 
 const CarouselState = props => {
   const [latestMovies, setLatestMovies] = useState([]);
   const [latestSeries, setLatestSeries] = useState([]);
+  const [refreshPlaylist, setRefreshPlaylist] = useState(0);
+  // const navigation = useNavigation();
   const getLatestMovies = async () => {
     try {
       var requestOptions = {
@@ -156,7 +159,7 @@ const CarouselState = props => {
         .then(response => response.json())
         .then(result => {
           if (result.movies) {
-            setSearchedItems(result.movies)
+            setSearchedItems(result.movies);
           }
         })
         .catch(error => console.log('error', error));
@@ -170,30 +173,33 @@ const CarouselState = props => {
       const token = await AsyncStorage.getItem('@token');
 
       if (!token) {
-        return Alert.alert("Please login first");
+        return Alert.alert('Please login first');
       }
 
       const myHeaders = new Headers();
-      myHeaders.append("authtoken", token);
-      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append('authtoken', token);
+      myHeaders.append('Content-Type', 'application/json');
 
       const raw = JSON.stringify({
-        "review": review
+        review: review,
       });
 
       const requestOptions = {
         method: 'POST',
         headers: myHeaders,
         body: raw,
-        redirect: 'follow'
+        redirect: 'follow',
       };
 
-      fetch(`http://127.0.0.1:3000/api/v1/movies/addreview/${movieId}`, requestOptions)
+      fetch(
+        `http://127.0.0.1:3000/api/v1/movies/addreview/${movieId}`,
+        requestOptions,
+      )
         .then(response => response.json())
         .then(result => {
           if (result === true) {
-            Alert.alert("Review added.");
-            setComment("");
+            Alert.alert('Review added.');
+            setComment('');
             setReviewVisible(false);
           }
 
@@ -205,23 +211,66 @@ const CarouselState = props => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const getMovieReviews = async (movieId, setReviews) => {
     try {
       const requestOptions = {
         method: 'POST',
-        redirect: 'follow'
+        redirect: 'follow',
       };
 
-      fetch(`http://127.0.0.1:3000/api/v1/movies/getmoviereviews/${movieId}`, requestOptions)
+      fetch(
+        `http://127.0.0.1:3000/api/v1/movies/getmoviereviews/${movieId}`,
+        requestOptions,
+      )
         .then(response => response.json())
         .then(result => setReviews(result.reviews))
         .catch(error => console.log('error', error));
     } catch (error) {
       console.log(error);
     }
-  }
+  };
+
+  const addInPlaylist = async (movieId, setVisible) => {
+    try {
+      const token = await AsyncStorage.getItem('@token');
+
+      if (!token) {
+        return Alert.alert('Please login first');
+      }
+
+      var myHeaders = new Headers();
+      myHeaders.append('authtoken', token);
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        redirect: 'follow',
+      };
+
+      fetch(
+        `http://127.0.0.1:3000/api/v1/movies/addinplaylist/${movieId}`,
+        requestOptions,
+      )
+        .then(response => response.json())
+        .then(result => {
+          console.log(result);
+          if (result === true) {
+            setVisible(false);
+            setRefreshPlaylist(refreshPlaylist + 1);
+            return Alert.alert("Movie added in Watchlist");
+          }
+          if (result.error) {
+            setVisible(false)
+            return Alert.alert(result.error);
+          }
+        })
+        .catch(error => console.log('error', error));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <MoviesContext.Provider
       value={{
@@ -234,7 +283,9 @@ const CarouselState = props => {
         getRating,
         searchMovie,
         addReview,
-        getMovieReviews
+        getMovieReviews,
+        addInPlaylist,
+        refreshPlaylist
       }}>
       {props.children}
     </MoviesContext.Provider>

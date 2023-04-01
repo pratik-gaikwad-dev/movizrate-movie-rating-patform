@@ -1,14 +1,23 @@
-import {StyleSheet} from 'react-native';
-import React, {useContext} from 'react';
-import {Appbar} from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
+import { StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import { Appbar, Button, Menu } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 import WatchMovieContext from '../context/contexts/WatchMovieContext';
+import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MoviesContext from '../context/contexts/MoviesContext';
 
 const AppBar = () => {
   const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
   const navigation = useNavigation();
+  const [visible, setVisible] = React.useState(false);
 
-  const {watchMovie} = useContext(WatchMovieContext);
+  const openMenu = () => setVisible(true);
+
+  const closeMenu = () => setVisible(false);
+
+  const { watchMovie } = useContext(WatchMovieContext);
+
+  const { addInPlaylist } = useContext(MoviesContext);
 
   return (
     <Appbar.Header>
@@ -24,7 +33,14 @@ const AppBar = () => {
           navigation.navigate('Search');
         }}
       />
-      <Appbar.Action icon={MORE_ICON} onPress={() => {}} />
+      <Menu
+        visible={visible}
+        onDismiss={closeMenu}
+        anchor={<Icons name={MORE_ICON} size={25} onPress={openMenu} />}
+      >
+        <Menu.Item onPress={() => addInPlaylist(watchMovie._id, setVisible)} title="Add to Playlist" />
+        <Menu.Item onPress={() => { }} title="Watch Now" />
+      </Menu>
     </Appbar.Header>
   );
 };

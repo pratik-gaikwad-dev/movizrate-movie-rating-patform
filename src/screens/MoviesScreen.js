@@ -24,6 +24,7 @@ import Rating from '../components/Rating';
 import AgeCard from '../components/AgeCard';
 import CommentCard from '../components/CommentCard';
 import UserContext from '../context/contexts/UserContext';
+import { FlatList } from 'react-native-gesture-handler';
 
 const MoviesScreen = () => {
   const route = useRoute();
@@ -354,75 +355,80 @@ const MoviesScreen = () => {
             justifyContent: 'center',
           }}>
           <SafeAreaView>
-            <ScrollView>
-              <View style={{ padding: 20 }}>
-                <Text style={{ alignSelf: 'flex-end' }}>
-                  <TouchableOpacity onPress={() => setReviewVisible(false)}>
-                    <Icons name="close" color={'gray'} size={25} />
-                  </TouchableOpacity>
-                </Text>
-                <View style={{ marginTop: 10 }}>
-                  <View>
-                    <Text style={{ fontSize: 20, marginTop: 10 }}>Add a Review</Text>
-                    <View
+            <View style={{ padding: 20 }}>
+              <Text style={{ alignSelf: 'flex-end' }}>
+                <TouchableOpacity onPress={() => setReviewVisible(false)}>
+                  <Icons name="close" color={'gray'} size={25} />
+                </TouchableOpacity>
+              </Text>
+              <View style={{ marginTop: 10 }}>
+                <View>
+                  <Text style={{ fontSize: 20, marginTop: 10 }}>Add a Review</Text>
+                  <View
+                    style={{
+                      borderWidth: 1,
+                      borderColor: 'black',
+                      height: 100,
+                      borderRadius: 5,
+                      backgroundColor: '#edf0f0',
+                      marginTop: 10,
+                    }}>
+                    <TextInput
+                      editable
+                      multiline
+                      numberOfLines={4}
+                      maxLength={100}
+                      onChangeText={text => setComment(text)}
+                      value={comment}
+                      style={{ padding: 10 }}
+                      placeholder="Add Review"
+                    />
+                  </View>
+                  <View style={{ marginTop: 10 }}>
+                    <TouchableOpacity
                       style={{
                         borderWidth: 1,
-                        borderColor: 'black',
-                        height: 100,
+                        borderColor: '#24baef',
+                        alignItems: 'center',
+                        padding: 10,
                         borderRadius: 5,
-                        backgroundColor: '#edf0f0',
-                        marginTop: 10,
-                      }}>
-                      <TextInput
-                        editable
-                        multiline
-                        numberOfLines={4}
-                        maxLength={100}
-                        onChangeText={text => setComment(text)}
-                        value={comment}
-                        style={{ padding: 10 }}
-                        placeholder="Add Review"
-                      />
-                    </View>
-                    <View style={{ marginTop: 10 }}>
-                      <TouchableOpacity
-                        style={{
-                          borderWidth: 1,
-                          borderColor: '#24baef',
-                          alignItems: 'center',
-                          padding: 10,
-                          borderRadius: 5,
-                          backgroundColor: '#24baef',
-                        }}
-                        onPress={() => addReview(comment, watchMovie._id, setComment, setReviewVisible)}>
-                        <Text style={{ fontWeight: '500', fontSize: 15 }}>
-                          Submit
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                    {reviews.length === 0 ? <View style={{ width: "100%", marginTop: 50 }}>
-                      <Text style={{ alignSelf: "center", fontSize: 18, fontWeight: "500" }}>No reviews available</Text>
-                    </View>
-                      :
-                      <View style={{ marginTop: 20 }}>
-                        <Text
-                          style={{
-                            color: 'black',
-                            fontWeight: '500',
-                            fontSize: 20,
-                          }}>
-                          Top Reviews
-                        </Text>
-                        <View style={{ marginTop: 10 }}>
-                          {reviews.map((ele) => (
-                            <CommentCard name={ele.name} review={ele.review} rating={defaultRating} />
-                          ))}
-                        </View>
-                      </View>}
+                        backgroundColor: '#24baef',
+                      }}
+                      onPress={() => addReview(comment, watchMovie._id, setComment, setReviewVisible)}>
+                      <Text style={{ fontWeight: '500', fontSize: 15 }}>
+                        Submit
+                      </Text>
+                    </TouchableOpacity>
                   </View>
+                  {reviews.length === 0 ? <View style={{ width: "100%", marginTop: 50 }}>
+                    <Text style={{ alignSelf: "center", fontSize: 18, fontWeight: "500" }}>No reviews available</Text>
+                  </View>
+                    :
+                    <View style={{ marginTop: 20 }}>
+                      <Text
+                        style={{
+                          color: 'black',
+                          fontWeight: '500',
+                          fontSize: 20,
+                        }}>
+                        Top Reviews
+                      </Text>
+                      <View style={{ marginTop: 10 }}>
+                        {/* <ScrollView>
+                            {reviews.map((ele) => (
+                              <CommentCard name={ele.name} review={ele.review} rating={defaultRating} />
+                            ))}
+                          </ScrollView> */}
+                        <FlatList
+                          data={reviews}
+                          renderItem={({ item }) => <CommentCard name={item.name} review={item.review} rating={defaultRating} />}
+                          keyExtractor={item => item._id}
+                        />
+                      </View>
+                    </View>}
                 </View>
               </View>
-            </ScrollView>
+            </View>
           </SafeAreaView>
         </Modal>
 

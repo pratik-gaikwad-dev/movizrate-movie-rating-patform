@@ -10,18 +10,31 @@ import PlaylistCard from '../components/PlaylistCard';
 import PlaylistContext from '../context/contexts/PlaylistContext';
 import UserContext from '../context/contexts/UserContext';
 import { Text } from 'react-native-paper';
+import MoviesContext from '../context/contexts/MoviesContext';
 
 const PlaylistScreen = () => {
   const { playlist, setPlaylistItems } = useContext(PlaylistContext);
+
+  const { refreshPlaylist } = useContext(MoviesContext);
   const windowHeight = Dimensions.get('window').height;
   useEffect(() => {
     setPlaylistItems();
-  }, []);
+  }, [refreshPlaylist]);
 
   const { loggedin } = useContext(UserContext);
   return (
     <SafeAreaView>
-      {!loggedin ? <View style={{ flex: 0, justifyContent: "center", alignSelf: "center", height: "100%" }}><Text>You have to login to add movies in playlist</Text></View> :
+      {playlist.length === 0 ? (
+        <View
+          style={{
+            flex: 0,
+            justifyContent: 'center',
+            alignSelf: 'center',
+            height: '100%',
+          }}>
+          <Text>No items added in playlist</Text>
+        </View>
+      ) : (
         <View style={{ height: windowHeight }}>
           <FlatList
             data={playlist}
@@ -40,7 +53,8 @@ const PlaylistScreen = () => {
               );
             }}
           />
-        </View>}
+        </View>
+      )}
     </SafeAreaView>
   );
 };
