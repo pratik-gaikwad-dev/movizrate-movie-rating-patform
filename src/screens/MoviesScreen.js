@@ -30,8 +30,20 @@ import { FlatList } from 'react-native-gesture-handler';
 const MoviesScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const { latestMovies, getMovie, onRatingSubmit, getRating, addReview, getMovieReviews } =
-    useContext(MoviesContext);
+  const {
+    latestMovies,
+    getMovie,
+    onRatingSubmit,
+    getRating,
+    addReview,
+    getMovieReviews,
+    getAgeWiseRatings15,
+    rating15,
+    getAgeWiseRatings25,
+    rating25,
+    getAgeWiseRatings20,
+    rating20,
+  } = useContext(MoviesContext);
   const [descVisible, setDescVisible] = React.useState(false);
   const [trailerVisible, setTrailerVisible] = React.useState(false);
   const [watchVisible, setWatchVisible] = React.useState(false);
@@ -58,6 +70,9 @@ const MoviesScreen = () => {
     getMovie(route.params.movieID, setWatchMovie);
     getRating(route.params.movieID, setRated, setDefaultRating);
     getMovieReviews(route.params.movieID, setReviews);
+    getAgeWiseRatings15(route.params.movieID);
+    getAgeWiseRatings20(route.params.movieID);
+    getAgeWiseRatings25(route.params.movieID);
   }, []);
   let movieGenre;
   if (Object.keys(watchMovie).length !== 0) {
@@ -77,14 +92,14 @@ const MoviesScreen = () => {
 
   const showRateNowModal = () => {
     if (!loggedin) {
-      return Alert.alert("Please login first")
+      return Alert.alert('Please login first');
     }
     setRateNowVisible(true);
   };
   const hideRateNowModal = () => setRateNowVisible(false);
 
   const showReviewModal = () => {
-    setReviewVisible(true)
+    setReviewVisible(true);
   };
   const hideReviewModal = () => setReviewVisible(false);
 
@@ -214,7 +229,12 @@ const MoviesScreen = () => {
                               </Text>
                               <Text style={{ fontSize: 15, color: 'black' }}>
                                 {' '}
-                                {watchMovie.rating ? (watchMovie.rating / watchMovie.totalratings).toFixed(1) : 0}
+                                {watchMovie.rating
+                                  ? (
+                                    watchMovie.rating /
+                                    watchMovie.totalratings
+                                  ).toFixed(1)
+                                  : 0}
                               </Text>
                             </View>
                           </TouchableOpacity>
@@ -241,7 +261,12 @@ const MoviesScreen = () => {
                               </>
                             ) : (
                               <>
-                                <TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }} onPress={showRateNowModal}>
+                                <TouchableOpacity
+                                  style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                  }}
+                                  onPress={showRateNowModal}>
                                   <Text>
                                     <Icons
                                       name="star-o"
@@ -361,7 +386,9 @@ const MoviesScreen = () => {
               </Text>
               <View style={{ marginTop: 10 }}>
                 <View>
-                  <Text style={{ fontSize: 20, marginTop: 10 }}>Add a Review</Text>
+                  <Text style={{ fontSize: 20, marginTop: 10 }}>
+                    Add a Review
+                  </Text>
                   <View
                     style={{
                       borderWidth: 1,
@@ -392,16 +419,31 @@ const MoviesScreen = () => {
                         borderRadius: 5,
                         backgroundColor: '#24baef',
                       }}
-                      onPress={() => addReview(comment, watchMovie._id, setComment, setReviewVisible)}>
+                      onPress={() =>
+                        addReview(
+                          comment,
+                          watchMovie._id,
+                          setComment,
+                          setReviewVisible,
+                        )
+                      }>
                       <Text style={{ fontWeight: '500', fontSize: 15 }}>
                         Submit
                       </Text>
                     </TouchableOpacity>
                   </View>
-                  {reviews.length === 0 ? <View style={{ width: "100%", marginTop: 50 }}>
-                    <Text style={{ alignSelf: "center", fontSize: 18, fontWeight: "500" }}>No reviews available</Text>
-                  </View>
-                    :
+                  {reviews.length === 0 ? (
+                    <View style={{ width: '100%', marginTop: 50 }}>
+                      <Text
+                        style={{
+                          alignSelf: 'center',
+                          fontSize: 18,
+                          fontWeight: '500',
+                        }}>
+                        No reviews available
+                      </Text>
+                    </View>
+                  ) : (
                     <View style={{ marginTop: 20 }}>
                       <Text
                         style={{
@@ -419,11 +461,18 @@ const MoviesScreen = () => {
                           </ScrollView> */}
                         <FlatList
                           data={reviews}
-                          renderItem={({ item }) => <CommentCard name={item.name} review={item.review} rating={defaultRating} />}
+                          renderItem={({ item }) => (
+                            <CommentCard
+                              name={item.name}
+                              review={item.review}
+                              rating={defaultRating}
+                            />
+                          )}
                           keyExtractor={item => item._id}
                         />
                       </View>
-                    </View>}
+                    </View>
+                  )}
                 </View>
               </View>
             </View>
@@ -450,11 +499,9 @@ const MoviesScreen = () => {
                 </TouchableOpacity>
               </Text>
               <View>
-                <AgeCard title="Age 15 to 20" />
-                <AgeCard title="Age 21 to 25" />
-                <AgeCard title="Age 25 to 30" />
-                <AgeCard title="Age 30 to 35" />
-                <AgeCard title="Age 35 to 40" />
+                <AgeCard key={1} title="Age 15 to 20" rating={rating15} />
+                <AgeCard key={2} title="Age 21 to 25" rating={rating20} />
+                <AgeCard key={3} title="Age 25 to 30" rating={rating25} />
               </View>
             </View>
           </SafeAreaView>
@@ -566,7 +613,7 @@ const MoviesScreen = () => {
                           defaultRating,
                           setRateNowVisible,
                           setRated,
-                          watchMovie
+                          watchMovie,
                         )
                       }>
                       <Text

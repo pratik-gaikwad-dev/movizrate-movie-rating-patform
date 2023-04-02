@@ -1,11 +1,12 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const AgeCard = props => {
+  console.log(props.rating);
   return (
     <TouchableOpacity>
-      <View style={{marginTop: 10}}>
+      <View style={{ marginTop: 10 }}>
         <View
           style={{
             flex: 0,
@@ -17,10 +18,10 @@ const AgeCard = props => {
             backgroundColor: '#edf0f0',
           }}>
           <View>
-            <Text style={{color: 'black', fontSize: 15}}>{props.title}</Text>
+            <Text style={{ color: 'black', fontSize: 20 }}>{props.title}</Text>
           </View>
           <View>
-            <Icon name="chevron-right" size={20} color="gray" />
+            <Text style={{ fontWeight: "bold", fontSize: 15 }}><Icon name="star" size={25} color={'#a8870f'} /> {'  '} {props.rating ? props.rating : 0}</Text>
           </View>
         </View>
       </View>

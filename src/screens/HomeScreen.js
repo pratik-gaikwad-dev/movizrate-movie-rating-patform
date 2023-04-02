@@ -8,7 +8,16 @@ import CastAndDirectorContext from '../context/contexts/CastAndDirectorContext';
 import UserContext from '../context/contexts/UserContext';
 
 const HomeScreen = () => {
-  const { getLatestMovies, latestMovies, getLatestSeries, latestSeries } = useContext(MoviesContext);
+  const {
+    getLatestMovies,
+    latestMovies,
+    getLatestSeries,
+    latestSeries,
+    getMostRatedMovies,
+    mostRatedMovies,
+    getMostRatedSeries,
+    mostRatedSeries,
+  } = useContext(MoviesContext);
   const { setOttMovies } = useContext(OttContext);
   const { isLoggedin, getUser } = useContext(UserContext);
   useEffect(() => {
@@ -17,6 +26,8 @@ const HomeScreen = () => {
     getUser();
     getLatestMovies();
     getLatestSeries();
+    getMostRatedMovies();
+    getMostRatedSeries();
   }, []);
 
   return (
@@ -39,7 +50,12 @@ const HomeScreen = () => {
             padding: 10,
             marginTop: 20,
           }}>
-          <MovieCarousel key={1} title="Latest Movies" type="latestmovie" data={latestMovies} />
+          <MovieCarousel
+            key={1}
+            title="Latest Movies"
+            type="latestmovie"
+            data={latestMovies}
+          />
         </View>
         <View
           style={{
@@ -48,7 +64,12 @@ const HomeScreen = () => {
             padding: 10,
             marginTop: 20,
           }}>
-          <MovieCarousel key={2} title="Latest TV-Series" type="latestseries" data={latestSeries} />
+          <MovieCarousel
+            key={2}
+            title="Latest TV-Series"
+            type="latestseries"
+            data={latestSeries}
+          />
         </View>
         <View
           style={{
@@ -57,7 +78,12 @@ const HomeScreen = () => {
             padding: 10,
             marginTop: 20,
           }}>
-          <MovieCarousel key={3} title="Most Rated Movies" type="latestmovie" data={latestMovies} />
+          <MovieCarousel
+            key={3}
+            title="Most Rated Movies"
+            type="latestmovie"
+            data={mostRatedMovies}
+          />
         </View>
         <View
           style={{
@@ -66,7 +92,12 @@ const HomeScreen = () => {
             padding: 10,
             marginTop: 20,
           }}>
-          <MovieCarousel key={4} title="Most Rated TV-Series" type="latestseries" data={latestSeries} />
+          <MovieCarousel
+            key={4}
+            title="Most Rated TV-Series"
+            type="latestseries"
+            data={mostRatedSeries}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

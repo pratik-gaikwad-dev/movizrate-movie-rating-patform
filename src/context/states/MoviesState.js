@@ -2,12 +2,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
 import { Alert } from 'react-native';
 import MoviesContext from '../contexts/MoviesContext';
-// import { CommonActions, useNavigation } from '@react-navigation/native';
 
 const CarouselState = props => {
   const [latestMovies, setLatestMovies] = useState([]);
   const [latestSeries, setLatestSeries] = useState([]);
-  // const navigation = useNavigation();
+
+  const [mostRatedMovies, setMostRatedMovies] = useState([]);
+  const [mostRatedSeries, setMostRatedSeries] = useState([]);
+
+  const [rating15, setRating15] = useState(0);
+  const [rating20, setRating20] = useState(0);
+  const [rating25, setRating25] = useState(0);
+
   const getLatestMovies = async () => {
     try {
       var requestOptions = {
@@ -230,6 +236,113 @@ const CarouselState = props => {
       console.log(error);
     }
   };
+
+  const getMostRatedMovies = () => {
+    try {
+      const requestOptions = {
+        method: 'POST',
+        redirect: 'follow'
+      };
+
+      fetch("http://127.0.0.1:3000/api/v1/movies/getmostratedmovies", requestOptions)
+        .then(response => response.json())
+        .then(result => setMostRatedMovies(result))
+        .catch(error => console.log('error', error));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getMostRatedSeries = () => {
+    try {
+      const requestOptions = {
+        method: 'POST',
+        redirect: 'follow'
+      };
+
+      fetch("http://127.0.0.1:3000/api/v1/movies/getmostratedtvseries", requestOptions)
+        .then(response => response.json())
+        .then(result => setMostRatedSeries(result))
+        .catch(error => console.log('error', error));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getAgeWiseRatings15 = (movieID) => {
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      const raw = JSON.stringify({
+        "age": 15
+      });
+
+      const requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch(`http://127.0.0.1:3000/api/v1/movies/getagewiserating/${movieID}`, requestOptions)
+        .then(response => response.json())
+        .then(result => setRating15(result.rating))
+        .catch(error => console.log('error', error));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getAgeWiseRatings20 = (movieID) => {
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      const raw = JSON.stringify({
+        "age": 20
+      });
+
+      const requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch(`http://127.0.0.1:3000/api/v1/movies/getagewiserating/${movieID}`, requestOptions)
+        .then(response => response.json())
+        .then(result => setRating20(result.rating))
+        .catch(error => console.log('error', error));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getAgeWiseRatings25 = (movieID) => {
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      const raw = JSON.stringify({
+        "age": 25
+      });
+
+      const requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch(`http://127.0.0.1:3000/api/v1/movies/getagewiserating/${movieID}`, requestOptions)
+        .then(response => response.json())
+        .then(result => setRating25(result.rating))
+        .catch(error => console.log('error', error));
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <MoviesContext.Provider
       value={{
@@ -242,7 +355,17 @@ const CarouselState = props => {
         getRating,
         searchMovie,
         addReview,
-        getMovieReviews
+        getMovieReviews,
+        getMostRatedMovies,
+        mostRatedMovies,
+        getMostRatedSeries,
+        mostRatedSeries,
+        getAgeWiseRatings15,
+        rating15,
+        getAgeWiseRatings25,
+        rating25,
+        getAgeWiseRatings20,
+        rating20
       }}>
       {props.children}
     </MoviesContext.Provider>
