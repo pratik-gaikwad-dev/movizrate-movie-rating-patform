@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native';
 import React, { useContext } from 'react';
-import { Appbar, Button, Menu } from 'react-native-paper';
+import { Appbar, Menu } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import WatchMovieContext from '../context/contexts/WatchMovieContext';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
+import PlaylistContext from '../context/contexts/PlaylistContext';
 import MoviesContext from '../context/contexts/MoviesContext';
 
 const AppBar = () => {
@@ -17,7 +18,7 @@ const AppBar = () => {
 
   const { watchMovie } = useContext(WatchMovieContext);
 
-  const { addInPlaylist } = useContext(MoviesContext);
+  const { addInPlaylist } = useContext(PlaylistContext);
 
   return (
     <Appbar.Header>

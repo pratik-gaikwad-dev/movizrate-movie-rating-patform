@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import PlaylistContext from '../contexts/PlaylistContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
 
 const PlaylistState = props => {
   const [playlist, setPlaylist] = useState([]);
+  const [refreshPlaylist, setRefreshPlaylist] = useState(0);
   const setPlaylistItems = async () => {
     try {
 
@@ -31,17 +33,83 @@ const PlaylistState = props => {
     }
   };
 
-  const deleteFromPlaylist = _id => {
-    const itemIndex = playlist.findIndex(ele => ele._id === _id);
-    console.log(itemIndex);
-    playlist.splice(itemIndex, 1);
-    const newPlaylist = playlist.filter(item => item._id !== _id);
-    setPlaylist(newPlaylist);
+  const addInPlaylist = async (movieId, setVisible) => {
+    try {
+      const token = await AsyncStorage.getItem('@token');
+
+      if (!token) {
+        return Alert.alert('Please login first');
+      }
+
+      var myHeaders = new Headers();
+      myHeaders.append('authtoken', token);
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        redirect: 'follow',
+      };
+
+      fetch(
+        `http://127.0.0.1:3000/api/v1/movies/addinplaylist/${movieId}`,
+        requestOptions,
+      )
+        .then(response => response.json())
+        .then(result => {
+          if (result === true) {
+            setVisible(false);
+            setRefreshPlaylist(refreshPlaylist + 1);
+            return Alert.alert("Movie added in Watchlist");
+          }
+          if (result.error) {
+            setVisible(false)
+            return Alert.alert(result.error);
+          }
+        })
+        .catch(error => console.log('error', error));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteFromPlaylist = async (movieID, setVisible) => {
+    try {
+      const token = await AsyncStorage.getItem('@token');
+
+      if (!token) {
+        return Alert.alert("Please login first");
+      }
+      const myHeaders = new Headers();
+      myHeaders.append("authtoken", token);
+
+      const requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+
+      fetch(`http://127.0.0.1:3000/api/v1/movies/deletefromplaylist/${movieID}`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          if (result === true) {
+            setVisible(false)
+            setRefreshPlaylist(refreshPlaylist + 1);
+            return Alert.alert("Movie deleted successfully");
+          }
+
+          if (result.error) {
+            return Alert.alert(result.error)
+          }
+        })
+        .catch(error => console.log('error', error));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <PlaylistContext.Provider
-      value={{ playlist, setPlaylistItems, deleteFromPlaylist }}>
+      value={{ playlist, setPlaylistItems, deleteFromPlaylist, addInPlaylist, refreshPlaylist }}>
       {props.children}
     </PlaylistContext.Provider>
   );

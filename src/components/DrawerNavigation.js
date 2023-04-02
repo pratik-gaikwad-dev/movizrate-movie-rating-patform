@@ -21,7 +21,7 @@ const DrawerNavigation = () => {
     }
     if (loggedin) {
         return (
-            <Drawer.Navigator initialRouteName="Feed" drawerContent={props => {
+            <Drawer.Navigator initialRouteName="You" drawerContent={props => {
                 return (
                     <DrawerContentScrollView {...props}>
                         <DrawerItemList {...props} />

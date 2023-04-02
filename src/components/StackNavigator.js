@@ -8,6 +8,7 @@ import OTPScreen from '../screens/OTPScreen';
 import ForgetPasswordScreen from '../screens/ForgetPasswordScreen';
 import ChangeForgottenPassScreen from '../screens/ChangeForgottenPassScreen';
 import ForgetPassOTPScreen from '../screens/ForgetPassOTPScreen';
+import DrawerNavigation from './DrawerNavigation';
 
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +47,11 @@ const StackNavigator = () => {
         name="ForgetPassOTP"
         options={{ headerShown: false }}
         component={ForgetPassOTPScreen}
+      />
+      <Stack.Screen
+        name="Drawer"
+        options={{ headerShown: false }}
+        component={DrawerNavigation}
       />
     </Stack.Navigator>
   );

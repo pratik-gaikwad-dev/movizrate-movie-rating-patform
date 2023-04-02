@@ -6,9 +6,9 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Button, Menu, Divider, Provider } from 'react-native-paper';
+import { Menu } from 'react-native-paper';
 import PlaylistContext from '../context/contexts/PlaylistContext';
 import { useNavigation } from '@react-navigation/native';
 
@@ -74,10 +74,10 @@ const PlaylistCard = props => {
               <MaterialCommunityIcons name="star" size={20} color="#a8870f" />{' '}
               {props.rating}
               {'   '}
-              {props.usrRatings === false ? null : (
+              {/* {props.usrRatings === false ? null : (
                 <MaterialCommunityIcons name="star" size={20} color="#24baef" />
               )}{' '}
-              {props.usrRatings === false ? null : props.usrRatings}
+              {props.usrRatings === false ? null : props.usrRatings} */}
             </Text>
             <TouchableOpacity>
               <Text style={{ fontSize: 15, color: 'blue' }}>
@@ -100,10 +100,10 @@ const PlaylistCard = props => {
                   />
                 </TouchableOpacity>
               }>
-              <Menu.Item onPress={() => { }} title="Rate This" />
+              <Menu.Item onPress={() => { }} title="Watch Now" />
               <Menu.Item
                 onPress={() => {
-                  deleteFromPlaylist(props.id);
+                  deleteFromPlaylist(props.id, setVisible);
                 }}
                 title="Delete"
               />

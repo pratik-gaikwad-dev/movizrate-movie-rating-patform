@@ -7,7 +7,6 @@ import MoviesContext from '../contexts/MoviesContext';
 const CarouselState = props => {
   const [latestMovies, setLatestMovies] = useState([]);
   const [latestSeries, setLatestSeries] = useState([]);
-  const [refreshPlaylist, setRefreshPlaylist] = useState(0);
   // const navigation = useNavigation();
   const getLatestMovies = async () => {
     try {
@@ -231,46 +230,6 @@ const CarouselState = props => {
       console.log(error);
     }
   };
-
-  const addInPlaylist = async (movieId, setVisible) => {
-    try {
-      const token = await AsyncStorage.getItem('@token');
-
-      if (!token) {
-        return Alert.alert('Please login first');
-      }
-
-      var myHeaders = new Headers();
-      myHeaders.append('authtoken', token);
-
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        redirect: 'follow',
-      };
-
-      fetch(
-        `http://127.0.0.1:3000/api/v1/movies/addinplaylist/${movieId}`,
-        requestOptions,
-      )
-        .then(response => response.json())
-        .then(result => {
-          console.log(result);
-          if (result === true) {
-            setVisible(false);
-            setRefreshPlaylist(refreshPlaylist + 1);
-            return Alert.alert("Movie added in Watchlist");
-          }
-          if (result.error) {
-            setVisible(false)
-            return Alert.alert(result.error);
-          }
-        })
-        .catch(error => console.log('error', error));
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <MoviesContext.Provider
       value={{
@@ -283,9 +242,7 @@ const CarouselState = props => {
         getRating,
         searchMovie,
         addReview,
-        getMovieReviews,
-        addInPlaylist,
-        refreshPlaylist
+        getMovieReviews
       }}>
       {props.children}
     </MoviesContext.Provider>

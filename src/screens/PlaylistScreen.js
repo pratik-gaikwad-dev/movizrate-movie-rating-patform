@@ -10,12 +10,10 @@ import PlaylistCard from '../components/PlaylistCard';
 import PlaylistContext from '../context/contexts/PlaylistContext';
 import UserContext from '../context/contexts/UserContext';
 import { Text } from 'react-native-paper';
-import MoviesContext from '../context/contexts/MoviesContext';
 
 const PlaylistScreen = () => {
-  const { playlist, setPlaylistItems } = useContext(PlaylistContext);
+  const { playlist, setPlaylistItems, refreshPlaylist } = useContext(PlaylistContext);
 
-  const { refreshPlaylist } = useContext(MoviesContext);
   const windowHeight = Dimensions.get('window').height;
   useEffect(() => {
     setPlaylistItems();
@@ -46,7 +44,6 @@ const PlaylistScreen = () => {
                   name={element.item.name}
                   image={element.item.posterImage}
                   genre={element.item.genre}
-                  usrRatings={element.item.usrRatings}
                   id={element.item._id}
                   showMenu={true}
                 />
