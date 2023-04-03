@@ -1,10 +1,10 @@
-import {FlatList} from 'react-native';
-import React, {useContext, useEffect} from 'react';
+import { FlatList } from 'react-native';
+import React, { useContext, useEffect } from 'react';
 import OttContext from '../context/contexts/OttContext';
 import PlaylistCard from '../components/PlaylistCard';
 
 const DisneyScreen = () => {
-  const {setOttMovies, disney} = useContext(OttContext);
+  const { setOttMovies, disney } = useContext(OttContext);
   useEffect(() => {
     setOttMovies();
   }, []);

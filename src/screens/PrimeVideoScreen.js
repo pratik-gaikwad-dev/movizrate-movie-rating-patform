@@ -1,10 +1,10 @@
-import {View, Text, FlatList} from 'react-native';
-import React, {useContext, useEffect} from 'react';
+import { FlatList } from 'react-native';
+import React, { useContext, useEffect } from 'react';
 import OttContext from '../context/contexts/OttContext';
 import PlaylistCard from '../components/PlaylistCard';
 
 const PrimeVideoScreen = () => {
-  const {setOttMovies, primeVideo} = useContext(OttContext);
+  const { setOttMovies, primeVideo } = useContext(OttContext);
   useEffect(() => {
     setOttMovies();
   }, []);

@@ -17,7 +17,7 @@ const ForgetPassOTPScreen = () => {
 
     const onSubmit = () => {
         if (intOtp === route.params.otp) {
-            navigation.navigate("ChangeForgottenPass", {email: route.params.email})
+            navigation.navigate("ChangeForgottenPass", { email: route.params.email })
         } else {
             Alert.alert('OTP is not correct');
         }

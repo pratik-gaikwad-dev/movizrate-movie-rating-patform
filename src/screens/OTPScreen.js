@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import OTPInput from '../components/OTPInput';
-import { useNavigation, useRoute } from '@react-navigation/native';
-
+import { CommonActions, useNavigation, useRoute } from '@react-navigation/native';
+import config from '../config.json'
 const OTPScreen = () => {
   const [code, setCode] = useState('');
   const [pinReady, setPinReady] = useState(false);
@@ -36,47 +36,25 @@ const OTPScreen = () => {
           headers: myHeaders,
           redirect: 'follow',
         };
-        if (Platform.OS === 'android') {
-          return fetch(
-            'http://10.0.2.2:3000/api/v1/auth/verifyuser',
-            requestOptions,
-          )
-            .then(response => response.json())
-            .then(result => {
-              if (result.msg) {
-                Alert.alert(result.msg);
-                navigation.dispatch(
-                  CommonActions.reset({
-                    index: 0,
-                    routes: [
-                      { name: 'You' },
-                    ],
-                  })
-                );
-              }
-            })
-            .catch(error => console.log('error', error));
-        } else {
-          return fetch(
-            'http://localhost:3000/api/v1/auth/verifyuser',
-            requestOptions,
-          )
-            .then(response => response.json())
-            .then(result => {
-              if (result.msg) {
-                Alert.alert(result.msg);
-                navigation.dispatch(
-                  CommonActions.reset({
-                    index: 0,
-                    routes: [
-                      { name: 'You' },
-                    ],
-                  })
-                );
-              }
-            })
-            .catch(error => console.log('error', error));
-        }
+        return fetch(
+          `${config.server.host}/api/v1/auth/verifyuser`,
+          requestOptions,
+        )
+          .then(response => response.json())
+          .then(result => {
+            if (result.msg) {
+              Alert.alert(result.msg);
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [
+                    { name: 'You' },
+                  ],
+                })
+              );
+            }
+          })
+          .catch(error => console.log('error', error));
       } else {
         Alert.alert('OTP Incorrect');
       }

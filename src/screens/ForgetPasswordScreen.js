@@ -1,6 +1,7 @@
 import { SafeAreaView, StyleSheet, TextInput, View, Button, Alert, Platform } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
+import config from '../config.json'
 
 const ForgetPasswordScreen = () => {
 
@@ -28,33 +29,17 @@ const ForgetPasswordScreen = () => {
             body: raw,
             redirect: 'follow'
         };
-
-        if (Platform.OS === 'android') {
-            try {
-                const response = await fetch("http://10.0.2.2:3000/api/v1/auth/forgetpassword", requestOptions);
-                const result_1 = await response.json();
-                if (result_1.otp) {
-                    navigation.navigate("ForgetPassOTP", { otp: result_1.otp, email: email });
-                } else {
-                    Alert.alert("Error");
-                }
-            } catch (error) {
-                return console.log('error', error);
+        try {
+            const response_1 = await fetch(`${config.server.host}/api/v1/auth/forgetpassword`, requestOptions);
+            const result_2 = await response_1.json();
+            if (result_2.otp) {
+                navigation.navigate("ForgetPassOTP", { otp: result_2.otp, email: email });
+            } else {
+                Alert.alert(result_2.msg);
             }
-        } else {
-            try {
-                const response_1 = await fetch("http://127.0.0.1:3000/api/v1/auth/forgetpassword", requestOptions);
-                const result_2 = await response_1.json();
-                if (result_2.otp) {
-                    navigation.navigate("ForgetPassOTP", { otp: result_2.otp, email: email });
-                } else {
-                    Alert.alert(result_2.msg);
-                }
-            } catch (error_1) {
-                return console.log('error', error_1);
-            }
+        } catch (error_1) {
+            return console.log('error', error_1);
         }
-
     }
     return (
         <SafeAreaView>

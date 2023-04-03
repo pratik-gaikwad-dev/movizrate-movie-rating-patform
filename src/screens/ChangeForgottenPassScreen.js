@@ -1,6 +1,7 @@
 import { StyleSheet, TextInput, Button, View, Alert, Platform } from 'react-native'
 import React, { useState } from 'react'
 import { CommonActions, useNavigation, useRoute } from '@react-navigation/native';
+import config from '../config.json'
 
 const ChangeForgottenPassScreen = () => {
   const route = useRoute();
@@ -35,44 +36,22 @@ const ChangeForgottenPassScreen = () => {
       body: raw,
       redirect: 'follow'
     };
-
-    if (Platform.OS === 'android') {
-
-      return fetch("http://10.0.2.2:3000/api/v1/auth/changeforgottenpassword", requestOptions)
-        .then(response => response.json())
-        .then(result => {
-          if (result.msg) {
-            Alert.alert(result.msg);
-            navigation.dispatch(
-              CommonActions.reset({
-                index: 0,
-                routes: [
-                  { name: 'You' },
-                ],
-              })
-            );
-          }
-        })
-        .catch(error => console.log('error', error));
-
-    } else {
-      return fetch("http://127.0.0.1:3000/api/v1/auth/changeforgottenpassword", requestOptions)
-        .then(response => response.json())
-        .then(result => {
-          if (result.msg) {
-            Alert.alert(result.msg);
-            navigation.dispatch(
-              CommonActions.reset({
-                index: 0,
-                routes: [
-                  { name: 'You' },
-                ],
-              })
-            );
-          }
-        })
-        .catch(error => console.log('error', error));
-    }
+    return fetch(`${config.server.host}/api/v1/auth/changeforgottenpassword`, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        if (result.msg) {
+          Alert.alert(result.msg);
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [
+                { name: 'You' },
+              ],
+            })
+          );
+        }
+      })
+      .catch(error => console.log('error', error));
   }
   return (
     <View style={{ height: "100%", flex: 0, justifyContent: "center", alignItems: "center", width: "100%" }}>

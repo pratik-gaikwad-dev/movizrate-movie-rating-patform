@@ -116,7 +116,7 @@ const UserAccount = () => {
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={{ alignItems: 'center', marginTop: 20 }}>
+          {/* <View style={{ alignItems: 'center', marginTop: 20 }}>
             <TouchableOpacity
               style={{
                 borderWidth: 0.5,
@@ -136,7 +136,7 @@ const UserAccount = () => {
                 LOGIN WITH GOOGLE
               </Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
       </View>
 
