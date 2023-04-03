@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
 import { Alert } from 'react-native';
 import MoviesContext from '../contexts/MoviesContext';
+import config from '../../config.json';
 
 const CarouselState = props => {
   const [latestMovies, setLatestMovies] = useState([]);
@@ -22,7 +23,7 @@ const CarouselState = props => {
       };
 
       fetch(
-        'http://127.0.0.1:3000/api/v1/movies/getlatestmovies',
+        `${config.server.host}/api/v1/movies/getlatestmovies`,
         requestOptions,
       )
         .then(response => response.json())
@@ -41,7 +42,7 @@ const CarouselState = props => {
       };
 
       fetch(
-        'http://127.0.0.1:3000/api/v1/movies/getlatesttvseries',
+        `${config.server.host}/api/v1/movies/getlatesttvseries`,
         requestOptions,
       )
         .then(response => response.json())
@@ -60,7 +61,7 @@ const CarouselState = props => {
       };
 
       fetch(
-        `http://127.0.0.1:3000/api/v1/movies/getmovie/${movieid}`,
+        `${config.server.host}/api/v1/movies/getmovie/${movieid}`,
         requestOptions,
       )
         .then(response => response.json())
@@ -97,7 +98,7 @@ const CarouselState = props => {
         redirect: 'follow',
       };
 
-      fetch('http://127.0.0.1:3000/api/v1/movies/addrating', requestOptions)
+      fetch(`${config.server.host}/api/v1/movies/addrating`, requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);
@@ -130,7 +131,7 @@ const CarouselState = props => {
       };
 
       fetch(
-        `http://127.0.0.1:3000/api/v1/movies/getratedmovie/${movieid}`,
+        `${config.server.host}/api/v1/movies/getratedmovie/${movieid}`,
         requestOptions,
       )
         .then(response => response.json())
@@ -158,7 +159,7 @@ const CarouselState = props => {
       };
 
       fetch(
-        `http://127.0.0.1:3000/api/v1/movies/searchmovie/${query}`,
+        `${config.server.host}/api/v1/movies/searchmovie/${query}`,
         requestOptions,
       )
         .then(response => response.json())
@@ -197,7 +198,7 @@ const CarouselState = props => {
       };
 
       fetch(
-        `http://127.0.0.1:3000/api/v1/movies/addreview/${movieId}`,
+        `${config.server.host}/api/v1/movies/addreview/${movieId}`,
         requestOptions,
       )
         .then(response => response.json())
@@ -226,7 +227,7 @@ const CarouselState = props => {
       };
 
       fetch(
-        `http://127.0.0.1:3000/api/v1/movies/getmoviereviews/${movieId}`,
+        `${config.server.host}/api/v1/movies/getmoviereviews/${movieId}`,
         requestOptions,
       )
         .then(response => response.json())
@@ -244,7 +245,7 @@ const CarouselState = props => {
         redirect: 'follow'
       };
 
-      fetch("http://127.0.0.1:3000/api/v1/movies/getmostratedmovies", requestOptions)
+      fetch(`${config.server.host}/api/v1/movies/getmostratedmovies`, requestOptions)
         .then(response => response.json())
         .then(result => setMostRatedMovies(result))
         .catch(error => console.log('error', error));
@@ -260,7 +261,7 @@ const CarouselState = props => {
         redirect: 'follow'
       };
 
-      fetch("http://127.0.0.1:3000/api/v1/movies/getmostratedtvseries", requestOptions)
+      fetch(`${config.server.host}/api/v1/movies/getmostratedtvseries`, requestOptions)
         .then(response => response.json())
         .then(result => setMostRatedSeries(result))
         .catch(error => console.log('error', error));
@@ -285,7 +286,7 @@ const CarouselState = props => {
         redirect: 'follow'
       };
 
-      fetch(`http://127.0.0.1:3000/api/v1/movies/getagewiserating/${movieID}`, requestOptions)
+      fetch(`${config.server.host}/api/v1/movies/getagewiserating/${movieID}`, requestOptions)
         .then(response => response.json())
         .then(result => setRating15(result.rating))
         .catch(error => console.log('error', error));
@@ -310,7 +311,7 @@ const CarouselState = props => {
         redirect: 'follow'
       };
 
-      fetch(`http://127.0.0.1:3000/api/v1/movies/getagewiserating/${movieID}`, requestOptions)
+      fetch(`${config.server.host}/api/v1/movies/getagewiserating/${movieID}`, requestOptions)
         .then(response => response.json())
         .then(result => setRating20(result.rating))
         .catch(error => console.log('error', error));
@@ -335,7 +336,7 @@ const CarouselState = props => {
         redirect: 'follow'
       };
 
-      fetch(`http://127.0.0.1:3000/api/v1/movies/getagewiserating/${movieID}`, requestOptions)
+      fetch(`${config.server.host}/api/v1/movies/getagewiserating/${movieID}`, requestOptions)
         .then(response => response.json())
         .then(result => setRating25(result.rating))
         .catch(error => console.log('error', error));

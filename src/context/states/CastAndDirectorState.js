@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CastAndDirectorContext from '../contexts/CastAndDirectorContext';
+import config from '../../config.json';
 
 const CastAndDirectorState = props => {
   const [finalCast, setFinalCast] = useState([]);
@@ -12,7 +13,7 @@ const CastAndDirectorState = props => {
         redirect: 'follow'
       };
 
-      fetch(`http://127.0.0.1:3000/api/v1/movies/getmoviecast/${movieid}`, requestOptions)
+      fetch(`${config.server.host}/api/v1/movies/getmoviecast/${movieid}`, requestOptions)
         .then(response => response.json())
         .then(result => {
           if (result.error) {

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import WatchMovieContext from '../contexts/WatchMovieContext';
 
 const WatchMovieState = props => {

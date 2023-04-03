@@ -1,5 +1,6 @@
 import React from 'react';
 import InFutureContext from '../contexts/InFutureContext';
+import config from '../../config.json';
 
 const InFutureStates = props => {
   const [futureMovies, setFutureMovies] = React.useState([]);
@@ -13,7 +14,7 @@ const InFutureStates = props => {
         redirect: 'follow'
       };
 
-      fetch("http://127.0.0.1:3000/api/v1/movies/getupcommingmovies", requestOptions)
+      fetch(`${config.server.host}/api/v1/movies/getupcommingmovies`, requestOptions)
         .then(response => response.json())
         .then(result => setFutureMovies(result.upcomming))
         .catch(error => console.log('error', error));

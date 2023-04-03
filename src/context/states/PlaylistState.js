@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PlaylistContext from '../contexts/PlaylistContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
+import config from '../../config.json';
 
 const PlaylistState = props => {
   const [playlist, setPlaylist] = useState([]);
@@ -24,7 +25,7 @@ const PlaylistState = props => {
         redirect: 'follow'
       };
 
-      fetch("http://127.0.0.1:3000/api/v1/movies/getallplaylistmovies", requestOptions)
+      fetch(`${config.server.host}/api/v1/movies/getallplaylistmovies`, requestOptions)
         .then(response => response.json())
         .then(result => setPlaylist(result.playlist))
         .catch(error => console.log('error', error));
@@ -51,7 +52,7 @@ const PlaylistState = props => {
       };
 
       fetch(
-        `http://127.0.0.1:3000/api/v1/movies/addinplaylist/${movieId}`,
+        `${config.server.host}/api/v1/movies/addinplaylist/${movieId}`,
         requestOptions,
       )
         .then(response => response.json())
@@ -88,7 +89,7 @@ const PlaylistState = props => {
         redirect: 'follow'
       };
 
-      fetch(`http://127.0.0.1:3000/api/v1/movies/deletefromplaylist/${movieID}`, requestOptions)
+      fetch(`${config.server.host}/api/v1/movies/deletefromplaylist/${movieID}`, requestOptions)
         .then(response => response.json())
         .then(result => {
           if (result === true) {

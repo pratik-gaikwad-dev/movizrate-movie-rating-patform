@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CarouselContext from '../contexts/CarouselContext';
+import config from '../../config.json';
 
 const CarouselState = props => {
   const [items, setItems] = useState([]);
@@ -11,7 +12,7 @@ const CarouselState = props => {
         redirect: 'follow'
       };
 
-      fetch("http://127.0.0.1:3000/api/v1/movies/getcarouselmovies", requestOptions)
+      fetch(`${config.server.host}/api/v1/movies/getcarouselmovies`, requestOptions)
         .then(response => response.json())
         .then(result => setItems(result.movies))
         .catch(error => console.log('error', error));
