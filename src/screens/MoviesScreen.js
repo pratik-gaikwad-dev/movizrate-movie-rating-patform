@@ -108,7 +108,7 @@ const MoviesScreen = () => {
       <ScrollView>
         <View style={{ height: '100%', paddingBottom: 30 }}>
           <View style={{ height: '100%' }}>
-            <View style={{ width: '100%', height: '40%' }}>
+            <View style={{ width: '100%', height: '50%' }}>
               {watchMovie.image === undefined ? null : (
                 <ImageBackground
                   style={{ width: '100%', height: '70%' }}
@@ -346,7 +346,7 @@ const MoviesScreen = () => {
                 </ImageBackground>
               )}
             </View>
-            <View>
+            <View style={{ marginTop: 20 }}>
               <View style={{ backgroundColor: 'white' }}>
                 <CastCarousel data={finalCast} title="Top Actors" />
               </View>
@@ -362,7 +362,7 @@ const MoviesScreen = () => {
                   marginTop: 10,
                   marginLeft: 10,
                 }}>
-                <MovieCarousel title="More Like This" data={latestMovies} />
+                {/* <MovieCarousel title="More Like This" data={latestMovies} /> */}
               </View>
             </View>
           </View>

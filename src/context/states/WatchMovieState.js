@@ -5,7 +5,7 @@ const WatchMovieState = props => {
   const [watchMovie, setWatchMovie] = React.useState({});
 
   return (
-    <WatchMovieContext.Provider value={{watchMovie, setWatchMovie}}>
+    <WatchMovieContext.Provider value={{ watchMovie, setWatchMovie }}>
       {props.children}
     </WatchMovieContext.Provider>
   );
