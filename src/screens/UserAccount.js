@@ -178,6 +178,7 @@ const UserAccount = () => {
                     padding: 10,
                     width: 300,
                     borderRadius: 5,
+                    color: "black"
                   }}
                   onChangeText={onChangeSignupEmail}
                   value={signupEmail}
@@ -194,6 +195,7 @@ const UserAccount = () => {
                     padding: 10,
                     width: 300,
                     borderRadius: 5,
+                    color: "black"
                   }}
                   onChangeText={setName}
                   value={name}
@@ -238,6 +240,7 @@ const UserAccount = () => {
                     padding: 10,
                     width: 300,
                     borderRadius: 5,
+                    color: "black"
                   }}
                   onChangeText={onChangeSignupPassword}
                   value={signupPassword}
@@ -255,6 +258,7 @@ const UserAccount = () => {
                     padding: 10,
                     width: 300,
                     borderRadius: 5,
+                    color: "black"
                   }}
                   onChangeText={onChangeSignupPasswordConf}
                   value={signupPasswordConf}
@@ -339,6 +343,7 @@ const UserAccount = () => {
                     padding: 10,
                     width: 300,
                     borderRadius: 5,
+                    color: "black"
                   }}
                   onChangeText={onChangeEmail}
                   value={email}
@@ -355,6 +360,7 @@ const UserAccount = () => {
                     padding: 10,
                     width: 300,
                     borderRadius: 5,
+                    color: "black"
                   }}
                   onChangeText={onChangePassword}
                   value={password}
