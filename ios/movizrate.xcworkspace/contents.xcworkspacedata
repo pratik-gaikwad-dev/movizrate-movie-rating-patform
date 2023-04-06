@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:movizrate.xcodeproj">
+      location = "group:/Users/pratik/Documents/movizrate/MovizrateApp/ios/movizrate.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

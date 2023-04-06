@@ -27,7 +27,9 @@ const CarouselState = props => {
         requestOptions,
       )
         .then(response => response.json())
-        .then(result => setLatestMovies(result.movies))
+        .then(result => {
+          setLatestMovies(result.movies)
+        })
         .catch(error => console.log('error', error));
     } catch (error) {
       console.log(error);
@@ -53,7 +55,7 @@ const CarouselState = props => {
     }
   };
 
-  const getMovie = async (movieid, setWatchMovie) => {
+  const getMovie = (movieid, setWatchMovie) => {
     try {
       var requestOptions = {
         method: 'POST',
@@ -65,7 +67,8 @@ const CarouselState = props => {
         requestOptions,
       )
         .then(response => response.json())
-        .then(result => setWatchMovie(result.movie))
+        .then(result => {
+          setWatchMovie(result.movie)})
         .catch(error => console.log('error', error));
     } catch (error) {
       console.log(error);

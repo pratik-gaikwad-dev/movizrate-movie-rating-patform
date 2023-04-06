@@ -66,16 +66,18 @@ const MoviesScreen = () => {
 
   const [rated, setRated] = React.useState(false);
   useEffect(() => {
-    getMovieCast(route.params.movieID);
     getMovie(route.params.movieID, setWatchMovie);
+    getMovieCast(route.params.movieID);
     getRating(route.params.movieID, setRated, setDefaultRating);
     getMovieReviews(route.params.movieID, setReviews);
     getAgeWiseRatings15(route.params.movieID);
     getAgeWiseRatings20(route.params.movieID);
     getAgeWiseRatings25(route.params.movieID);
   }, []);
+  // console.log(watchMovie);
   let movieGenre;
   if (Object.keys(watchMovie).length !== 0) {
+    console.log(watchMovie);
     movieGenre = watchMovie.genre.split(', ');
   }
   const showAgeRatingModal = () => setAgeRatingsVisible(true);
