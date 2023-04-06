@@ -386,7 +386,7 @@ const MoviesScreen = () => {
               </Text>
               <View style={{ marginTop: 10 }}>
                 <View>
-                  <Text style={{ fontSize: 20, marginTop: 10 }}>
+                  <Text style={{ fontSize: 20, marginTop: 10, color: "black" }}>
                     Add a Review
                   </Text>
                   <View
@@ -439,6 +439,7 @@ const MoviesScreen = () => {
                           alignSelf: 'center',
                           fontSize: 18,
                           fontWeight: '500',
+                          color: "black"
                         }}>
                         No reviews available
                       </Text>

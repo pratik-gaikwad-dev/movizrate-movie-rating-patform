@@ -1,4 +1,4 @@
-import { Platform, StyleSheet, TextInput, View, Button } from 'react-native';
+import { Platform, StyleSheet, TextInput, View, Button, KeyboardAvoidingView } from 'react-native';
 import React, { useContext, useState } from 'react';
 import UserContext from '../context/contexts/UserContext';
 
@@ -13,7 +13,8 @@ const ChangePasswordScreen = () => {
     const { onChangePassword } = useContext(UserContext);
 
     return (
-        <View
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={{ height: '100%', alignItems: 'center', justifyContent: 'center' }}>
             <View
                 style={{
@@ -68,7 +69,7 @@ const ChangePasswordScreen = () => {
                     </View>
                 </View>
             </View>
-        </View>
+        </KeyboardAvoidingView>
     );
 };
 

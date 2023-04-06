@@ -39,6 +39,7 @@ const App = () => {
                           screenOptions={{
                             tabBarActiveTintColor: '#24baef',
                             tabBarInactiveTintColor: 'black',
+                            tabBarHideOnKeyboard: true
                           }}
                           initialRouteName="Home">
                           <Tab.Screen

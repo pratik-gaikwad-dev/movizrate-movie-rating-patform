@@ -43,7 +43,7 @@ const MovieCard = props => {
             }}
           />
           <View>
-            <Text style={{ padding: 5, fontSize: 12 }} variant="titleLarge">
+            <Text style={{ padding: 5, fontSize: 12, color: "black" }} variant="titleLarge">
               <MaterialCommunityIcons name="star" color="#a8870f" />{' '}
               {props.rating ? props.rating.toFixed(1) : 0}
             </Text>

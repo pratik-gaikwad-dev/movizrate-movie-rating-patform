@@ -30,7 +30,7 @@ const SearchScreen = () => {
           elevation={Eva}
           style={{
             backgroundColor: 'white',
-            shadowColor: 'gray',
+            shadowColor: 'black',
             shadowOffset: { width: 3, height: 3 },
             shadowOpacity: 0.3,
           }}

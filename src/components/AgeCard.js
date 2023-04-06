@@ -21,7 +21,7 @@ const AgeCard = props => {
             <Text style={{ color: 'black', fontSize: 20 }}>{props.title}</Text>
           </View>
           <View>
-            <Text style={{ fontWeight: "bold", fontSize: 15 }}><Icon name="star" size={25} color={'#a8870f'} /> {'  '} {props.rating ? props.rating : 0}</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 15, color: "black" }}><Icon name="star" size={25} color={'#a8870f'} /> {'  '} {props.rating ? props.rating : 0}</Text>
           </View>
         </View>
       </View>
