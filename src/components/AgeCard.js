@@ -3,7 +3,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const AgeCard = props => {
-  console.log(props.rating);
+  // console.log(props.rating);
   return (
     <TouchableOpacity>
       <View style={{ marginTop: 10 }}>

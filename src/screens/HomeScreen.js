@@ -1,39 +1,36 @@
-import { ScrollView, StyleSheet, SafeAreaView, View } from 'react-native';
-import React, { useContext, useEffect } from 'react';
+import { ScrollView, StyleSheet, SafeAreaView, View, ActivityIndicator } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
 import Carousel from '../components/Carousel';
 import MovieCarousel from '../components/MovieCarousel';
 import MoviesContext from '../context/contexts/MoviesContext';
 import OttContext from '../context/contexts/OttContext';
-import CastAndDirectorContext from '../context/contexts/CastAndDirectorContext';
 import UserContext from '../context/contexts/UserContext';
 
 const HomeScreen = () => {
   const {
-    getLatestMovies,
     latestMovies,
-    getLatestSeries,
     latestSeries,
-    getMostRatedMovies,
     mostRatedMovies,
-    getMostRatedSeries,
     mostRatedSeries,
+    getHomeMovies
   } = useContext(MoviesContext);
-  const { setOttMovies } = useContext(OttContext);
+  // const { setOttMovies } = useContext(OttContext);
   const { isLoggedin, getUser } = useContext(UserContext);
+
+  const [isLoading, setIsLoading] = useState(true);
+  
   useEffect(() => {
-    setOttMovies();
+    // setOttMovies();
     isLoggedin();
     getUser();
-    getLatestMovies();
-    getLatestSeries();
-    getMostRatedMovies();
-    getMostRatedSeries();
+    getHomeMovies(setIsLoading);
   }, []);
 
   return (
     <SafeAreaView>
+      {isLoading === true ? <ActivityIndicator size="large" style={{ height: "100%"}} /> :
       <ScrollView>
-        <Carousel />
+        <Carousel isLoading={isLoading}/>
         {/* <View
           style={{
             width: '100%',
@@ -99,7 +96,7 @@ const HomeScreen = () => {
             data={mostRatedSeries}
           />
         </View>
-      </ScrollView>
+      </ScrollView>}
     </SafeAreaView>
   );
 };

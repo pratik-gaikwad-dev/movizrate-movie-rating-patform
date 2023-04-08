@@ -3,12 +3,12 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import CarouselCard from './CarouselCard';
 import CarouselContext from '../context/contexts/CarouselContext';
 
-const Carousel = () => {
+const Carousel = (props) => {
   const [scrollEnabled, setScrollEnabled] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [autoScroll, setAutoScroll] = useState(true);
 
-  const { items, setCarouselItems } = useContext(CarouselContext);
+  const { items } = useContext(CarouselContext);
 
   const flatListRef = useRef(null);
   const handleMomentumScrollEnd = () => {
@@ -23,31 +23,32 @@ const Carousel = () => {
   };
 
   useEffect(() => {
-    setCarouselItems();
+    // setCarouselItems();
   }, []);
 
   useEffect(() => {
     let intervalId = null;
+    if (props.isLoading === false) {
+      if (autoScroll) {
+        intervalId = setInterval(() => {
+          if (currentIndex === items.length - 1) {
+            setCurrentIndex(0);
+          } else {
+            setCurrentIndex(currentIndex + 1);
+          }
+          flatListRef.current.scrollToIndex({
+            index: currentIndex,
+            animated: true,
+          });
+        }, 3000);
+      } else {
+        setInterval(() => {
+          setAutoScroll(true);
+        }, 1000);
+      }
 
-    if (autoScroll) {
-      intervalId = setInterval(() => {
-        if (currentIndex === items.length - 1) {
-          setCurrentIndex(0);
-        } else {
-          setCurrentIndex(currentIndex + 1);
-        }
-        flatListRef.current.scrollToIndex({
-          index: currentIndex,
-          animated: true,
-        });
-      }, 3000);
-    } else {
-      setInterval(() => {
-        setAutoScroll(true);
-      }, 1000);
+      return () => clearInterval(intervalId);
     }
-
-    return () => clearInterval(intervalId);
   }, [autoScroll, currentIndex]);
   return (
     <FlatList

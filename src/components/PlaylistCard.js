@@ -12,7 +12,7 @@ import { Menu } from 'react-native-paper';
 import PlaylistContext from '../context/contexts/PlaylistContext';
 import { useNavigation } from '@react-navigation/native';
 
-const PlaylistCard = props => {
+let PlaylistCard = props => {
   const [visible, setVisible] = React.useState(false);
 
   const navigation = useNavigation();
@@ -72,7 +72,7 @@ const PlaylistCard = props => {
             <Text style={{ fontSize: 15, color: 'gray' }}>{props.genre}</Text>
             <Text style={{ fontSize: 15, color: 'black' }}>
               <MaterialCommunityIcons name="star" size={20} color="#a8870f" />{' '}
-              {props.rating}
+              {(props.rating/props.totalrating).toFixed(1)}
               {'   '}
               {/* {props.usrRatings === false ? null : (
                 <MaterialCommunityIcons name="star" size={20} color="#24baef" />
@@ -115,6 +115,7 @@ const PlaylistCard = props => {
   );
 };
 
+PlaylistCard = React.memo(PlaylistCard)
 export default PlaylistCard;
 
 const styles = StyleSheet.create({});

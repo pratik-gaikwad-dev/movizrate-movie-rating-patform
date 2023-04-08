@@ -41,6 +41,7 @@ const PlaylistScreen = () => {
               return (
                 <PlaylistCard
                   rating={element.item.rating}
+                  totalrating={element.item.totalratings}
                   name={element.item.name}
                   image={element.item.posterImage}
                   genre={element.item.genre}

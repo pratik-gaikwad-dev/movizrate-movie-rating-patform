@@ -1,4 +1,4 @@
-import { FlatList, Platform, StyleSheet, View } from 'react-native';
+import { FlatList, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import React, { useContext } from 'react';
 import { Searchbar } from 'react-native-paper';
 import TopBar from '../components/TopBar';
@@ -18,9 +18,7 @@ const SearchScreen = () => {
     if (query.length === 0) {
       return;
     }
-    setLoading(true);
-    searchMovie(query, setSearchedItems)
-    setLoading(false)
+    searchMovie(query, setSearchedItems, setLoading)
   };
   const Eva = Platform.OS === 'ios' ? 0 : 1;
   return (
@@ -41,23 +39,41 @@ const SearchScreen = () => {
         />
       </View>
       {searchQuery.length >= 1 ? (
-        <FlatList
-          data={searchedItems}
-          showsHorizontalScrollIndicator={false}
-          renderItem={element => {
+        // <FlatList
+        //   data={searchedItems}
+        //   // initialNumToRender={0}
+        //   showsHorizontalScrollIndicator={false}
+        //   renderItem={element => {
+        //     return (
+        //       <PlaylistCard
+        //         rating={element.item.rating}
+        //         name={element.item.name}
+        //         image={element.item.posterImage}
+        //         genre={element.item.genre}
+        //         usrRatings={false}
+        //         id={element.item._id}
+        //         showMenu={false}
+        //       />
+        //     );
+        //   }}
+        // />
+        <ScrollView>
+          {searchedItems.map(element => {
             return (
               <PlaylistCard
-                rating={element.item.rating}
-                name={element.item.name}
-                image={element.item.posterImage}
-                genre={element.item.genre}
+                totalrating={element.totalratings}
+                key={element._id}
+                rating={element.rating}
+                name={element.name}
+                image={element.posterImage}
+                genre={element.genre}
                 usrRatings={false}
-                id={element.item._id}
+                id={element._id}
                 showMenu={false}
               />
             );
-          }}
-        />
+          })}
+        </ScrollView>
       ) : (
         <TopBar />
       )}

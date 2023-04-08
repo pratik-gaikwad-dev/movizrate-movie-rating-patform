@@ -1,5 +1,5 @@
 {
     "server": {
-        "host": "http://194.195.113.49:3000"
+        "host": "https://api.movizrate.cloud"
     }
 }

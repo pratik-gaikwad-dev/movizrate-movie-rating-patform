@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Alert } from 'react-native';
 import MoviesContext from '../contexts/MoviesContext';
 import config from '../../config.json';
+import CarouselContext from '../contexts/CarouselContext';
 
 const CarouselState = props => {
   const [latestMovies, setLatestMovies] = useState([]);
@@ -10,70 +11,127 @@ const CarouselState = props => {
 
   const [mostRatedMovies, setMostRatedMovies] = useState([]);
   const [mostRatedSeries, setMostRatedSeries] = useState([]);
+  const [finalCast, setFinalCast] = useState([]);
+  const [finalDirectors, setFinalDirectors] = useState([]);
 
   const [rating15, setRating15] = useState(0);
   const [rating20, setRating20] = useState(0);
   const [rating25, setRating25] = useState(0);
 
-  const getLatestMovies = async () => {
+  const { setItems } = useContext(CarouselContext);
+
+  const getHomeMovies = (setIsLoading) => {
     try {
-      var requestOptions = {
+      setIsLoading(true)
+      const requestOptions = {
         method: 'POST',
-        redirect: 'follow',
+        redirect: 'follow'
       };
 
-      fetch(
-        `${config.server.host}/api/v1/movies/getlatestmovies`,
-        requestOptions,
-      )
+      fetch("https://api.movizrate.cloud/api/v1/movies/gethomemovies", requestOptions)
         .then(response => response.json())
         .then(result => {
-          setLatestMovies(result.movies)
+          setLatestMovies(result.latestmovies);
+          setLatestSeries(result.latesttvseries);
+          setMostRatedMovies(result.mostratedmovies);
+          setMostRatedSeries(result.mostratedtvseries);
+          setItems(result.carouselmovies);
+          setIsLoading(false)
         })
         .catch(error => console.log('error', error));
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
-  const getLatestSeries = async () => {
+  const getWatchMovie = (movieID, setWatchMovie, setReviews, setIsLoading) => {
     try {
-      var requestOptions = {
+      const raw = "";
+
+      const requestOptions = {
         method: 'POST',
-        redirect: 'follow',
+        body: raw,
+        redirect: 'follow'
       };
 
-      fetch(
-        `${config.server.host}/api/v1/movies/getlatesttvseries`,
-        requestOptions,
-      )
-        .then(response => response.json())
-        .then(result => setLatestSeries(result.series))
-        .catch(error => console.log('error', error));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getMovie = (movieid, setWatchMovie) => {
-    try {
-      var requestOptions = {
-        method: 'POST',
-        redirect: 'follow',
-      };
-
-      fetch(
-        `${config.server.host}/api/v1/movies/getmovie/${movieid}`,
-        requestOptions,
-      )
+      fetch(`https://api.movizrate.cloud/api/v1/movies/getwatchmovie/${movieID}`, requestOptions)
         .then(response => response.json())
         .then(result => {
-          setWatchMovie(result.movie)})
+          setIsLoading(true)
+          setWatchMovie(result.watchmovie);
+          setFinalCast(result.actors);
+          setFinalDirectors(result.writers);
+          setReviews(result.reviews);
+          setRating15(result.age15);
+          setRating20(result.age20);
+          setRating25(result.age25);
+          setIsLoading(false);
+        })
         .catch(error => console.log('error', error));
     } catch (error) {
       console.log(error);
     }
-  };
+  }
+
+  // const getLatestMovies = async () => {
+  //   try {
+  //     var requestOptions = {
+  //       method: 'POST',
+  //       redirect: 'follow',
+  //     };
+
+  //     fetch(
+  //       `${config.server.host}/api/v1/movies/getlatestmovies`,
+  //       requestOptions,
+  //     )
+  //       .then(response => response.json())
+  //       .then(result => {
+  //         setLatestMovies(result.movies)
+  //       })
+  //       .catch(error => console.log('error', error));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // const getLatestSeries = async () => {
+  //   try {
+  //     var requestOptions = {
+  //       method: 'POST',
+  //       redirect: 'follow',
+  //     };
+
+  //     fetch(
+  //       `${config.server.host}/api/v1/movies/getlatesttvseries`,
+  //       requestOptions,
+  //     )
+  //       .then(response => response.json())
+  //       .then(result => setLatestSeries(result.series))
+  //       .catch(error => console.log('error', error));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // const getMovie = (movieid, setWatchMovie) => {
+  //   try {
+  //     var requestOptions = {
+  //       method: 'POST',
+  //       redirect: 'follow',
+  //     };
+
+  //     fetch(
+  //       `${config.server.host}/api/v1/movies/getmovie/${movieid}`,
+  //       requestOptions,
+  //     )
+  //       .then(response => response.json())
+  //       .then(result => {
+  //         setWatchMovie(result.movie)
+  //       })
+  //       .catch(error => console.log('error', error));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const onRatingSubmit = async (
     movieid,
@@ -154,8 +212,9 @@ const CarouselState = props => {
     }
   };
 
-  const searchMovie = async (query, setSearchedItems) => {
+  const searchMovie = async (query, setSearchedItems, setLoading) => {
     try {
+      setLoading(true);
       var requestOptions = {
         method: 'POST',
         redirect: 'follow',
@@ -169,6 +228,7 @@ const CarouselState = props => {
         .then(result => {
           if (result.movies) {
             setSearchedItems(result.movies);
+            setLoading(false)
           }
         })
         .catch(error => console.log('error', error));
@@ -222,154 +282,149 @@ const CarouselState = props => {
     }
   };
 
-  const getMovieReviews = async (movieId, setReviews) => {
-    try {
-      const requestOptions = {
-        method: 'POST',
-        redirect: 'follow',
-      };
+  // const getMovieReviews = async (movieId, setReviews) => {
+  //   try {
+  //     const requestOptions = {
+  //       method: 'POST',
+  //       redirect: 'follow',
+  //     };
 
-      fetch(
-        `${config.server.host}/api/v1/movies/getmoviereviews/${movieId}`,
-        requestOptions,
-      )
-        .then(response => response.json())
-        .then(result => setReviews(result.reviews))
-        .catch(error => console.log('error', error));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     fetch(
+  //       `${config.server.host}/api/v1/movies/getmoviereviews/${movieId}`,
+  //       requestOptions,
+  //     )
+  //       .then(response => response.json())
+  //       .then(result => setReviews(result.reviews))
+  //       .catch(error => console.log('error', error));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  const getMostRatedMovies = () => {
-    try {
-      const requestOptions = {
-        method: 'POST',
-        redirect: 'follow'
-      };
+  // const getMostRatedMovies = () => {
+  //   try {
+  //     const requestOptions = {
+  //       method: 'POST',
+  //       redirect: 'follow'
+  //     };
 
-      fetch(`${config.server.host}/api/v1/movies/getmostratedmovies`, requestOptions)
-        .then(response => response.json())
-        .then(result => setMostRatedMovies(result))
-        .catch(error => console.log('error', error));
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  //     fetch(`${config.server.host}/api/v1/movies/getmostratedmovies`, requestOptions)
+  //       .then(response => response.json())
+  //       .then(result => setMostRatedMovies(result))
+  //       .catch(error => console.log('error', error));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
-  const getMostRatedSeries = () => {
-    try {
-      const requestOptions = {
-        method: 'POST',
-        redirect: 'follow'
-      };
+  // const getMostRatedSeries = () => {
+  //   try {
+  //     const requestOptions = {
+  //       method: 'POST',
+  //       redirect: 'follow'
+  //     };
 
-      fetch(`${config.server.host}/api/v1/movies/getmostratedtvseries`, requestOptions)
-        .then(response => response.json())
-        .then(result => setMostRatedSeries(result))
-        .catch(error => console.log('error', error));
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  //     fetch(`${config.server.host}/api/v1/movies/getmostratedtvseries`, requestOptions)
+  //       .then(response => response.json())
+  //       .then(result => setMostRatedSeries(result))
+  //       .catch(error => console.log('error', error));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
-  const getAgeWiseRatings15 = (movieID) => {
-    try {
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
+  // const getAgeWiseRatings15 = (movieID) => {
+  //   try {
+  //     const myHeaders = new Headers();
+  //     myHeaders.append("Content-Type", "application/json");
 
-      const raw = JSON.stringify({
-        "age": 15
-      });
+  //     const raw = JSON.stringify({
+  //       "age": 15
+  //     });
 
-      const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-      };
+  //     const requestOptions = {
+  //       method: 'POST',
+  //       headers: myHeaders,
+  //       body: raw,
+  //       redirect: 'follow'
+  //     };
 
-      fetch(`${config.server.host}/api/v1/movies/getagewiserating/${movieID}`, requestOptions)
-        .then(response => response.json())
-        .then(result => setRating15(result.rating))
-        .catch(error => console.log('error', error));
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  //     fetch(`${config.server.host}/api/v1/movies/getagewiserating/${movieID}`, requestOptions)
+  //       .then(response => response.json())
+  //       .then(result => setRating15(result.rating))
+  //       .catch(error => console.log('error', error));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
-  const getAgeWiseRatings20 = (movieID) => {
-    try {
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
+  // const getAgeWiseRatings20 = (movieID) => {
+  //   try {
+  //     const myHeaders = new Headers();
+  //     myHeaders.append("Content-Type", "application/json");
 
-      const raw = JSON.stringify({
-        "age": 20
-      });
+  //     const raw = JSON.stringify({
+  //       "age": 20
+  //     });
 
-      const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-      };
+  //     const requestOptions = {
+  //       method: 'POST',
+  //       headers: myHeaders,
+  //       body: raw,
+  //       redirect: 'follow'
+  //     };
 
-      fetch(`${config.server.host}/api/v1/movies/getagewiserating/${movieID}`, requestOptions)
-        .then(response => response.json())
-        .then(result => setRating20(result.rating))
-        .catch(error => console.log('error', error));
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  //     fetch(`${config.server.host}/api/v1/movies/getagewiserating/${movieID}`, requestOptions)
+  //       .then(response => response.json())
+  //       .then(result => setRating20(result.rating))
+  //       .catch(error => console.log('error', error));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
-  const getAgeWiseRatings25 = (movieID) => {
-    try {
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
+  // const getAgeWiseRatings25 = (movieID) => {
+  //   try {
+  //     const myHeaders = new Headers();
+  //     myHeaders.append("Content-Type", "application/json");
 
-      const raw = JSON.stringify({
-        "age": 25
-      });
+  //     const raw = JSON.stringify({
+  //       "age": 25
+  //     });
 
-      const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-      };
+  //     const requestOptions = {
+  //       method: 'POST',
+  //       headers: myHeaders,
+  //       body: raw,
+  //       redirect: 'follow'
+  //     };
 
-      fetch(`${config.server.host}/api/v1/movies/getagewiserating/${movieID}`, requestOptions)
-        .then(response => response.json())
-        .then(result => setRating25(result.rating))
-        .catch(error => console.log('error', error));
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  //     fetch(`${config.server.host}/api/v1/movies/getagewiserating/${movieID}`, requestOptions)
+  //       .then(response => response.json())
+  //       .then(result => setRating25(result.rating))
+  //       .catch(error => console.log('error', error));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
   return (
     <MoviesContext.Provider
       value={{
         latestMovies,
-        getLatestMovies,
-        getLatestSeries,
         latestSeries,
-        getMovie,
         onRatingSubmit,
         getRating,
         searchMovie,
         addReview,
-        getMovieReviews,
-        getMostRatedMovies,
         mostRatedMovies,
-        getMostRatedSeries,
         mostRatedSeries,
-        getAgeWiseRatings15,
         rating15,
-        getAgeWiseRatings25,
         rating25,
-        getAgeWiseRatings20,
-        rating20
+        rating20,
+        getHomeMovies,
+        getWatchMovie,
+        finalCast,
+        finalDirectors
       }}>
       {props.children}
     </MoviesContext.Provider>

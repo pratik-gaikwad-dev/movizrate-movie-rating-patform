@@ -4,24 +4,24 @@ import config from '../../config.json';
 
 const CarouselState = props => {
   const [items, setItems] = useState([]);
-  const setCarouselItems = () => {
-    setItems([]);
-    try {
-      const requestOptions = {
-        method: 'POST',
-        redirect: 'follow'
-      };
+  // const setCarouselItems = () => {
+  //   setItems([]);
+  //   try {
+  //     const requestOptions = {
+  //       method: 'POST',
+  //       redirect: 'follow'
+  //     };
 
-      fetch(`${config.server.host}/api/v1/movies/getcarouselmovies`, requestOptions)
-        .then(response => response.json())
-        .then(result => setItems(result.movies))
-        .catch(error => console.log('error', error));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     fetch(`${config.server.host}/api/v1/movies/getcarouselmovies`, requestOptions)
+  //       .then(response => response.json())
+  //       .then(result => setItems(result.movies))
+  //       .catch(error => console.log('error', error));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   return (
-    <CarouselContext.Provider value={{ setCarouselItems, items }}>
+    <CarouselContext.Provider value={{ items, setItems }}>
       {props.children}
     </CarouselContext.Provider>
   );
