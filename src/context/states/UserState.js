@@ -15,7 +15,6 @@ const UserState = props => {
 
     if (changed) {
         setTimeout(() => {
-            console.log("pratik");
             if (isLoading === true) {
                 setinternetWorking(false);
             }
@@ -141,6 +140,8 @@ const UserState = props => {
 
     const getUser = async () => {
         try {
+            setChanged(true)
+            setIsLoading(true)
             const authtoken = await AsyncStorage.getItem('@token');
             const myHeaders = new Headers();
             myHeaders.append('authtoken', `${authtoken}`);
@@ -157,6 +158,7 @@ const UserState = props => {
                 .then(response => response.json())
                 .then(result => {
                     setUser(result.user);
+                    setIsLoading(false);
                 })
                 .catch(error => console.log('error', error));
 

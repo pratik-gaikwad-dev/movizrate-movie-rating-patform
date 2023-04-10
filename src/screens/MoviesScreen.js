@@ -30,6 +30,7 @@ import { FlatList } from 'react-native-gesture-handler';
 
 const MoviesScreen = () => {
   const route = useRoute();
+  const navigation = useNavigation();
   // const navigation = useNavigation();
   const {
     onRatingSubmit,
@@ -40,7 +41,8 @@ const MoviesScreen = () => {
     rating20,
     getWatchMovie,
     finalCast,
-    finalDirectors
+    finalDirectors,
+    playlistLoading
   } = useContext(MoviesContext);
   const [descVisible, setDescVisible] = React.useState(false);
   const [trailerVisible, setTrailerVisible] = React.useState(false);
@@ -63,8 +65,12 @@ const MoviesScreen = () => {
   const [rated, setRated] = React.useState(false);
   useEffect(() => {
     getRating(route.params.movieID, setRated, setDefaultRating);
-    getWatchMovie(route.params.movieID, setWatchMovie, setReviews, setIsLoading)
-  }, []);
+    getWatchMovie(route.params.movieID, setWatchMovie, setReviews, setIsLoading);
+    const unsubscribe = navigation.addListener('blur', () => {
+      navigation.goBack();
+    })
+    return unsubscribe;
+  }, [navigation]);
   let movieGenre;
   if (Object.keys(watchMovie).length !== 0) {
     movieGenre = watchMovie.genre.split(', ');
@@ -96,7 +102,7 @@ const MoviesScreen = () => {
 
   return (
     <SafeAreaView>
-      {isLoading === true ? <ActivityIndicator size="large" style={{ height: "100%" }} /> :
+      {isLoading === true || playlistLoading === true ? <ActivityIndicator size="large" style={{ height: "100%" }} /> :
         <ScrollView>
           <View style={{ height: '100%', paddingBottom: 30 }}>
             <View style={{ height: '100%' }}>

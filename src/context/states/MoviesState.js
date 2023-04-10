@@ -13,6 +13,7 @@ const CarouselState = props => {
   const [mostRatedSeries, setMostRatedSeries] = useState([]);
   const [finalCast, setFinalCast] = useState([]);
   const [finalDirectors, setFinalDirectors] = useState([]);
+  const [playlistLoading, setPlaylistLoading] = useState(false);
 
   const [rating15, setRating15] = useState(0);
   const [rating20, setRating20] = useState(0);
@@ -424,7 +425,9 @@ const CarouselState = props => {
         getHomeMovies,
         getWatchMovie,
         finalCast,
-        finalDirectors
+        finalDirectors,
+        playlistLoading,
+        setPlaylistLoading
       }}>
       {props.children}
     </MoviesContext.Provider>

@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import WatchMovieContext from '../context/contexts/WatchMovieContext';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import PlaylistContext from '../context/contexts/PlaylistContext';
-import MoviesContext from '../context/contexts/MoviesContext';
+// import MoviesContext from '../context/contexts/MoviesContext';
 
 const AppBar = () => {
   const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';

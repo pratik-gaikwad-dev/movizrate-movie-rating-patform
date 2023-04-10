@@ -8,21 +8,27 @@ import {
 import React, { useContext, useEffect } from 'react';
 import PlaylistCard from '../components/PlaylistCard';
 import PlaylistContext from '../context/contexts/PlaylistContext';
-import UserContext from '../context/contexts/UserContext';
-import { Text } from 'react-native-paper';
+// import UserContext from '../context/contexts/UserContext';
+import { ActivityIndicator, Text } from 'react-native-paper';
+import InternetScreen from './InternetScreen';
 
 const PlaylistScreen = () => {
-  const { playlist, setPlaylistItems, refreshPlaylist } = useContext(PlaylistContext);
+  const { playlist, setPlaylistItems, refreshPlaylist, isLoading, internetWorking, setinternetWorking } = useContext(PlaylistContext);
 
   const windowHeight = Dimensions.get('window').height;
   useEffect(() => {
     setPlaylistItems();
+    setTimeout(() => {
+      if (isLoading === true) {
+        setinternetWorking(false);
+      }
+    }, 10000);
   }, [refreshPlaylist]);
 
-  const { loggedin } = useContext(UserContext);
+  // const { loggedin } = useContext(UserContext);
   return (
     <SafeAreaView>
-      {playlist.length === 0 ? (
+      {isLoading === true ? internetWorking === false ? <InternetScreen /> : <ActivityIndicator size="large" style={{ height: "100%" }} /> : playlist.length === 0 ? (
         <View
           style={{
             flex: 0,

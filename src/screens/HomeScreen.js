@@ -25,7 +25,7 @@ const HomeScreen = () => {
   useEffect(() => {
     // setOttMovies();
     isLoggedin();
-    getUser();
+    getUser(isLoading);
     getHomeMovies(setIsLoading);
     setTimeout(() => {
       if(isLoading === true) {
