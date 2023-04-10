@@ -1,18 +1,25 @@
-import {FlatList, View, ActivityIndicator} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
+import { FlatList, View, ActivityIndicator } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
 import OttContext from '../context/contexts/OttContext';
 import PlaylistCard from '../components/PlaylistCard';
+import InternetScreen from './InternetScreen';
 
 const PrimeVideoScreen = () => {
-  const {setOttMovies, primeVideo, isLoading} = useContext(OttContext);
+  const { setOttMovies, primeVideo, isLoading } = useContext(OttContext);
+  const [internetWorking, setinternetWorking] = useState(true)
   useEffect(() => {
     setOttMovies();
+    setTimeout(() => {
+      if (isLoading === true) {
+        setinternetWorking(false);
+      }
+    }, 10000);
   }, []);
 
   return (
     <View>
-      {isLoading === true ? (
-        <ActivityIndicator size="large" style={{height: '100%'}} />
+      {isLoading === true ? internetWorking === false ? <InternetScreen /> : (
+        <ActivityIndicator size="large" style={{ height: '100%' }} />
       ) : (
         <FlatList
           data={primeVideo}

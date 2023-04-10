@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SearchScreen from './src/screens/SearchScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
@@ -20,12 +20,26 @@ import CastAndDirectorState from './src/context/states/CastAndDirectorState';
 import UserState from './src/context/states/UserState';
 import 'react-native-gesture-handler';
 import DrawerNavigation from './src/components/DrawerNavigation';
+import InternetScreen from './src/screens/InternetScreen';
+import NetInfo from "@react-native-community/netinfo";
 
 const Tab = createBottomTabNavigator();
 
 const App = () => {
+  const [isConnected, setIsConnected] = useState(false);
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      // console.log("Connection type", state.type);
+      // console.log("Is connected?", state.isConnected);
+      setIsConnected(state.isConnected)
+    });
+    return () => {
+      unsubscribe();
+    }
+  }, [])
   return (
     <NavigationContainer>
+      {isConnected === true ? 
       <Provider>
         <UserState>
           <CarouselState>
@@ -111,7 +125,7 @@ const App = () => {
             </MoviesState>
           </CarouselState>
         </UserState>
-      </Provider>
+      </Provider> : <InternetScreen />}
     </NavigationContainer>
   );
 };

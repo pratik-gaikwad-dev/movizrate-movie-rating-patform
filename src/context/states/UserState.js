@@ -9,6 +9,19 @@ const UserState = props => {
     const [loggedin, setLoggedin] = useState(false);
     const [user, setUser] = useState({ name: '', email: '', bdate: '' });
     const navigation = useNavigation();
+    const [isLoading, setIsLoading] = useState(false);
+    const [internetWorking, setinternetWorking] = useState(true);
+    const [changed, setChanged] = useState(false);
+
+    if (changed) {
+        setTimeout(() => {
+            console.log("pratik");
+            if (isLoading === true) {
+                setinternetWorking(false);
+            }
+        }, 10000);
+        setChanged(false);
+    }
 
     const isLoggedin = async () => {
         const token = await AsyncStorage.getItem('@token');
@@ -68,6 +81,7 @@ const UserState = props => {
 
     const onLogin = async (email, password, setLoginVisible) => {
         try {
+
             const myHeaders = new Headers();
             myHeaders.append('Content-Type', 'application/json');
 
@@ -162,7 +176,8 @@ const UserState = props => {
             }
 
             const token = await AsyncStorage.getItem('@token');
-
+            setIsLoading(true);
+            setChanged(true)
             const myHeaders = new Headers();
             myHeaders.append('authtoken', `${token}`);
             myHeaders.append('Content-Type', 'application/json');
@@ -186,6 +201,7 @@ const UserState = props => {
                 .then(result => {
                     if (result.msg === 'Password Changed') {
                         Alert.alert(result.msg);
+                        setIsLoading(false);
                         Logout();
                     } else {
                         Alert.alert(result.msg);
@@ -209,6 +225,8 @@ const UserState = props => {
                 user,
                 getUser,
                 onChangePassword,
+                isLoading,
+                internetWorking
             }}>
             {props.children}
         </UserContext.Provider>

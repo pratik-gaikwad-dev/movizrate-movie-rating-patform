@@ -1,4 +1,4 @@
-import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Button, SafeAreaView, StyleSheet, Text, View, DevSettings } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -9,7 +9,7 @@ const InternetScreen = () => {
       <View style={styles.container}>
         <Icon name='wifi-off' size={100} color={"black"} />
         <Text style={styles.text}>Internet is not Working. </Text>
-        <Button>Reload</Button>
+        <Button title="Reload" onPress={() => DevSettings.reload()} />
       </View>
     </SafeAreaView>
   )
@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    height: "100%"
+    height: "100%",
+    backgroundColor: "white"
   },
   text: {
     color: "black",

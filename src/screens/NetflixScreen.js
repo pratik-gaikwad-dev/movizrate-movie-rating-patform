@@ -1,16 +1,23 @@
 import { FlatList, View, ActivityIndicator } from 'react-native';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import OttContext from '../context/contexts/OttContext';
 import PlaylistCard from '../components/PlaylistCard';
+import InternetScreen from './InternetScreen';
 
 const NetflixScreen = () => {
   const { isLoading, netflix } = useContext(OttContext);
+  const [internetWorking, setinternetWorking] = useState(true)
   useEffect(() => {
     // setOttMovies();
+    setTimeout(() => {
+      if (isLoading === true) {
+        setinternetWorking(false);
+      }
+    }, 10000);
   }, []);
   return (
     <View>
-      {isLoading === true ? (
+      {isLoading === true ? internetWorking === false ? <InternetScreen /> : (
         <ActivityIndicator size="large" style={{ height: '100%' }} />
       ) : (
         <FlatList

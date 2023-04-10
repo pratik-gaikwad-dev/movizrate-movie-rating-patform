@@ -1,5 +1,5 @@
 import { FlatList, Platform, ScrollView, StyleSheet, View } from 'react-native';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Searchbar } from 'react-native-paper';
 import TopBar from '../components/TopBar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -12,7 +12,7 @@ const SearchScreen = () => {
   const { searchMovie } = useContext(MoviesContext);
   const [loading, setLoading] = React.useState(false);
   const [searchedItems, setSearchedItems] = React.useState([]);
-
+  
   const onChangeSearch = query => {
     setSearchQuery(query);
     if (query.length === 0) {

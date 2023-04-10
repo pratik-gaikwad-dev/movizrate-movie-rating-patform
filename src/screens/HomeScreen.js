@@ -5,6 +5,7 @@ import MovieCarousel from '../components/MovieCarousel';
 import MoviesContext from '../context/contexts/MoviesContext';
 import OttContext from '../context/contexts/OttContext';
 import UserContext from '../context/contexts/UserContext';
+import InternetScreen from './InternetScreen';
 
 const HomeScreen = () => {
   const {
@@ -18,17 +19,24 @@ const HomeScreen = () => {
   const { isLoggedin, getUser } = useContext(UserContext);
 
   const [isLoading, setIsLoading] = useState(true);
+
+  const [internetWorking, setinternetWorking] = useState(true)
   
   useEffect(() => {
     // setOttMovies();
     isLoggedin();
     getUser();
     getHomeMovies(setIsLoading);
+    setTimeout(() => {
+      if(isLoading === true) {
+        setinternetWorking(false);
+      }
+    }, 10000);
   }, []);
 
   return (
     <SafeAreaView>
-      {isLoading === true ? <ActivityIndicator size="large" style={{ height: "100%"}} /> :
+      {isLoading === true ? internetWorking === false ? <InternetScreen /> : <ActivityIndicator size="large" style={{ height: "100%"}} /> :
       <ScrollView>
         <Carousel isLoading={isLoading}/>
         {/* <View
