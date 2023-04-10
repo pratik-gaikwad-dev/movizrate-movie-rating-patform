@@ -13,6 +13,8 @@ import React, { useContext } from 'react';
 import Icons from 'react-native-vector-icons/FontAwesome';
 import UserContext from '../context/contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
+import { ActivityIndicator } from 'react-native-paper';
+import InternetScreen from './InternetScreen';
 
 const UserAccount = () => {
   const navigation = useNavigation();
@@ -50,367 +52,354 @@ const UserAccount = () => {
     setAge('Selete Date of Birth');
   };
 
-  const { onSignup, onLogin } = useContext(UserContext);
+  const { onSignup, onLogin, isLoading, internetWorking } = useContext(UserContext);
 
 
   return (
     <SafeAreaView>
-      <View style={{ height: '100%', width: '100%' }}>
-        <View style={{ height: '100%', width: '100%', justifyContent: 'center' }}>
-          <View>
-            <Image
-              source={require('../../assets/icons/Movizrate.png')}
-              style={{ height: 150, width: 150, alignSelf: 'center' }}
-            />
-          </View>
-          <View style={{ alignItems: 'center' }}>
-            <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#24baef' }}>
-              Login/Signup
-            </Text>
-          </View>
-          <View style={{ alignItems: 'center', marginTop: 15 }}>
-            <Text style={{ color: 'gray', width: 200, textAlign: 'center' }}>
-              Start to rate new movies and webseries on your thougt.
-            </Text>
-          </View>
-          <View style={{ alignItems: 'center', marginTop: 20 }}>
-            <TouchableOpacity
-              style={{
-                borderWidth: 1,
-                borderColor: '#24baef',
-                width: 200,
-                padding: 10,
-                backgroundColor: '#24baef',
-                borderRadius: 5,
-              }}
-              onPress={showLoginModal}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  color: 'black',
-                  fontWeight: '500',
-                  fontSize: 15,
-                }}>
-                LOGIN
+      {isLoading === true ? internetWorking === false ? <InternetScreen /> : <ActivityIndicator size="small" style={{ height: "100%" }} /> :
+        <><><View style={{ height: '100%', width: '100%' }}>
+          <View style={{ height: '100%', width: '100%', justifyContent: 'center' }}>
+            <View>
+              <Image
+                source={require('../../assets/icons/Movizrate.png')}
+                style={{ height: 150, width: 150, alignSelf: 'center' }} />
+            </View>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#24baef' }}>
+                Login/Signup
               </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{ alignItems: 'center', marginTop: 20 }}>
-            <TouchableOpacity
-              style={{
-                borderWidth: 0.5,
-                borderColor: 'black',
-                width: 200,
-                padding: 10,
-                borderRadius: 5,
-              }}
-              onPress={showSignupModal}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  color: '#24baef',
-                  fontWeight: '500',
-                  fontSize: 15,
-                }}>
-                SIGNUP
+            </View>
+            <View style={{ alignItems: 'center', marginTop: 15 }}>
+              <Text style={{ color: 'gray', width: 200, textAlign: 'center' }}>
+                Start to rate new movies and webseries on your thougt.
               </Text>
-            </TouchableOpacity>
-          </View>
-          {/* <View style={{ alignItems: 'center', marginTop: 20 }}>
-            <TouchableOpacity
-              style={{
-                borderWidth: 0.5,
-                borderColor: '#db3236',
-                width: 200,
-                padding: 10,
-                backgroundColor: '#db3236',
-                borderRadius: 5,
-              }}>
-              <Text
+            </View>
+            <View style={{ alignItems: 'center', marginTop: 20 }}>
+              <TouchableOpacity
                 style={{
-                  textAlign: 'center',
-                  color: 'white',
-                  fontWeight: '500',
-                  fontSize: 15,
-                }}>
-                LOGIN WITH GOOGLE
-              </Text>
-            </TouchableOpacity>
-          </View> */}
-        </View>
-      </View>
-
-      {/* Signup Modal */}
-      <Modal
-        animationType="slide"
-        visible={signupVisible}
-        onDismiss={hideSignupModal}>
-        <SafeAreaView>
-          <Text
-            style={{ alignSelf: 'flex-end', paddingRight: 20, marginTop: 10 }}>
-            <TouchableOpacity onPress={onCloseSignup}>
-              <Icons name="close" color={'gray'} size={25} />
-            </TouchableOpacity>
-          </Text>
-        </SafeAreaView>
-        <View style={{}}>
-          <View>
-            <View
-              style={{ flex: 0, justifyContent: 'center', alignItems: 'center' }}>
-              <View>
-                <Image
-                  style={{ height: 100, width: 70 }}
-                  source={require('../../assets/icons/Movizrate.png')}
-                />
-              </View>
-              <View style={{ marginTop: 5 }}>
+                  borderWidth: 1,
+                  borderColor: '#24baef',
+                  width: 200,
+                  padding: 10,
+                  backgroundColor: '#24baef',
+                  borderRadius: 5,
+                }}
+                onPress={showLoginModal}>
                 <Text
-                  style={{ color: '#24baef', fontSize: 20, fontWeight: '500' }}>
-                  Signup Now.
+                  style={{
+                    textAlign: 'center',
+                    color: 'black',
+                    fontWeight: '500',
+                    fontSize: 15,
+                  }}>
+                  LOGIN
                 </Text>
-              </View>
-              <View style={{ marginTop: 5 }}>
-                <TextInput
-                  style={{
-                    height: 40,
-                    margin: 12,
-                    borderWidth: 1,
-                    padding: 10,
-                    width: 300,
-                    borderRadius: 5,
-                    color: "black"
-                  }}
-                  onChangeText={onChangeSignupEmail}
-                  value={signupEmail}
-                  placeholder="Enter Email"
-                  placeholderTextColor={'gray'}
-                />
-              </View>
-              <View style={{ marginTop: 5 }}>
-                <TextInput
-                  style={{
-                    height: 40,
-                    margin: 12,
-                    borderWidth: 1,
-                    padding: 10,
-                    width: 300,
-                    borderRadius: 5,
-                    color: "black"
-                  }}
-                  onChangeText={setName}
-                  value={name}
-                  placeholder="Enter Name"
-                  placeholderTextColor={'gray'}
-                />
-              </View>
-              <View style={{ marginTop: 5 }}>
-                <DatePicker
-                  modal
-                  mode="date"
-                  open={open}
-                  date={date}
-                  onConfirm={date => {
-                    setOpen(false);
-                    setDate(date);
-                    setAge(date.toString().slice(0, 15));
-                  }}
-                  onCancel={() => {
-                    setOpen(false);
-                  }}
-                />
-                <TouchableOpacity
-                  style={{
-                    height: 40,
-                    margin: 12,
-                    borderWidth: 1,
-                    padding: 10,
-                    width: 300,
-                    borderRadius: 5,
-                  }}
-                  onPress={() => setOpen(true)}>
-                  <Text style={{ color: 'gray' }}>{age}</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={{ marginTop: 5 }}>
-                <TextInput
-                  style={{
-                    height: 40,
-                    margin: 12,
-                    borderWidth: 1,
-                    padding: 10,
-                    width: 300,
-                    borderRadius: 5,
-                    color: "black"
-                  }}
-                  onChangeText={onChangeSignupPassword}
-                  value={signupPassword}
-                  placeholder="Enter Password"
-                  placeholderTextColor={'gray'}
-                  secureTextEntry={true}
-                />
-              </View>
-              <View style={{ marginTop: 5 }}>
-                <TextInput
-                  style={{
-                    height: 40,
-                    margin: 12,
-                    borderWidth: 1,
-                    padding: 10,
-                    width: 300,
-                    borderRadius: 5,
-                    color: "black"
-                  }}
-                  onChangeText={onChangeSignupPasswordConf}
-                  value={signupPasswordConf}
-                  placeholder="Confirm Password"
-                  placeholderTextColor={'gray'}
-                  secureTextEntry={true}
-                />
-              </View>
-              <View style={{ marginTop: 20 }}>
-                <TouchableOpacity
-                  style={{
-                    width: 300,
-                    borderWidth: 1,
-                    borderColor: '#24baef',
-                    padding: 10,
-                    borderRadius: 5,
-                    backgroundColor: '#24baef',
-                  }}
-                  onPress={() => onSignup(setSignupVisible, signupEmail, name, signupPassword, signupPasswordConf, age)}>
-                  <Text
-                    style={{
-                      alignSelf: 'center',
-                      color: 'black',
-                      fontWeight: '500',
-                      fontSize: 15,
-                    }}>
-                    SIGNUP
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View
+              </TouchableOpacity>
+            </View>
+            <View style={{ alignItems: 'center', marginTop: 20 }}>
+              <TouchableOpacity
                 style={{
-                  marginTop: 20,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <Text style={{ color: 'gray' }}>Already have account? </Text>
-                <TouchableOpacity onPress={onClickLogin}>
-                  <Text style={{ color: '#24baef', fontSize: 15 }}>Login</Text>
+                  borderWidth: 0.5,
+                  borderColor: 'black',
+                  width: 200,
+                  padding: 10,
+                  borderRadius: 5,
+                }}
+                onPress={showSignupModal}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: '#24baef',
+                    fontWeight: '500',
+                    fontSize: 15,
+                  }}>
+                  SIGNUP
+                </Text>
+              </TouchableOpacity>
+            </View>
+            {/* <View style={{ alignItems: 'center', marginTop: 20 }}>
+<TouchableOpacity
+style={{
+borderWidth: 0.5,
+borderColor: '#db3236',
+width: 200,
+padding: 10,
+backgroundColor: '#db3236',
+borderRadius: 5,
+}}>
+<Text
+style={{
+  textAlign: 'center',
+  color: 'white',
+  fontWeight: '500',
+  fontSize: 15,
+}}>
+LOGIN WITH GOOGLE
+</Text>
+</TouchableOpacity>
+</View> */}
+          </View>
+        </View>
+
+          <Modal
+            animationType="slide"
+            visible={signupVisible}
+            onDismiss={hideSignupModal}>
+            <SafeAreaView>
+              <Text
+                style={{ alignSelf: 'flex-end', paddingRight: 20, marginTop: 10 }}>
+                <TouchableOpacity onPress={onCloseSignup}>
+                  <Icons name="close" color={'gray'} size={25} />
                 </TouchableOpacity>
+              </Text>
+            </SafeAreaView>
+            <View style={{}}>
+              <View>
+                <View
+                  style={{ flex: 0, justifyContent: 'center', alignItems: 'center' }}>
+                  <View>
+                    <Image
+                      style={{ height: 100, width: 70 }}
+                      source={require('../../assets/icons/Movizrate.png')} />
+                  </View>
+                  <View style={{ marginTop: 5 }}>
+                    <Text
+                      style={{ color: '#24baef', fontSize: 20, fontWeight: '500' }}>
+                      Signup Now.
+                    </Text>
+                  </View>
+                  <View style={{ marginTop: 5 }}>
+                    <TextInput
+                      style={{
+                        height: 40,
+                        margin: 12,
+                        borderWidth: 1,
+                        padding: 10,
+                        width: 300,
+                        borderRadius: 5,
+                        color: "black"
+                      }}
+                      onChangeText={onChangeSignupEmail}
+                      value={signupEmail}
+                      placeholder="Enter Email"
+                      placeholderTextColor={'gray'} />
+                  </View>
+                  <View style={{ marginTop: 5 }}>
+                    <TextInput
+                      style={{
+                        height: 40,
+                        margin: 12,
+                        borderWidth: 1,
+                        padding: 10,
+                        width: 300,
+                        borderRadius: 5,
+                        color: "black"
+                      }}
+                      onChangeText={setName}
+                      value={name}
+                      placeholder="Enter Name"
+                      placeholderTextColor={'gray'} />
+                  </View>
+                  <View style={{ marginTop: 5 }}>
+                    <DatePicker
+                      modal
+                      mode="date"
+                      open={open}
+                      date={date}
+                      onConfirm={date => {
+                        setOpen(false);
+                        setDate(date);
+                        setAge(date.toString().slice(0, 15));
+                      }}
+                      onCancel={() => {
+                        setOpen(false);
+                      }} />
+                    <TouchableOpacity
+                      style={{
+                        height: 40,
+                        margin: 12,
+                        borderWidth: 1,
+                        padding: 10,
+                        width: 300,
+                        borderRadius: 5,
+                      }}
+                      onPress={() => setOpen(true)}>
+                      <Text style={{ color: 'gray' }}>{age}</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{ marginTop: 5 }}>
+                    <TextInput
+                      style={{
+                        height: 40,
+                        margin: 12,
+                        borderWidth: 1,
+                        padding: 10,
+                        width: 300,
+                        borderRadius: 5,
+                        color: "black"
+                      }}
+                      onChangeText={onChangeSignupPassword}
+                      value={signupPassword}
+                      placeholder="Enter Password"
+                      placeholderTextColor={'gray'}
+                      secureTextEntry={true} />
+                  </View>
+                  <View style={{ marginTop: 5 }}>
+                    <TextInput
+                      style={{
+                        height: 40,
+                        margin: 12,
+                        borderWidth: 1,
+                        padding: 10,
+                        width: 300,
+                        borderRadius: 5,
+                        color: "black"
+                      }}
+                      onChangeText={onChangeSignupPasswordConf}
+                      value={signupPasswordConf}
+                      placeholder="Confirm Password"
+                      placeholderTextColor={'gray'}
+                      secureTextEntry={true} />
+                  </View>
+                  <View style={{ marginTop: 20 }}>
+                    <TouchableOpacity
+                      style={{
+                        width: 300,
+                        borderWidth: 1,
+                        borderColor: '#24baef',
+                        padding: 10,
+                        borderRadius: 5,
+                        backgroundColor: '#24baef',
+                      }}
+                      onPress={() => onSignup(setSignupVisible, signupEmail, name, signupPassword, signupPasswordConf, age)}>
+                      <Text
+                        style={{
+                          alignSelf: 'center',
+                          color: 'black',
+                          fontWeight: '500',
+                          fontSize: 15,
+                        }}>
+                        SIGNUP
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View
+                    style={{
+                      marginTop: 20,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <Text style={{ color: 'gray' }}>Already have account? </Text>
+                    <TouchableOpacity onPress={onClickLogin}>
+                      <Text style={{ color: '#24baef', fontSize: 15 }}>Login</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
               </View>
             </View>
-          </View>
-        </View>
-      </Modal>
-
-      {/* Login Modal */}
-      <Modal
-        animationType="slide"
-        visible={loginVisible}
-        onDismiss={hideLoginModal}>
-        <SafeAreaView>
-          <Text
-            style={{ alignSelf: 'flex-end', paddingRight: 20, marginTop: 10 }}>
-            <TouchableOpacity onPress={() => setLoginVisible(false)}>
-              <Icons name="close" color={'gray'} size={25} />
-            </TouchableOpacity>
-          </Text>
-        </SafeAreaView>
-        <View style={styles.centeredView}>
-          <View>
-            <View
-              style={{ flex: 0, justifyContent: 'center', alignItems: 'center' }}>
+          </Modal></><Modal
+            animationType="slide"
+            visible={loginVisible}
+            onDismiss={hideLoginModal}>
+            <SafeAreaView>
+              <Text
+                style={{ alignSelf: 'flex-end', paddingRight: 20, marginTop: 10 }}>
+                <TouchableOpacity onPress={() => setLoginVisible(false)}>
+                  <Icons name="close" color={'gray'} size={25} />
+                </TouchableOpacity>
+              </Text>
+            </SafeAreaView>
+            <View style={styles.centeredView}>
               <View>
-                <Image
-                  style={{ height: 100, width: 70 }}
-                  source={require('../../assets/icons/Movizrate.png')}
-                />
-              </View>
-              <View style={{ marginTop: 10 }}>
-                <Text
-                  style={{ color: '#24baef', fontSize: 20, fontWeight: '500' }}>
-                  Welcome Back.
-                </Text>
-              </View>
-              <View style={{ marginTop: 20 }}>
-                <TextInput
-                  style={{
-                    height: 40,
-                    margin: 12,
-                    borderWidth: 1,
-                    padding: 10,
-                    width: 300,
-                    borderRadius: 5,
-                    color: "black"
-                  }}
-                  onChangeText={onChangeEmail}
-                  value={email}
-                  placeholder="Enter Email"
-                  placeholderTextColor={'gray'}
-                />
-              </View>
-              <View style={{ marginTop: 5 }}>
-                <TextInput
-                  style={{
-                    height: 40,
-                    margin: 12,
-                    borderWidth: 1,
-                    padding: 10,
-                    width: 300,
-                    borderRadius: 5,
-                    color: "black"
-                  }}
-                  onChangeText={onChangePassword}
-                  value={password}
-                  placeholder="Enter Password"
-                  placeholderTextColor={'gray'}
-                  secureTextEntry={true}
-                />
-              </View>
-              <View style={{ width: 300, alignItems: 'flex-start' }}>
-                <TouchableOpacity onPress={() => { navigation.navigate('ForgetPassword'); setLoginVisible(false) }}>
-                  <Text style={{ color: 'gray' }}>Forgot Password?</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={{ marginTop: 20 }}>
-                <TouchableOpacity
-                  style={{
-                    width: 300,
-                    borderWidth: 1,
-                    borderColor: '#24baef',
-                    padding: 10,
-                    borderRadius: 5,
-                    backgroundColor: '#24baef',
-                  }}
-                  onPress={() => onLogin(email, password, setLoginVisible)}>
-                  <Text
+                <View
+                  style={{ flex: 0, justifyContent: 'center', alignItems: 'center' }}>
+                  <View>
+                    <Image
+                      style={{ height: 100, width: 70 }}
+                      source={require('../../assets/icons/Movizrate.png')} />
+                  </View>
+                  <View style={{ marginTop: 10 }}>
+                    <Text
+                      style={{ color: '#24baef', fontSize: 20, fontWeight: '500' }}>
+                      Welcome Back.
+                    </Text>
+                  </View>
+                  <View style={{ marginTop: 20 }}>
+                    <TextInput
+                      style={{
+                        height: 40,
+                        margin: 12,
+                        borderWidth: 1,
+                        padding: 10,
+                        width: 300,
+                        borderRadius: 5,
+                        color: "black"
+                      }}
+                      onChangeText={onChangeEmail}
+                      value={email}
+                      placeholder="Enter Email"
+                      placeholderTextColor={'gray'} />
+                  </View>
+                  <View style={{ marginTop: 5 }}>
+                    <TextInput
+                      style={{
+                        height: 40,
+                        margin: 12,
+                        borderWidth: 1,
+                        padding: 10,
+                        width: 300,
+                        borderRadius: 5,
+                        color: "black"
+                      }}
+                      onChangeText={onChangePassword}
+                      value={password}
+                      placeholder="Enter Password"
+                      placeholderTextColor={'gray'}
+                      secureTextEntry={true} />
+                  </View>
+                  <View style={{ width: 300, alignItems: 'flex-start' }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('ForgetPassword'); setLoginVisible(false); }}>
+                      <Text style={{ color: 'gray' }}>Forgot Password?</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{ marginTop: 20 }}>
+                    <TouchableOpacity
+                      style={{
+                        width: 300,
+                        borderWidth: 1,
+                        borderColor: '#24baef',
+                        padding: 10,
+                        borderRadius: 5,
+                        backgroundColor: '#24baef',
+                      }}
+                      onPress={() => onLogin(email, password, setLoginVisible)}>
+                      <Text
+                        style={{
+                          alignSelf: 'center',
+                          color: 'black',
+                          fontWeight: '500',
+                          fontSize: 15,
+                        }}>
+                        LOGIN
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View
                     style={{
-                      alignSelf: 'center',
-                      color: 'black',
-                      fontWeight: '500',
-                      fontSize: 15,
+                      marginTop: 20,
+                      flexDirection: 'row',
+                      alignItems: 'center',
                     }}>
-                    LOGIN
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View
-                style={{
-                  marginTop: 20,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <Text style={{ color: 'gray' }}>Don't have account? </Text>
-                <TouchableOpacity onPress={onClickSignup}>
-                  <Text style={{ color: '#24baef', fontSize: 15 }}>Signup</Text>
-                </TouchableOpacity>
+                    <Text style={{ color: 'gray' }}>Don't have account? </Text>
+                    <TouchableOpacity onPress={onClickSignup}>
+                      <Text style={{ color: '#24baef', fontSize: 15 }}>Signup</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
               </View>
             </View>
-          </View>
-        </View>
-      </Modal>
+          </Modal></>}
     </SafeAreaView>
   );
 };

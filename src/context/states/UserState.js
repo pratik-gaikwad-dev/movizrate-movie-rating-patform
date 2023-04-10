@@ -37,6 +37,8 @@ const UserState = props => {
         age,
     ) => {
         try {
+            setSignupVisible(false);
+            setIsLoading(true);
             const myHeaders = new Headers();
             myHeaders.append('Content-Type', 'application/json');
 
@@ -58,17 +60,19 @@ const UserState = props => {
                 .then(response => response.json())
                 .then(result => {
                     if (result.authtoken) {
-                        console.log(result.authtoken);
-                        setSignupVisible(false);
+                        // console.log(result.authtoken);
+                        setIsLoading(false);
                         navigation.navigate('OTPScreen', {
                             authtoken: result.authtoken,
                             otp: result.otp,
                         });
                     }
                     if (result.errors) {
+                        setIsLoading(false)
                         Alert.alert(result.errors[0].msg);
                     }
                     if (result.error) {
+                        setIsLoading(false)
                         Alert.alert(result.error);
                     }
                 })
@@ -80,6 +84,9 @@ const UserState = props => {
 
     const onLogin = async (email, password, setLoginVisible) => {
         try {
+
+            setLoginVisible(false);
+            setIsLoading(true);
 
             const myHeaders = new Headers();
             myHeaders.append('Content-Type', 'application/json');
@@ -99,24 +106,27 @@ const UserState = props => {
                 .then(response => response.json())
                 .then(async result => {
                     if (result.authtoken) {
-                        setLoginVisible(false);
                         if (!result.user.verified) {
+                            setIsLoading(false);
                             navigation.navigate('OTPScreen', {
                                 authtoken: result.authtoken,
                                 otp: result.otp,
                             });
                         } else {
-                            setLoginVisible(false);
+                            // setLoginVisible(false);
                             setUser(result.user);
                             await AsyncStorage.setItem('@token', result.authtoken);
                             isLoggedin();
+                            setIsLoading(false);
                             return navigation.navigate("Home");
                         }
                     }
                     if (result.errors) {
+                        setIsLoading(false);
                         Alert.alert(result.errors[0].msg);
                     }
                     if (result.error) {
+                        setIsLoading(false);
                         Alert.alert(result.error);
                     }
                 })
