@@ -4,6 +4,7 @@ import { Alert } from 'react-native';
 import MoviesContext from '../contexts/MoviesContext';
 import config from '../../config.json';
 import CarouselContext from '../contexts/CarouselContext';
+import axios from 'axios';
 
 const CarouselState = props => {
   const [latestMovies, setLatestMovies] = useState([]);
@@ -18,6 +19,8 @@ const CarouselState = props => {
   const [rating15, setRating15] = useState(0);
   const [rating20, setRating20] = useState(0);
   const [rating25, setRating25] = useState(0);
+
+  const [recommendations, setRecommendations] = useState([]);
 
   const { setItems } = useContext(CarouselContext);
 
@@ -48,7 +51,6 @@ const CarouselState = props => {
   const getWatchMovie = (movieID, setWatchMovie, setReviews, setIsLoading) => {
     try {
       const raw = "";
-
       const requestOptions = {
         method: 'POST',
         body: raw,
@@ -66,6 +68,7 @@ const CarouselState = props => {
           setRating15(result.age15);
           setRating20(result.age20);
           setRating25(result.age25);
+          setRecommendations(result.recommendations)
           setIsLoading(false);
         })
         .catch(error => console.log('error', error));
@@ -427,7 +430,8 @@ const CarouselState = props => {
         finalCast,
         finalDirectors,
         playlistLoading,
-        setPlaylistLoading
+        setPlaylistLoading,
+        recommendations
       }}>
       {props.children}
     </MoviesContext.Provider>

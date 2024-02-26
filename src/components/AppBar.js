@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Appearance } from 'react-native';
 import React, { useContext } from 'react';
 import { Appbar, Menu } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -9,6 +9,8 @@ import PlaylistContext from '../context/contexts/PlaylistContext';
 
 const AppBar = () => {
   const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
+
+  const colorScheme = Appearance.getColorScheme();
   const navigation = useNavigation();
   const [visible, setVisible] = React.useState(false);
 
@@ -37,7 +39,7 @@ const AppBar = () => {
       <Menu
         visible={visible}
         onDismiss={closeMenu}
-        anchor={<Icons name={MORE_ICON} size={25} onPress={openMenu} />}
+        anchor={<Icons name={MORE_ICON} size={25} color={colorScheme === "dark" ? "white" : "black"} onPress={openMenu} />}
       >
         <Menu.Item onPress={() => addInPlaylist(watchMovie._id, setVisible)} title="Add to Playlist" />
         <Menu.Item onPress={() => { }} title="Watch Now" />

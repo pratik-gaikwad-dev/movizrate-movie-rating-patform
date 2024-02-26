@@ -9,6 +9,7 @@ import {
 import React from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
+import config from "../config.json";
 
 const MovieCard = props => {
   const windowWidth = Dimensions.get('window').width;
@@ -39,7 +40,7 @@ const MovieCard = props => {
               borderTopRightRadius: 10,
             }}
             source={{
-              uri: props.image,
+              uri: `${props.image}`,
             }}
           />
           <View>

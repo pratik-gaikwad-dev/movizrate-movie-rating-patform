@@ -1,4 +1,4 @@
-import { FlatList, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import { Searchbar } from 'react-native-paper';
 import TopBar from '../components/TopBar';
@@ -12,7 +12,7 @@ const SearchScreen = () => {
   const { searchMovie } = useContext(MoviesContext);
   const [loading, setLoading] = React.useState(false);
   const [searchedItems, setSearchedItems] = React.useState([]);
-  
+
   const onChangeSearch = query => {
     setSearchQuery(query);
     if (query.length === 0) {
@@ -31,9 +31,12 @@ const SearchScreen = () => {
             shadowColor: 'black',
             shadowOffset: { width: 3, height: 3 },
             shadowOpacity: 0.3,
+            color: "black"
           }}
           loading={loading}
           placeholder="Search"
+          placeholderTextColor={"black"}
+          iconColor='black'
           onChangeText={onChangeSearch}
           value={searchQuery}
         />

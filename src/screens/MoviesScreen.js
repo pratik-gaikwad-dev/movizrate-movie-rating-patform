@@ -10,7 +10,8 @@ import {
   Modal,
   TextInput,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  FlatList
 } from 'react-native';
 import React, { useContext, useEffect } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -26,7 +27,8 @@ import Rating from '../components/Rating';
 import AgeCard from '../components/AgeCard';
 import CommentCard from '../components/CommentCard';
 import UserContext from '../context/contexts/UserContext';
-import { FlatList } from 'react-native-gesture-handler';
+import MovieCarousel from '../components/MovieCarousel';
+// import { FlatList } from 'react-native-gesture-handler';
 
 const MoviesScreen = () => {
   const route = useRoute();
@@ -42,7 +44,9 @@ const MoviesScreen = () => {
     getWatchMovie,
     finalCast,
     finalDirectors,
-    playlistLoading
+    playlistLoading,
+    recommendations,
+    getRecommendations
   } = useContext(MoviesContext);
   const [descVisible, setDescVisible] = React.useState(false);
   const [trailerVisible, setTrailerVisible] = React.useState(false);
@@ -99,14 +103,14 @@ const MoviesScreen = () => {
     setReviewVisible(true);
   };
   const hideReviewModal = () => setReviewVisible(false);
-
+  // console.log(finalCast);
   return (
     <SafeAreaView>
       {isLoading === true || playlistLoading === true ? <ActivityIndicator size="large" style={{ height: "100%" }} /> :
         <ScrollView>
           <View style={{ height: '100%', paddingBottom: 30 }}>
             <View style={{ height: '100%' }}>
-              <View style={{ width: '100%', height: '50%' }}>
+              <View style={{ width: '100%', height: '45%' }}>
                 {watchMovie.image === undefined ? null : (
                   <ImageBackground
                     style={{ width: '100%', height: '70%' }}
@@ -344,7 +348,7 @@ const MoviesScreen = () => {
                   </ImageBackground>
                 )}
               </View>
-              <View style={{ marginTop: 20 }}>
+              <View style={{}}>
                 <View style={{ backgroundColor: 'white' }}>
                   <CastCarousel data={finalCast} title="Top Actors" />
                 </View>
@@ -356,11 +360,17 @@ const MoviesScreen = () => {
                 </View>
                 <View
                   style={{
+                    width: '100%',
                     backgroundColor: 'white',
-                    marginTop: 10,
-                    marginLeft: 10,
+                    padding: 10,
+                    marginTop: 20,
                   }}>
-                  {/* <MovieCarousel title="More Like This" data={latestMovies} /> */}
+                  <MovieCarousel
+                    key={1}
+                    title={`Similare to ${watchMovie.name}`}
+                    type="latestmovie"
+                    data={recommendations}
+                  />
                 </View>
               </View>
             </View>
